@@ -11,13 +11,13 @@ import requests
 import json
 
 
-url = 'http://127.0.0.1:8001/'
+url = 'http://127.0.0.1:19001/Category'
 parms = {"title": "xxx", "content": "test"}
 
 resp = requests.post(url, data=parms)  # 发送请求
 
 # Decoded text returned by the request
 text = resp.text
-
-print(json.loads(text))
+print(text)
+# print(json.loads(text))
 
