@@ -11,8 +11,8 @@ from web.settings import PROJECT_LOG_FILE, NLP_MODEL_PATH
 
 logger = Logger('nlp_category_predict', log2console=False, log2file=True, logfile=PROJECT_LOG_FILE).get_logger()
 
-classifier_dict, idx2label_map = LoadModel(logger=logger).load_models_and_idmap(path=NLP_MODEL_PATH)
 logger.info("Loading models and idx2map...")
+classifier_dict, idx2label_map = LoadModel(logger=logger).load_models_and_idmap(path=NLP_MODEL_PATH)
 
 pred = Predict(logger=logger)
 
