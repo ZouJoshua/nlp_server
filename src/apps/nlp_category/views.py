@@ -5,16 +5,6 @@ import datetime
 from .classification.load_model import LoadModel
 from .classification.predict import Predict
 
-import os
-from os.path import dirname
-import sys
-
-root_path = dirname(dirname(dirname(os.path.realpath(__file__))))
-apps_path = dirname(dirname(os.path.realpath(__file__)))
-sys.path.append(root_path)
-sys.path.append(dirname(apps_path))
-sys.path.append(apps_path)
-
 from utils.logger import Logger
 from web.settings import PROJECT_LOG_FILE, NLP_MODEL_PATH
 
