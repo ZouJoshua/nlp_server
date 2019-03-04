@@ -51,7 +51,7 @@ class LoadModel(object):
             self.log.warning('The secondary classification model ({}) does not exist and the loading fails'.format(model_path))
             continue
         # 加载分类id映射表
-        idx2labelmap_path = os.path.join(path, "idx2label_map_bak.json")
+        idx2labelmap_path = os.path.join(path, "idx2label_map.json")
         if os.path.exists(idx2labelmap_path):
             with open(idx2labelmap_path, "r") as load_f:
                 idx2label_map = json.load(load_f)
