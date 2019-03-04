@@ -11,16 +11,9 @@ import logging.handlers
 import sys
 import os
 from os.path import dirname
-import configparser
 
-_dirname = dirname(os.path.realpath(__file__))
-sys.path.append(dirname(_dirname))
-confpath = os.path.join(dirname(_dirname), 'conf') + os.sep + 'Default.conf'
 
-config = configparser.ConfigParser()
-config.read(confpath, encoding='utf-8')
-# print(config.sections())
-DEFAULT_LOGGING_LEVEL = config.getint('DEFAULT.log', 'DEFAULT_LOGGING_LEVEL')
+DEFAULT_LOGGING_LEVEL = logging.INFO
 
 
 class Logger(object):
