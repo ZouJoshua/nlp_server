@@ -48,7 +48,8 @@ class LoadModel(object):
                 classifier = fasttext.load_model(model_path)
                 classifier_dict[topcategory] = classifier
                 self.log.info('Successfully loaded secondary classification model \n{}'.format(model_path))
-            self.log.warning('The secondary classification model ({}) does not exist and the loading fails'.format(model_path))
+            else:
+                self.log.warning('The secondary classification model ({}) does not exist and the loading fails'.format(model_path))
             continue
         # 加载分类id映射表
         idx2labelmap_path = os.path.join(path, "idx2label_map.json")
