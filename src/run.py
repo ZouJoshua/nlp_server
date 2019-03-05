@@ -56,7 +56,7 @@ def start():
         if not k in ("Y", "y"):
             sys.exit(1)
     try:
-        p = subprocess.Popen([RUN, NAME, 'runserver', PORT], stdout=subprocess.PIPE)
+        p = subprocess.Popen([RUN, 'manage.py', 'runserver', PORT], stdout=subprocess.PIPE)
         # p = subprocess.Popen('ls')
         # ���������־
         # out = p.stdout.read()

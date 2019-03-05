@@ -14,7 +14,7 @@ import sys
 
 if __name__ == '__main__':
 
-    opts, args = getopt.getopt(sys.argv[1:], '-h:', ['help'])
+    opts, args = getopt.getopt(sys.argv[1:], '-h', ['help'])
     if args[2]:
         daemonize('./.nlp_server_pidfile')
     else:
