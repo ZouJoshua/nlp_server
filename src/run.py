@@ -92,5 +92,5 @@ def restart():
 
 ops = {"start": start, "stop": stop, "restart": restart}
 
-# if __name__ == "__main__":
-#     ops[OP]()
+if __name__ == "__main__":
+    ops[OP]()
