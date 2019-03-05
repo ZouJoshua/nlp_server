@@ -57,6 +57,10 @@ def start():
             sys.exit(1)
     try:
         p = subprocess.Popen([RUN, 'manage.py', 'runserver', PORT], stdout=subprocess.PIPE)
+        p.wait()
+        while not os.path.exists(PIDFILE):
+            time.sleep(0.1)
+        pid = open(PIDFILE).readline().strip()
         # p = subprocess.Popen('ls')
         # ���������־
         # out = p.stdout.read()
@@ -64,8 +68,8 @@ def start():
         time.sleep(3)
         # pid = p.pid
         pid = open(PIDFILE).readline()
-        # open(PIDFILE, "w").write("%s" % pid)
         print(" | ".join(["Start OK", "PID:%s" % pid]))
+        open(PIDFILE, 'a').write('%d\n' % os.getpid())
     except Exception as e:
         print(e)
 
