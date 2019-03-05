@@ -19,23 +19,6 @@ pred = Predict(logger=logger)
 def index_view(request):
     return HttpResponse("Hello World!")
 
-
-def my_decorator(view_func):
-    """
-    定义装饰器，装饰类视图
-    :param view_func: 被装饰的视图函数
-    :return: wrapper，装饰的结果
-    """
-    def wrapper(request, *args, **kwargs):
-        print('装饰器被调用了')
-        print(request.method, request.path)
-
-        # 调用给装饰的视图函数
-        return view_func(request, *args, **kwargs)
-    return wrapper
-
-
-
 class Category(View):
     global classifier_dict
     global idx2label_map
@@ -50,25 +33,23 @@ class Category(View):
         :return: {"top_category_id":"","top_category":"","top_category_proba":"",
                     "sub_category_id":"", "sub_category":"","sub_category_proba":""}
         """
+        result = dict()
         request_meta = request.META
-        print(request_meta)
         client_host = request_meta['HTTP_HOST']
-        request_data = request.POST
-        logger.info('Successfully received the request content sent by the client {}.'.format(client_host))
-        print(request_data)  # 查看客户端发来的请求内容
-        print(type(request_data))
+        request_data = request.POST  # 查看客户端发来的请求内容
+        logger.info('Successfully received the request content sent by the client {}'.format(client_host))
         text = request_data.get("content", default='')
-        print(text)
-        print(type(text))
         title = request_data.get("title", default='')
-        print(title)
-        print(type(title))
         if text or title:
             res = pred.get_category(content=text, title=title, classifier_dict=classifier_dict, idx2label=idx2label_map)
+            result["status"] = 'Successful'
         else:
             res = dict()
+            result["status"] = 'Error'
             logger.warming('User-delivered content and title fields were not found.')
-        return JsonResponse(res)  # 通过 django内置的Json格式 丢给客户端数据
+        result["result"] = res
+
+        return JsonResponse(result)  # 通过 django内置的Json格式 丢给客户端数据
 
 class TopCategory(View):
     global classifier_dict
@@ -83,19 +64,25 @@ class TopCategory(View):
         :param request:
         :return:{"top_category_id":"","top_category":"","top_category_proba":""}
         """
-        request_data = request.POST
-        logger.info('Successfully received the request content sent by the client.')
-        print(request_data)  # 查看客户端发来的请求内容
+        result = dict()
+        request_meta = request.META
+        client_host = request_meta['HTTP_HOST']
+        request_data = request.POST  # 查看客户端发来的请求内容
+        logger.info('Successfully received the request content sent by the client {}'.format(client_host))
         title = request_data.get("title", default='')
         text = request_data.get("content", default='')
         content_list = []
         content_list.append(pred.clean_string(title + '.' + text))
         if content_list:
             res = pred.get_topcategory(content_list=content_list, classifier_dict=classifier_dict, idx2label=idx2label_map)
+            result["status"] = 'Successful'
         else:
             res = dict()
+            result["status"] = 'Error'
             logger.warming('User-delivered content and title fields were not found.')
-        return JsonResponse(res)  # 通过 django内置的Json格式 丢给客户端数据
+        result["result"] = res
+
+        return JsonResponse(result)  # 通过 django内置的Json格式 丢给客户端数据
 
 
 class SubCategory(View):
@@ -111,8 +98,11 @@ class SubCategory(View):
         :param request:
         :return: {"top_category":"", "sub_category_id":"", "sub_category":"","sub_category_proba":""}
         """
-        request_data = request.POST
-        logger.info('Successfully received the request content sent by the client.')
+        result = dict()
+        request_meta = request.META
+        client_host = request_meta['HTTP_HOST']
+        request_data = request.POST  # 查看客户端发来的请求内容
+        logger.info('Successfully received the request content sent by the client {}'.format(client_host))
         title = request_data.get("title", default='')
         text = request_data.get("content", default='')
         top_category = request_data.get("top_category", default='')
@@ -120,9 +110,28 @@ class SubCategory(View):
         content_list.append(pred.clean_string(title + '.' + text))
         if top_category in classifier_dict.keys():
             classifier = classifier_dict[top_category]
-            res = pred.get_subcategory(content_list=content_list, classifier=classifier, idx2label=idx2label_map)
+            res = pred.get_subcategory(content_list=content_list, classifier=classifier, idx2label=idx2label_map,predict_res=top_category)
+            result["status"] = 'Successful'
         else:
             res = dict()
+            result["status"] = 'Error'
             logger.warming('There is no model for this secondary classification {}'.format(top_category))
+        result["result"] = res
 
-        return JsonResponse(res)  # 通过 django内置的Json格式 丢给客户端数据
+        return JsonResponse(result)  # 通过 django内置的Json格式 丢给客户端数据
+
+
+
+def my_decorator(view_func):
+    """
+    定义装饰器，装饰类视图
+    :param view_func: 被装饰的视图函数
+    :return: wrapper，装饰的结果
+    """
+    def wrapper(request, *args, **kwargs):
+        print('装饰器被调用了')
+        print(request.method, request.path)
+
+        # 调用给装饰的视图函数
+        return view_func(request, *args, **kwargs)
+    return wrapper

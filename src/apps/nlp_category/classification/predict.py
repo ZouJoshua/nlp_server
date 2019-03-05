@@ -60,7 +60,7 @@ class Predict(object):
             classifier = classifier_dict[predict_top_category]
             # assert isinstance(classifier, SupervisedModel):
             predict_sub_res = self._predict_subcategory(content_list, classifier, idx2label, predict_top_res)
-            self.log.info("Successfully predicting the sub_category\n{}".format(predict_sub_res))
+            # self.log.info("Successfully predicting the sub_category\n{}".format(predict_sub_res))
         else:
             predict_sub_res = predict_top_res
             self.log.warning("There is no secondary classification model for this primary classification({}).".format(predict_top_category))
@@ -109,6 +109,7 @@ class Predict(object):
                     predict_res['top_category_id'] = int(label[0][0][0].replace("__label__", ""))
                     predict_res['top_category'] = idx2label['topcategory'][label[0][0][0].replace("__label__", "")]
                     predict_res['top_category_proba'] = label[0][0][1]
+                    self.log.info("Successfully predicting the top_category\n{}".format(predict_res))
 
         return predict_res
 
@@ -128,4 +129,5 @@ class Predict(object):
             subcategory = idx2label['subcategory'][label[0][0][0].replace("__label__", "")]
             predict_sub_res['sub_category'] = subcategory
             predict_sub_res['sub_category_proba'] = label[0][0][1]
+            self.log.info("Successfully predicting the sub_category\n{}".format(predict_sub_res))
         return predict_sub_res

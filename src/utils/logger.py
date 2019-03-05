@@ -62,33 +62,3 @@ class Logger(object):
 
     def get_logger(self):
         return self.logger
-
-
-if __name__ == "__main__":
-    PROJECT_ROOT = dirname(dirname(os.path.abspath(__file__))).replace('\\', '/')
-    LOG_PATH = PROJECT_ROOT + '/logs/'
-    if not os.path.exists(LOG_PATH):
-        os.mkdir(LOG_PATH)
-    PROJECT_LOG_FILE = LOG_PATH + 'default.log'
-    # file logger
-    flogger = Logger('flogger', log2console=False, log2file=True, logfile=PROJECT_LOG_FILE).get_logger()
-    # console logger
-    clogger = Logger('clogger', log2console=True, log2file=False).get_logger()
-    # file and console logger
-    fclogger = Logger('fclogger', log2console=True, log2file=True, logfile=PROJECT_LOG_FILE).get_logger()
-    while True:
-        clogger.debug('debug')
-        clogger.info('info')
-        clogger.warning('warn')
-        flogger.debug('debug')
-        flogger.info('info')
-        flogger.warning('warn')
-        fclogger.debug('debug')
-        fclogger.info('info')
-        fclogger.warning('warn')
-        try:
-            c = 1 / 0
-        except Exception as e:
-            # 错误日志输出，exc_info=True:指名输出栈踪迹
-            fclogger.error('Error: %s' % e, exc_info=True)
-        break
