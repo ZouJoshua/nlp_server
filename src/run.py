@@ -25,6 +25,7 @@ OP = sys.argv[3]
 DAEMON = '-d'
 NAME_NOPOSTFIX = NAME.split(".")[0]
 PIDFILE = "{}/.{}_pidfile".format(HOME, NAME_NOPOSTFIX)
+server_name = os.path.split(os.path.realpath(sys.argv[1]))[-1].replace('.py','')
 # if DEPLOY == 'prod':
 #     HOME_DIRS = HOME.split('/')
 #     crawler_index = HOME_DIRS.index('vertical_crawler')
@@ -77,13 +78,33 @@ def start():
 def stop():
     if not os.path.exists(PIDFILE):
         return
-    pid = open(PIDFILE).readline()
+    pid_list = open(PIDFILE).readlines()
+    pid = None
+    monitor_pid = None
+    if len(pid_list) == 1:
+        pid = pid_list[0].strip()
+    elif len(pid_list) == 2:
+        pid = pid_list[0].strip()
+        monitor_pid = pid_list[1].strip()
+    else:
+        print(NAME, " Stop error")
+        return
+
     print("Stopping", NAME, '...')
+    if monitor_pid:
+        if subprocess.call(["kill -15 " + monitor_pid], shell=True) == 0:
+            time.sleep(0.2)
+            pass
+        else:
+            print(NAME, " monitor stop error")
+    else:
+        pass
+
     if pid:
         if subprocess.call(["kill -15 " + pid], shell=True) == 0:
             print(" | ".join(["Stop OK", "PID:%s" % pid]))
         if subprocess.call(["rm " + PIDFILE], shell=True) != 0:
-            print("Delete Permission Denied")
+                print("Delete Permission Denied")
     else:
         print("Stop Error")
 
@@ -91,10 +112,24 @@ def stop():
 def restart():
     stop()
     time.sleep(1)
-    start()
+    return start()
 
 
 ops = {"start": start, "stop": stop, "restart": restart}
 
 if __name__ == "__main__":
-    ops[OP]()
+    pid = ops[OP]()
+    if OP == 'start' \
+            or OP == 'restart':
+        while True:
+            cmd = 'ps -ef | grep %s | grep -v "grep" | ' \
+                  'grep %s | awk \'{print $2}\'' % (pid, server_name)
+            ps_pid = os.popen(cmd).read().strip()
+            # print 'ps_pid,pid', ps_pid,pid
+            if ps_pid != pid:
+                # pass
+                subprocess.call(["rm " + PIDFILE], shell=True)
+                pid = ops['start']()
+            else:
+                pass
+            time.sleep(1)
