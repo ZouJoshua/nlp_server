@@ -3,7 +3,7 @@
 """
 @Author  : Joshua
 @Time    : 2019/3/5 16:36
-@File    : start.py
+@File    : run.py
 @Desc    : 
 """
 
@@ -13,19 +13,18 @@ import sys
 import time
 
 HOME = os.getcwd()
-print(HOME)
 SCRPET = os.path.basename(sys.argv[0])
-print(SCRPET)
 if len(sys.argv) != 4 or sys.argv[1] == '-h':
-    sys.exit("Usage:sudo %s ServerName {start, stop, restart} {test, prod}" % SCRPET)
+    sys.exit("Usage:sudo %s ServerName {Port} {start, stop, restart}" % SCRPET)
 
 RUN = "python3"
 NAME = sys.argv[1]
-OP = sys.argv[2]
-DEPLOY = sys.argv[3]
+PORT = sys.argv[2]
+OP = sys.argv[3]
+
 DAEMON = '-d'
 NAME_NOPOSTFIX = NAME.split(".")[0]
-PIDFILE = "%s/.%s_pidfile" % (HOME, NAME_NOPOSTFIX)
+PIDFILE = "{}/.{}_pidfile".format(HOME, NAME_NOPOSTFIX)
 # if DEPLOY == 'prod':
 #     HOME_DIRS = HOME.split('/')
 #     crawler_index = HOME_DIRS.index('vertical_crawler')
@@ -50,20 +49,18 @@ PIDFILE = "%s/.%s_pidfile" % (HOME, NAME_NOPOSTFIX)
 
 def start():
     print(" | ".join([HOME, NAME]))
-    print("Starting", NAME, "...")
+    print("Starting {} ...".format(NAME))
     if os.path.exists(PIDFILE):
-        print("%s has been running | PID:%s" % (NAME, open(PIDFILE).readline()), "Continue?(Y/N)")
+        print("{} has been running | PID:{}\nContinue?(Y/N)".format(NAME, open(PIDFILE).readline()))
         k = input()
         if not k in ("Y", "y"):
             sys.exit(1)
     try:
-        print(DEPLOY, DAEMON, port_offset)
-        p = subprocess.Popen([RUN, NAME, '-e', DEPLOY, DAEMON, '-p', port_offset], stdout=subprocess.PIPE)
+        p = subprocess.Popen([RUN, NAME, 'runserver', PORT], stdout=subprocess.PIPE)
         # p = subprocess.Popen('ls')
         # ���������־
         # out = p.stdout.read()
         # open(LOGFILE, "a").write(out)
-
         time.sleep(3)
         # pid = p.pid
         pid = open(PIDFILE).readline()
