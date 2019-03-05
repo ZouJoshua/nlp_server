@@ -25,7 +25,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = 'dxj13rzpw*(h%ew#vk5rbmj-rh%i(*kvp*m^ll_kxvkxdoc@-)'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = ['127.0.0.1']
 
@@ -40,7 +40,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     # 添加nlp分类app
-    'nlp_category',
+    'apps.nlp_category',
 ]
 
 MIDDLEWARE = [
@@ -109,7 +109,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Asia/Shanghai'
 
 USE_I18N = True
 
@@ -126,7 +126,8 @@ STATIC_URL = '/static/'
 
 # 添加 apps 目录
 sys.path.insert(0, os.path.join(BASE_DIR, 'apps'))
-print(sys.path)
+# print(sys.path)
+# 添加 utils 目录
 sys.path.insert(0, os.path.join(BASE_DIR, 'utils'))
 # print(sys.path)
 

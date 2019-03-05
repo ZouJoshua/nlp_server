@@ -50,11 +50,24 @@ class Category(View):
         :return: {"top_category_id":"","top_category":"","top_category_proba":"",
                     "sub_category_id":"", "sub_category":"","sub_category_proba":""}
         """
-        print(request.POST)  # 查看客户端发来的请求内容
-        print(type(request.POST))
-        text = "xxxxx"
-        title = "test"
-        res = pred.get_category(content=text, title=title, classifier_dict=classifier_dict, idx2label=idx2label_map)
+        request_meta = request.META
+        print(request_meta)
+        client_host = request_meta['HTTP_HOST']
+        request_data = request.POST
+        logger.info('Successfully received the request content sent by the client {}.'.format(client_host))
+        print(request_data)  # 查看客户端发来的请求内容
+        print(type(request_data))
+        text = request_data.get("content", default='')
+        print(text)
+        print(type(text))
+        title = request_data.get("title", default='')
+        print(title)
+        print(type(title))
+        if text or title:
+            res = pred.get_category(content=text, title=title, classifier_dict=classifier_dict, idx2label=idx2label_map)
+        else:
+            res = dict()
+            logger.warming('User-delivered content and title fields were not found.')
         return JsonResponse(res)  # 通过 django内置的Json格式 丢给客户端数据
 
 class TopCategory(View):
@@ -70,12 +83,18 @@ class TopCategory(View):
         :param request:
         :return:{"top_category_id":"","top_category":"","top_category_proba":""}
         """
-        print(request.POST)  # 查看客户端发来的请求内容
-        title = ""
-        content = ""
+        request_data = request.POST
+        logger.info('Successfully received the request content sent by the client.')
+        print(request_data)  # 查看客户端发来的请求内容
+        title = request_data.get("title", default='')
+        text = request_data.get("content", default='')
         content_list = []
-        content_list.append(pred.clean_string(title + '.' + content))
-        res = pred.get_topcategory(content_list=content_list, classifier_dict=classifier_dict, idx2label=idx2label_map)
+        content_list.append(pred.clean_string(title + '.' + text))
+        if content_list:
+            res = pred.get_topcategory(content_list=content_list, classifier_dict=classifier_dict, idx2label=idx2label_map)
+        else:
+            res = dict()
+            logger.warming('User-delivered content and title fields were not found.')
         return JsonResponse(res)  # 通过 django内置的Json格式 丢给客户端数据
 
 
@@ -92,13 +111,14 @@ class SubCategory(View):
         :param request:
         :return: {"top_category":"", "sub_category_id":"", "sub_category":"","sub_category_proba":""}
         """
-
-        title = ""
-        content = ""
-        top_category = ""
+        request_data = request.POST
+        logger.info('Successfully received the request content sent by the client.')
+        title = request_data.get("title", default='')
+        text = request_data.get("content", default='')
+        top_category = request_data.get("top_category", default='')
         content_list = []
-        content_list.append(pred.clean_string(title + '.' + content))
-        if top_category in classifier_dict:
+        content_list.append(pred.clean_string(title + '.' + text))
+        if top_category in classifier_dict.keys():
             classifier = classifier_dict[top_category]
             res = pred.get_subcategory(content_list=content_list, classifier=classifier, idx2label=idx2label_map)
         else:
