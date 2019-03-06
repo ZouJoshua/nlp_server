@@ -11,6 +11,8 @@ import subprocess
 import os
 import sys
 import time
+from src.utils.daemonize import *
+
 
 HOME = os.getcwd()
 SCRPET = os.path.basename(sys.argv[0])
@@ -59,19 +61,22 @@ def start():
     try:
         p = subprocess.Popen([RUN, 'manage.py', 'runserver', PORT], stdout=subprocess.PIPE)
         p.wait()
+        if PORT:
+            daemonize('./.nlp_server_pidfile')
         while not os.path.exists(PIDFILE):
             time.sleep(0.1)
         pid = open(PIDFILE).readline().strip()
         # p = subprocess.Popen('ls')
         # ���������־
         # out = p.stdout.read()
-        # open(LOGFILE, "a").write(out)
         time.sleep(3)
         # pid = p.pid
         print(" | ".join(["Start OK", "PID:%s" % pid]))
         open(PIDFILE, 'a').write('%d\n' % os.getpid())
     except Exception as e:
         print(e)
+
+    return pid
 
 
 def stop():
