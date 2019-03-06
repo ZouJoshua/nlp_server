@@ -45,11 +45,11 @@ def start():
         p = subprocess.Popen('nohup {} {} runserver {} &'.format(RUN, NAME, PORT), shell=True, preexec_fn=os.setsid)#, stdout=subprocess.PIPE)
         p.wait()
         cmd = 'ps -ef | grep %s |grep -v "grep" | ' \
-              'grep %s | awk \'{print $2}\'' % (PORT,cmd_server_name)
+              'grep %s | awk \'{print $2}\'' % (PORT, cmd_server_name)
         ps_pid = os.popen(cmd).read().strip()
         print(" | ".join(["Start OK", "PID:%s" % ps_pid]))
-        daemonize(pidfile=SERVER_NAME_PIDFILE)
-        print('开启进程的pid:{}'.format(p.pid))
+        # daemonize(pidfile=SERVER_NAME_PIDFILE)
+        # print('开启进程的pid:{}'.format(p.pid))
         # print('所属进程组的pid:{}'.format(os.getpgid(p.pid)))
         # while not os.path.exists(PIDFILE):
         #     time.sleep(0.1)
