@@ -47,11 +47,10 @@ def start():
         cmd = 'ps -ef | grep %s |grep -v "grep --color=auto" | ' \
               'grep %s | awk \'{print $2}\'' % (PORT, cmd_server_name)
         ps_pid = os.popen(cmd).read().strip()
-        print(ps_pid.split("\n"))
-        print(" | ".join(["Start OK", "PID:%s" % ps_pid]))
-        daemonize(pidfile=SERVER_NAME_PIDFILE)
-        pid = ps_pid.strip()
-        open(PIDFILE, 'a').write('%d\n' % os.getpid())
+        pid = ps_pid.split("\n")[1] if len(ps_pid.split("\n")) == 2 else "error"
+        print(" | ".join(["Start OK", "PID:%s" % pid]))
+        # daemonize(pidfile=SERVER_NAME_PIDFILE)
+        open(PIDFILE, 'w+').write('%s\n' % pid)
     except Exception as e:
         print(e)
     else:
