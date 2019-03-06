@@ -41,8 +41,8 @@ def start():
         if not k in ("Y", "y"):
             sys.exit(1)
     try:
-        p = subprocess.Popen([RUN, NAME, 'runserver', PORT])  # , stdout=subprocess.PIPE)
-        # p = subprocess.Popen('nohup {} {} runserver {} &'.format(RUN, NAME, PORT), shell=True)#, stdout=subprocess.PIPE)
+        # p = subprocess.Popen([RUN, NAME, 'runserver', PORT])  # , stdout=subprocess.PIPE)
+        p = subprocess.Popen('nohup {} {} runserver {} &'.format(RUN, NAME, PORT), shell=True, preexec_fn=os.setsid)#, stdout=subprocess.PIPE)
         p.wait()
         daemonize(pidfile=SERVER_NAME_PIDFILE)
         print('开启进程的pid:{}'.format(p.pid))
