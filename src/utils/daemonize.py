@@ -33,4 +33,4 @@ def daemonize(pidfile=None):
 
     pid = str(os.getpid())  
 
-    if pidfile: file(pidfile,'w+').write("%s\n" % pid)  
+    if pidfile: open(pidfile, 'w+').write("%s\n" % pid)
