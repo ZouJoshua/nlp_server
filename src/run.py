@@ -34,7 +34,7 @@ cmd_server_name = os.path.split(os.path.realpath(NAME))[-1].replace('.py', '')
 
 def start():
     print(" | ".join([HOME, NAME]))
-    print("Starting {} ...".format(NAME))
+    print("Starting {} ...".format(SERVER_NAME))
     if os.path.exists(PIDFILE):
         print("{} has been running | PID:{}\nContinue?(Y/N)".format(NAME, open(PIDFILE).readline()))
         k = input()
