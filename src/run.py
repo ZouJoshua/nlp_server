@@ -107,17 +107,17 @@ ops = {"start": start, "stop": stop, "restart": restart}
 if __name__ == "__main__":
     pid = ops[OP]()
     print(pid)
-    if OP == 'start' \
-            or OP == 'restart':
-        while True:
-            cmd = 'ps -ef | grep %s | grep -v "grep" | ' \
-                  'grep %s | awk \'{print $2}\'' % (pid, cmd_server_name)
-            ps_pid = os.popen(cmd).read().strip()
-            # print 'ps_pid,pid', ps_pid,pid
-            if ps_pid != pid:
-                # pass
-                subprocess.call(["rm " + PIDFILE], shell=True)
-                pid = ops['start']()
-            else:
-                pass
-            time.sleep(1)
+    # if OP == 'start' \
+    #         or OP == 'restart':
+    #     while True:
+    #         cmd = 'ps -ef | grep %s | grep -v "grep" | ' \
+    #               'grep %s | awk \'{print $2}\'' % (pid, cmd_server_name)
+    #         ps_pid = os.popen(cmd).read().strip()
+    #         # print 'ps_pid,pid', ps_pid,pid
+    #         if ps_pid != pid:
+    #             # pass
+    #             subprocess.call(["rm " + PIDFILE], shell=True)
+    #             pid = ops['start']()
+    #         else:
+    #             pass
+    #         time.sleep(1)
