@@ -27,8 +27,6 @@ OP = sys.argv[3]
 
 SERVER_NAME_PIDFILE = '.{}_pidfile'.format(SERVER_NAME)
 PIDFILE = "{}/{}".format(HOME, SERVER_NAME_PIDFILE)
-print(PIDFILE)
-
 cmd_server_name = os.path.split(os.path.realpath(NAME))[-1].replace('.py', '')
 
 
@@ -42,12 +40,14 @@ def start():
             sys.exit(1)
     try:
         # p = subprocess.Popen([RUN, NAME, 'runserver', PORT])  # , stdout=subprocess.PIPE)
+        # 生产环境 fork一个子进程保证线上安全
+        # p = subprocess.Popen('nohup {} {} runserver {} &'.format(RUN, NAME, PORT), shell=True, preexec_fn=os.setsid)  # , stdout=subprocess.PIPE)
+
         p = subprocess.Popen('nohup {} {} runserver {} --noreload &'.format(RUN, NAME, PORT), shell=True, preexec_fn=os.setsid)#, stdout=subprocess.PIPE)
         p.wait()
         cmd = 'ps -ef | grep %s |grep -v "grep --color=auto" | ' \
               'grep %s | awk \'{print $2}\'' % (PORT, cmd_server_name)
         ps_pid = os.popen(cmd).read().strip()
-        print(ps_pid.split("\n"))
         if len(ps_pid.split("\n")) == 2:
             pid = ps_pid.split("\n")[1]
         else:
@@ -88,7 +88,12 @@ def stop():
 
     if pid:
         if subprocess.call(["kill -9  " + pid], shell=True) == 0:
-            print(" | ".join(["Stop OK", "PID:%s" % pid]))
+            print(" | ".join(["Stop main process OK", "PID:%s" % pid]))
+        cmd = 'ps -ef | grep %s |grep -v "grep --color=auto" | ' \
+              'grep %s | awk \'{print $2}\'' % (PORT, cmd_server_name)
+        ps_pid = os.popen(cmd).read().strip()
+        print(ps_pid)
+        pid = ps_pid.split("\n")[1]
         if subprocess.call(["rm " + PIDFILE], shell=True) != 0:
                 print("Delete Permission Denied")
     else:
