@@ -89,13 +89,17 @@ def stop():
     if pid:
         if subprocess.call(["kill -9  " + pid], shell=True) == 0:
             print(" | ".join(["Stop main process OK", "PID:%s" % pid]))
+        if subprocess.call(["rm " + PIDFILE], shell=True) != 0:
+            print("Delete Permission Denied")
         cmd = 'ps -ef | grep %s |grep -v "grep --color=auto" | ' \
               'grep %s | awk \'{print $2}\'' % (PORT, cmd_server_name)
         ps_pid = os.popen(cmd).read().strip()
-        print(ps_pid)
-        pid = ps_pid.split("\n")[1]
-        if subprocess.call(["rm " + PIDFILE], shell=True) != 0:
-                print("Delete Permission Denied")
+        if len(ps_pid.split("\n")) == 2:
+            fork_pid = ps_pid.split("\n")[0]
+            if subprocess.call(["kill -9  " + fork_pid], shell=True) == 0:
+                print(" | ".join(["Stop fork process OK", "PID:%s" % fork_pid]))
+        else:
+            pass
     else:
         print("Stop Error")
 
