@@ -42,7 +42,7 @@ def start():
             sys.exit(1)
     try:
         # p = subprocess.Popen([RUN, NAME, 'runserver', PORT])  # , stdout=subprocess.PIPE)
-        p = subprocess.Popen('nohup {} {} runserver {} &'.format(RUN, NAME, PORT), shell=True, preexec_fn=os.setsid)#, stdout=subprocess.PIPE)
+        p = subprocess.Popen('nohup {} {} runserver {} --noreload &'.format(RUN, NAME, PORT), shell=True, preexec_fn=os.setsid)#, stdout=subprocess.PIPE)
         p.wait()
         cmd = 'ps -ef | grep %s |grep -v "grep --color=auto" | ' \
               'grep %s | awk \'{print $2}\'' % (PORT, cmd_server_name)
@@ -87,7 +87,7 @@ def stop():
         pass
 
     if pid:
-        if subprocess.call(["kill -TERM  " + pid], shell=True) == 0:
+        if subprocess.call(["kill -9  " + pid], shell=True) == 0:
             print(" | ".join(["Stop OK", "PID:%s" % pid]))
         if subprocess.call(["rm " + PIDFILE], shell=True) != 0:
                 print("Delete Permission Denied")
