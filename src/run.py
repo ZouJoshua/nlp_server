@@ -25,7 +25,7 @@ OP = sys.argv[3]
 DAEMON = '-d'
 NAME_NOPOSTFIX = NAME.split(".")[0]
 PIDFILE = "{}/.{}_pidfile".format(HOME, NAME_NOPOSTFIX)
-server_name = os.path.split(os.path.realpath(sys.argv[1]))[-1].replace('.py','')
+server_name = os.path.split(os.path.realpath(sys.argv[1]))[-1].replace('.py', '')
 # if DEPLOY == 'prod':
 #     HOME_DIRS = HOME.split('/')
 #     crawler_index = HOME_DIRS.index('vertical_crawler')
@@ -68,7 +68,6 @@ def start():
         # open(LOGFILE, "a").write(out)
         time.sleep(3)
         # pid = p.pid
-        pid = open(PIDFILE).readline()
         print(" | ".join(["Start OK", "PID:%s" % pid]))
         open(PIDFILE, 'a').write('%d\n' % os.getpid())
     except Exception as e:
