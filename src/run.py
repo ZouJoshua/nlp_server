@@ -31,6 +31,7 @@ OP = sys.argv[3]
 DAEMON = '-d'
 NAME_NOPOSTFIX = NAME.split(".")[0]
 PIDFILE = "{}/.{}_pidfile".format(HOME, NAME_NOPOSTFIX)
+print(PIDFILE)
 server_name = os.path.split(os.path.realpath(sys.argv[1]))[-1].replace('.py', '')
 
 

@@ -25,9 +25,9 @@ def daemonize(pidfile=None):
         sys.exit(1)
     for f in sys.stdout, sys.stderr:
         f.flush()
-    si = open('/dev/null', 'r')
-    so = open('./nohup.out', 'a+')
-    se = open('./nohup.out', 'a+')
+    si = file('/dev/null', 'r')
+    so = file('./nohup.out', 'a+')
+    se = file('./nohup.out', 'a+', 0)
     os.dup2(si.fileno(), sys.stdin.fileno())
     os.dup2(so.fileno(), sys.stdout.fileno())
     os.dup2(se.fileno(), sys.stderr.fileno())  
