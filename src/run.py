@@ -44,6 +44,7 @@ def start():
             sys.exit(1)
     try:
         p = subprocess.Popen(['nohup', RUN, 'manage.py', 'runserver', PORT, '> out.log &'], stdout=subprocess.PIPE)
+        print("xxxxx")
         p.wait()
         daemonize(pidfile='./.nlp_server_pidfile')
         print('写入成功')
