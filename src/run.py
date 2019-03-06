@@ -47,18 +47,14 @@ def start():
         cmd = 'ps -ef | grep %s |grep -v "grep --color=auto" | ' \
               'grep %s | awk \'{print $2}\'' % (PORT, cmd_server_name)
         ps_pid = os.popen(cmd).read().strip()
-        print(" | ".join(["Start OK", "PID:%s" % ps_pid]))
         daemonize(pidfile=SERVER_NAME_PIDFILE)
-        # print('开启进程的pid:{}'.format(p.pid))
-        # print('所属进程组的pid:{}'.format(os.getpgid(p.pid)))
-        # while not os.path.exists(PIDFILE):
-        #     time.sleep(0.1)
         pid = open(PIDFILE).readline().strip()
+        print(" | ".join(["Start OK", "PID:%s" % pid]))
         # p = subprocess.Popen('ls')
         # ���������־
         # out = p.stdout.read()
         time.sleep(3)
-        open(PIDFILE, 'a').write('%d\n' % ps_pid)
+        # open(PIDFILE, 'a').write('%d\n' % ps_pid)
     except Exception as e:
         print(e)
     else:
