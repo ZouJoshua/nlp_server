@@ -20,15 +20,16 @@ if len(sys.argv) != 4 or sys.argv[1] == '-h':
     sys.exit("Usage:sudo %s ServerName {Port} {start, stop, restart}" % SCRPET)
 
 RUN = "python3"
+SERVER_NAME = 'nlp_category_server'
 NAME = sys.argv[1]
 PORT = sys.argv[2]
 OP = sys.argv[3]
 
-DAEMON = '-d'
-NAME_NOPOSTFIX = NAME.split(".")[0]
-PIDFILE = "{}/.{}_pidfile".format(HOME, NAME_NOPOSTFIX)
+SERVER_NAME_PIDFILE = '.{}_pidfile'.format(SERVER_NAME)
+PIDFILE = "{}/{}".format(HOME, SERVER_NAME_PIDFILE)
 print(PIDFILE)
-server_name = os.path.split(os.path.realpath(sys.argv[1]))[-1].replace('.py', '')
+
+cmd_server_name = os.path.split(os.path.realpath(NAME))[-1].replace('.py', '')
 
 
 def start():
@@ -40,9 +41,9 @@ def start():
         if not k in ("Y", "y"):
             sys.exit(1)
     try:
-        p = subprocess.Popen('nohup {} manage.py runserver {} &'.format(RUN, PORT), shell=True)#, stdout=subprocess.PIPE)
+        p = subprocess.Popen('nohup {} {} runserver {} &'.format(RUN, NAME, PORT), shell=True)#, stdout=subprocess.PIPE)
         p.wait()
-        daemonize(pidfile='.nlp_server_pidfile')
+        daemonize(pidfile=SERVER_NAME_PIDFILE)
         print('服务进程id:{}'.format(p.pid))
         while not os.path.exists(PIDFILE):
             time.sleep(0.1)
