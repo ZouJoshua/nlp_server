@@ -36,7 +36,7 @@ def start():
     print(" | ".join([HOME, NAME]))
     print("Starting {} ...".format(SERVER_NAME))
     if os.path.exists(PIDFILE):
-        print("{} has been running | PID:{}\nContinue?(Y/N)".format(NAME, open(PIDFILE).readline()))
+        print("{} has been running | PID:{}\nContinue?(Y/N)".format(SERVER_NAME, open(PIDFILE).readline()))
         k = input()
         if not k in ("Y", "y"):
             sys.exit(1)
@@ -52,7 +52,6 @@ def start():
             pid = ps_pid.split("\n")[1]
         else:
             pid = "error"
-        # pid = ps_pid.split("\n")[1] if len(ps_pid.split("\n")) == 2 else "error"
         print(" | ".join(["Start OK", "PID:%s" % pid]))
         # daemonize(pidfile=SERVER_NAME_PIDFILE)
         open(PIDFILE, 'w+').write('%s\n' % pid)
@@ -74,21 +73,21 @@ def stop():
         pid = pid_list[0].strip()
         monitor_pid = pid_list[1].strip()
     else:
-        print(NAME, " Stop error")
+        print(SERVER_NAME, " Stop error")
         return
 
-    print("Stopping", NAME, '...')
+    print("Stopping", SERVER_NAME, '...')
     if monitor_pid:
-        if subprocess.call(["kill -15 " + monitor_pid], shell=True) == 0:
+        if subprocess.call(["kill -9 " + monitor_pid], shell=True) == 0:
             time.sleep(0.2)
             pass
         else:
-            print(NAME, "monitor stop error")
+            print(SERVER_NAME, "monitor stop error")
     else:
         pass
 
     if pid:
-        if subprocess.call(["kill -15 " + pid], shell=True) == 0:
+        if subprocess.call(["kill -9 " + pid], shell=True) == 0:
             print(" | ".join(["Stop OK", "PID:%s" % pid]))
         if subprocess.call(["rm " + PIDFILE], shell=True) != 0:
                 print("Delete Permission Denied")
