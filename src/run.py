@@ -11,10 +11,6 @@ import subprocess
 import os
 import sys
 import time
-
-# ROOT_DIR = os.path.dirname(os.path.abspath(__file__))
-# sys.path.append(os.path.join(ROOT_DIR, 'utils'))
-
 from utils.daemonize import daemonize
 
 
@@ -44,7 +40,7 @@ def start():
         if not k in ("Y", "y"):
             sys.exit(1)
     try:
-        p = subprocess.Popen(['nohup', RUN, 'manage.py', 'runserver', PORT, '>', 'logs/out.log', '&'])#, stdout=subprocess.PIPE)
+        p = subprocess.Popen(['nohup', RUN, 'manage.py', 'runserver', PORT, '&'])#, stdout=subprocess.PIPE)
         p.wait()
         daemonize(pidfile='.nlp_server_pidfile')
         print('写入成功')
