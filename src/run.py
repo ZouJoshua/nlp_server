@@ -47,13 +47,10 @@ def start():
         cmd = 'ps -ef | grep %s |grep -v "grep --color=auto" | ' \
               'grep %s | awk \'{print $2}\'' % (PORT, cmd_server_name)
         ps_pid = os.popen(cmd).read().strip()
+        print(ps_pid.split("\n"))
         print(" | ".join(["Start OK", "PID:%s" % ps_pid]))
         daemonize(pidfile=SERVER_NAME_PIDFILE)
-        pid = open(PIDFILE).readline().strip()
-        # p = subprocess.Popen('ls')
-        # ���������־
-        # out = p.stdout.read()
-        time.sleep(3)
+        pid = ps_pid.strip()
         open(PIDFILE, 'a').write('%d\n' % os.getpid())
     except Exception as e:
         print(e)
@@ -106,18 +103,18 @@ ops = {"start": start, "stop": stop, "restart": restart}
 if __name__ == "__main__":
     pid = ops[OP]()
     # print(pid)
-    if OP == 'start' \
-            or OP == 'restart':
-
-        cmd = 'ps -ef | grep %s | grep -v "grep" | ' \
-              'grep %s | awk \'{print $2}\'' % (pid, cmd_server_name)
-        ps_pid = os.popen(cmd).read().strip()
-        # print('ps_pid,pid', ps_pid, pid)
-
-        # if ps_pid != pid:
-        #     # pass
-        #     subprocess.call(["rm " + PIDFILE], shell=True)
-        #     pid = ops['start']()
-        # else:
-        #     pass
-        # time.sleep(1)
+    # if OP == 'start' \
+    #         or OP == 'restart':
+    #
+    #     cmd = 'ps -ef | grep %s | grep -v "grep" | ' \
+    #           'grep %s | awk \'{print $2}\'' % (pid, cmd_server_name)
+    #     ps_pid = os.popen(cmd).read().strip()
+    #     print('ps_pid,pid', ps_pid, pid)
+    #
+    #     if ps_pid != pid:
+    #         # pass
+    #         subprocess.call(["rm " + PIDFILE], shell=True)
+    #         pid = ops['start']()
+    #     else:
+    #         pass
+    #     time.sleep(1)
