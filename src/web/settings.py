@@ -137,7 +137,7 @@ LOG_PATH = os.path.join(BASE_DIR, 'logs')
 if not os.path.exists(LOG_PATH):
     os.mkdir(LOG_PATH)
 
-PROJECT_LOG_FILE = os.path.join(LOG_PATH, 'default.log')
+PROJECT_LOG_FILE = os.path.join(LOG_PATH, 'category_server.log')
 
 # nlp模型
 NLP_MODEL_PATH = '/data/zoushuai/news_content/sub_classification_model/model'
