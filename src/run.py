@@ -41,9 +41,8 @@ def start():
     try:
         p = subprocess.Popen([RUN, 'manage.py', 'runserver', PORT])#, stdout=subprocess.PIPE)
         p.wait()
-        if PORT:
-            daemonize('./.nlp_server_pidfile')
-            print('写入成功')
+        daemonize('./.nlp_server_pidfile')
+        print('写入成功')
         while not os.path.exists(PIDFILE):
             time.sleep(0.1)
         pid = open(PIDFILE).readline().strip()
