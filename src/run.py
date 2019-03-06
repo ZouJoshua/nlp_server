@@ -11,6 +11,8 @@ import subprocess
 import os
 import sys
 import time
+
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'web.settings')
 from utils.daemonize import *
 
 
@@ -41,7 +43,7 @@ def start():
     try:
         p = subprocess.Popen([RUN, 'manage.py', 'runserver', PORT])#, stdout=subprocess.PIPE)
         p.wait()
-        daemonize('./.nlp_server_pidfile')
+        daemonize(pidfile='./.nlp_server_pidfile')
         print('写入成功')
         while not os.path.exists(PIDFILE):
             time.sleep(0.1)
