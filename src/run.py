@@ -44,7 +44,7 @@ def start():
         # p = subprocess.Popen([RUN, NAME, 'runserver', PORT])  # , stdout=subprocess.PIPE)
         p = subprocess.Popen('nohup {} {} runserver {} &'.format(RUN, NAME, PORT), shell=True, preexec_fn=os.setsid)#, stdout=subprocess.PIPE)
         p.wait()
-        cmd = 'ps -ef | grep %s |grep -v "grep" | ' \
+        cmd = 'ps -ef | grep %s |grep -v "grep --color=auto" | ' \
               'grep %s | awk \'{print $2}\'' % (PORT, cmd_server_name)
         ps_pid = os.popen(cmd).read().strip()
         print(" | ".join(["Start OK", "PID:%s" % ps_pid]))
