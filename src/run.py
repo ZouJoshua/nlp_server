@@ -28,26 +28,6 @@ DAEMON = '-d'
 NAME_NOPOSTFIX = NAME.split(".")[0]
 PIDFILE = "{}/.{}_pidfile".format(HOME, NAME_NOPOSTFIX)
 server_name = os.path.split(os.path.realpath(sys.argv[1]))[-1].replace('.py', '')
-# if DEPLOY == 'prod':
-#     HOME_DIRS = HOME.split('/')
-#     crawler_index = HOME_DIRS.index('vertical_crawler')
-#     if HOME_DIRS[crawler_index + 1].find('_') != -1:
-#         port_offset = HOME_DIRS[crawler_index + 1].split('_')[1]
-#     else:
-#         port_offset = '1'
-#     LOG_DIR = '/data/logs/python/' + HOME_DIRS[crawler_index] + '/' + HOME_DIRS[crawler_index + 1]
-#     LN_LOG_DIR = HOME + '/log'
-#     if not os.path.exists(LOG_DIR):
-#         os.makedirs(LOG_DIR)
-#     try:
-#         os.symlink(LOG_DIR, LN_LOG_DIR)
-#     except Exception as e:
-#         print(str(e))
-# else:
-#     port_offset = '1'
-#     LOG_DIR = HOME + '/log'
-#     if not os.path.exists(LOG_DIR):
-#         os.makedirs(LOG_DIR)
 
 
 def start():
@@ -59,10 +39,11 @@ def start():
         if not k in ("Y", "y"):
             sys.exit(1)
     try:
-        p = subprocess.Popen([RUN, 'manage.py', 'runserver', PORT], stdout=subprocess.PIPE)
+        p = subprocess.Popen([RUN, 'manage.py', 'runserver', PORT])#, stdout=subprocess.PIPE)
         p.wait()
         if PORT:
             daemonize('./.nlp_server_pidfile')
+            print('写入成功')
         while not os.path.exists(PIDFILE):
             time.sleep(0.1)
         pid = open(PIDFILE).readline().strip()
@@ -75,8 +56,8 @@ def start():
         open(PIDFILE, 'a').write('%d\n' % os.getpid())
     except Exception as e:
         print(e)
-
-    return pid
+    else:
+        return pid
 
 
 def stop():
@@ -123,17 +104,18 @@ ops = {"start": start, "stop": stop, "restart": restart}
 
 if __name__ == "__main__":
     pid = ops[OP]()
-    if OP == 'start' \
-            or OP == 'restart':
-        while True:
-            cmd = 'ps -ef | grep %s | grep -v "grep" | ' \
-                  'grep %s | awk \'{print $2}\'' % (pid, server_name)
-            ps_pid = os.popen(cmd).read().strip()
-            # print 'ps_pid,pid', ps_pid,pid
-            if ps_pid != pid:
-                # pass
-                subprocess.call(["rm " + PIDFILE], shell=True)
-                pid = ops['start']()
-            else:
-                pass
-            time.sleep(1)
+    print(pid)
+    # if OP == 'start' \
+    #         or OP == 'restart':
+    #     while True:
+    #         cmd = 'ps -ef | grep %s | grep -v "grep" | ' \
+    #               'grep %s | awk \'{print $2}\'' % (pid, server_name)
+    #         ps_pid = os.popen(cmd).read().strip()
+    #         # print 'ps_pid,pid', ps_pid,pid
+    #         if ps_pid != pid:
+    #             # pass
+    #             subprocess.call(["rm " + PIDFILE], shell=True)
+    #             pid = ops['start']()
+    #         else:
+    #             pass
+    #         time.sleep(1)
