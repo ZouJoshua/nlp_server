@@ -43,7 +43,7 @@ def start():
         p = subprocess.Popen('nohup {} manage.py runserver {} &'.format(RUN, PORT), shell=True)#, stdout=subprocess.PIPE)
         p.wait()
         daemonize(pidfile='.nlp_server_pidfile')
-        print('写入成功')
+        print('服务进程id:{}'.format(p.pid))
         while not os.path.exists(PIDFILE):
             time.sleep(0.1)
         pid = open(PIDFILE).readline().strip()
