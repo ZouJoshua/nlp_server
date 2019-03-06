@@ -43,7 +43,7 @@ def start():
         if not k in ("Y", "y"):
             sys.exit(1)
     try:
-        p = subprocess.Popen([RUN,'nohup', 'manage.py', 'runserver', PORT, '> out.log &'], stdout=subprocess.PIPE)
+        p = subprocess.Popen(['nohup', RUN, 'manage.py', 'runserver', PORT, '> out.log &'], stdout=subprocess.PIPE)
         p.wait()
         daemonize(pidfile='./.nlp_server_pidfile')
         print('写入成功')
