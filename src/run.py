@@ -11,7 +11,7 @@ import subprocess
 import os
 import sys
 import time
-from src.utils.daemonize import *
+from utils.daemonize import *
 
 
 HOME = os.getcwd()
