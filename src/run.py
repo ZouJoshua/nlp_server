@@ -53,8 +53,8 @@ def start():
         else:
             pid = "error"
         print(" | ".join(["Start OK", "PID:%s" % pid]))
-        daemonize(pidfile=SERVER_NAME_PIDFILE)
-        open(PIDFILE, 'a').write('%s\n' % pid)
+        # daemonize(pidfile=SERVER_NAME_PIDFILE)
+        open(PIDFILE, 'w+').write('%s\n' % pid)
     except Exception as e:
         print(e)
     else:
@@ -87,7 +87,7 @@ def stop():
         pass
 
     if pid:
-        if subprocess.call(["kill -9 " + pid], shell=True) == 0:
+        if subprocess.call(["kill -TERM  " + pid], shell=True) == 0:
             print(" | ".join(["Stop OK", "PID:%s" % pid]))
         if subprocess.call(["rm " + PIDFILE], shell=True) != 0:
                 print("Delete Permission Denied")
