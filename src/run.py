@@ -54,7 +54,7 @@ def start():
         # ���������־
         # out = p.stdout.read()
         time.sleep(3)
-        # open(PIDFILE, 'a').write('%d\n' % ps_pid)
+        open(PIDFILE, 'a').write('%d\n' % os.getpid())
     except Exception as e:
         print(e)
     else:
