@@ -44,7 +44,8 @@ def start():
         p = subprocess.Popen('nohup {} {} runserver {} &'.format(RUN, NAME, PORT), shell=True)#, stdout=subprocess.PIPE)
         p.wait()
         daemonize(pidfile=SERVER_NAME_PIDFILE)
-        print('服务进程id:{}'.format(p.pid))
+        print('开启进程的pid:{}'.format(p.pid))
+        print('所属进程组的pid:{}'.format(os.getpgid(p.pid)))
         while not os.path.exists(PIDFILE):
             time.sleep(0.1)
         pid = open(PIDFILE).readline().strip()
@@ -106,17 +107,17 @@ ops = {"start": start, "stop": stop, "restart": restart}
 if __name__ == "__main__":
     pid = ops[OP]()
     print(pid)
-    # if OP == 'start' \
-    #         or OP == 'restart':
-    #     while True:
-    #         cmd = 'ps -ef | grep %s | grep -v "grep" | ' \
-    #               'grep %s | awk \'{print $2}\'' % (pid, server_name)
-    #         ps_pid = os.popen(cmd).read().strip()
-    #         # print 'ps_pid,pid', ps_pid,pid
-    #         if ps_pid != pid:
-    #             # pass
-    #             subprocess.call(["rm " + PIDFILE], shell=True)
-    #             pid = ops['start']()
-    #         else:
-    #             pass
-    #         time.sleep(1)
+    if OP == 'start' \
+            or OP == 'restart':
+        while True:
+            cmd = 'ps -ef | grep %s | grep -v "grep" | ' \
+                  'grep %s | awk \'{print $2}\'' % (pid, cmd_server_name)
+            ps_pid = os.popen(cmd).read().strip()
+            # print 'ps_pid,pid', ps_pid,pid
+            if ps_pid != pid:
+                # pass
+                subprocess.call(["rm " + PIDFILE], shell=True)
+                pid = ops['start']()
+            else:
+                pass
+            time.sleep(1)
