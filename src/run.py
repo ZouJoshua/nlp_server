@@ -46,7 +46,7 @@ def start():
         # 生产环境 fork一个子进程保证线上安全
         p = subprocess.Popen('nohup {} {} runserver {}:{} &'.format(RUN, NAME, SERVER_HOSTS, PORT), shell=True, preexec_fn=os.setsid)  # , stdout=subprocess.PIPE)
         # 生产环境
-        # p = subprocess.Popen('nohup {} {} runserver {} --noreload &'.format(RUN, NAME, PORT), shell=True, preexec_fn=os.setsid)#, stdout=subprocess.PIPE)
+        # p = subprocess.Popen('nohup {} {} runserver {}:{} --noreload &'.format(RUN, NAME, SERVER_HOSTS, PORT), shell=True, preexec_fn=os.setsid)#, stdout=subprocess.PIPE)
         p.wait()
         cmd = 'ps -ef | grep %s |grep -v "grep --color=auto" | ' \
               'grep %s | awk \'{print $2}\'' % (PORT, cmd_server_name)
