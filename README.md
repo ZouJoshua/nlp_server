@@ -3,10 +3,15 @@ NLP服务
 
 ## 配置
 
-修改 setting.py
+修改 run.py
 
 ```python
-ALLOWED_HOSTS = [ip]  # 服务ip
+SERVER_HOSTS = os.environ.get('SERVER_HOSTS', '127.0.0.1')
+```
+
+修改 settings.py
+
+```python
 NLP_MODEL_PATH = ""  # nlp 模型路径
 PROJECT_LOG_FILE = ""  # 日志文件
 ```
