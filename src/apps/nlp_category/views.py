@@ -110,7 +110,7 @@ class SubCategory(View):
         content_list.append(pred.clean_string(title + '.' + text))
         if top_category in classifier_dict.keys():
             classifier = classifier_dict[top_category]
-            res = pred.get_subcategory(content_list=content_list, classifier=classifier, idx2label=idx2label_map,predict_res=top_category)
+            res = pred.get_subcategory(content_list=content_list, classifier=classifier, idx2label=idx2label_map, predict_res={})
             result["status"] = 'Successful'
         else:
             res = dict()

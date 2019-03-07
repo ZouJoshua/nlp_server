@@ -25,6 +25,9 @@ NAME = sys.argv[1]
 PORT = sys.argv[2]
 OP = sys.argv[3]
 
+# server ip
+SERVER_HOSTS = os.environ.get('SERVER_HOSTS', '10.65.33.163')
+
 SERVER_NAME_PIDFILE = '.{}_pidfile'.format(SERVER_NAME)
 PIDFILE = "{}/{}".format(HOME, SERVER_NAME_PIDFILE)
 cmd_server_name = os.path.split(os.path.realpath(NAME))[-1].replace('.py', '')
@@ -41,7 +44,7 @@ def start():
     try:
         # p = subprocess.Popen([RUN, NAME, 'runserver', PORT])  # , stdout=subprocess.PIPE)
         # 生产环境 fork一个子进程保证线上安全
-        p = subprocess.Popen('nohup {} {} runserver {} &'.format(RUN, NAME, PORT), shell=True, preexec_fn=os.setsid)  # , stdout=subprocess.PIPE)
+        p = subprocess.Popen('nohup {} {} runserver {}:{} &'.format(RUN, NAME, SERVER_HOSTS, PORT), shell=True, preexec_fn=os.setsid)  # , stdout=subprocess.PIPE)
         # 生产环境
         # p = subprocess.Popen('nohup {} {} runserver {} --noreload &'.format(RUN, NAME, PORT), shell=True, preexec_fn=os.setsid)#, stdout=subprocess.PIPE)
         p.wait()
