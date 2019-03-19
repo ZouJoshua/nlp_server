@@ -99,12 +99,12 @@ class Predict(object):
             classifier = classifier_dict['topcategory_model']
             label = classifier.predict_proba(content_list, topk)
         except Exception as e:
-            self.log.error("Error({}) with topcategory model prediction.".format(e))
+            self.log.error('Error({}) with topcategory model prediction.'.format(e))
         else:
             for i in range(topk):
                 predict_res = dict()
-                predict_res['top_category_id'] = int(label[0][i][0].replace("__label__", ""))
-                category = idx2label['topcategory'][label[0][i][0].replace("__label__", "")]
+                predict_res['top_category_id'] = int(label[0][i][0].replace('__label__', ''))
+                category = idx2label['topcategory'][label[0][i][0].replace('__label__', '')]
                 predict_res['top_category'] = category
                 predict_res['top_category_proba'] = label[0][i][1]
                 if category == 'auto or science':
@@ -115,7 +115,7 @@ class Predict(object):
                         self.log.error("Error({}) with topcategory model 'auto or science' prediction.".format(e))
                     else:
                         predict_res['top_category_id'] = int(auto_science_label[0][i][0].replace('__label__', ''))
-                        predict_res['top_category'] = idx2label['topcategory'][auto_science_label[0][i][0].replace("__label__", "")]
+                        predict_res['top_category'] = idx2label['topcategory'][auto_science_label[0][i][0].replace('_label__', '')]
                         predict_res['top_category_proba'] = auto_science_label[0][i][1]
                 if predict_res['top_category_proba'] < proba_threshold and i != 0:
                     result['topn_top_category']['top{}'.format(i + 1)] = {'top_category_id': -1, 'top_category': '', 'top_category_proba': 0.0}
@@ -128,25 +128,25 @@ class Predict(object):
     def _predict_subcategory(self, content_list, classifier, idx2label, category, topk=3, proba_threshold=0.2):
         if category and isinstance(category, dict):
             predict_sub_res = category
-            predict_sub_res["topn_sub_category"] = dict()
+            predict_sub_res['topn_sub_category'] = dict()
         else:
-            self.log.warning("Request only subcategory.")
+            self.log.warning('Request only subcategory.')
             predict_sub_res = dict()
-            predict_sub_res["topn_sub_category"] = dict()
+            predict_sub_res['topn_sub_category'] = dict()
         try:
             label = classifier.predict_proba(content_list, topk)
         except Exception as e:
-            self.log.error("Error({}) with secondary model prediction.".format(e))
+            self.log.error('Error({}) with secondary model prediction.'.format(e))
         else:
             for i in range(topk):
                 predict_res = dict()
-                predict_res['sub_category_id'] = int(label[0][i][0].replace("__label__", ""))
-                subcategory = idx2label['subcategory'][label[0][i][0].replace("__label__", "")]
+                predict_res['sub_category_id'] = int(label[0][i][0].replace('__label__', ''))
+                subcategory = idx2label['subcategory'][label[0][i][0].replace('__label__', '')]
                 predict_res['sub_category'] = subcategory
                 predict_res['sub_category_proba'] = label[0][i][1]
                 if i != 0 and predict_res['sub_category_proba'] < proba_threshold:
                     predict_sub_res["topn_sub_category"]["top{}".format(i + 1)] = {'sub_category_id': -1, 'sub_category': '', 'sub_category_proba': 0.0}
                 else:
-                    predict_sub_res["topn_sub_category"]["top{}".format(i+1)] = predict_res
-            self.log.info("Successfully predicting the sub_category\n{}".format(predict_sub_res))
+                    predict_sub_res['topn_sub_category']['top{}'.format(i+1)] = predict_res
+            self.log.info('Successfully predicting the sub_category\n{}'.format(predict_sub_res))
         return predict_sub_res
