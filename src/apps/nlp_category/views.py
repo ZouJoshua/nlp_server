@@ -88,7 +88,7 @@ class TopCategory(View):
         content_list = []
         content_list.append(pred.clean_string(title + '.' + text))
         if content_list:
-            res = pred.get_topcategory(content_list=content_list, classifier_dict=classifier_dict, idx2label=idx2label_map,threshold=top_threshold)
+            res = pred.get_topcategory(content_list=content_list, classifier_dict=classifier_dict, idx2label=idx2label_map, threshold=top_threshold)
             result["status"] = 'Successful'
         else:
             res = dict()

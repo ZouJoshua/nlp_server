@@ -11,9 +11,9 @@ import requests
 import json
 
 
-url1 = 'http://127.0.0.1:19901/nlp_category/category'
-url2 = 'http://127.0.0.1:19901/nlp_category/top'
-url3 = 'http://127.0.0.1:19901/nlp_category/sub'
+url1 = 'http://10.65.0.76:19901/nlp_category/category'
+url2 = 'http://10.65.0.76:19901/nlp_category/top'
+url3 = 'http://10.65.0.76:19901/nlp_category/sub'
 
 
 title = "Messenger App Gets New Powerful Camera"

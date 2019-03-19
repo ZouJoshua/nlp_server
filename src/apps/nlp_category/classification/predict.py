@@ -103,10 +103,10 @@ class Predict(object):
         else:
             for i in range(topk):
                 predict_res = dict()
-                predict_res['top_category_id'] = int(label[i][0][0].replace("__label__", ""))
-                category = idx2label['topcategory'][label[i][0][0].replace("__label__", "")]
+                predict_res['top_category_id'] = int(label[0][i][0].replace("__label__", ""))
+                category = idx2label['topcategory'][label[0][i][0].replace("__label__", "")]
                 predict_res['top_category'] = category
-                predict_res['top_category_proba'] = label[i][0][1]
+                predict_res['top_category_proba'] = label[0][i][1]
                 if category == 'auto or science':
                     try:
                         auto_science_classifier = classifier_dict['auto_science']
@@ -114,9 +114,9 @@ class Predict(object):
                     except Exception as e:
                         self.log.error("Error({}) with topcategory model 'auto or science' prediction.".format(e))
                     else:
-                        predict_res['top_category_id'] = int(auto_science_label[i][0][0].replace('__label__', ''))
-                        predict_res['top_category'] = idx2label['topcategory'][auto_science_label[i][0][0].replace("__label__", "")]
-                        predict_res['top_category_proba'] = auto_science_label[i][0][1]
+                        predict_res['top_category_id'] = int(auto_science_label[0][i][0].replace('__label__', ''))
+                        predict_res['top_category'] = idx2label['topcategory'][auto_science_label[0][i][0].replace("__label__", "")]
+                        predict_res['top_category_proba'] = auto_science_label[0][i][1]
                 if predict_res['top_category_proba'] < proba_threshold and i != 0:
                     result['topn_top_category']['top{}'.format(i + 1)] = {'top_category_id': -1, 'top_category': '', 'top_category_proba': 0.0}
                 else:
