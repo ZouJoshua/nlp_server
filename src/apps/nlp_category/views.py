@@ -30,8 +30,11 @@ class Category(View):
         """
         返回新闻分类
         :param request:
-        :return: {"top_category_id":"","top_category":"","top_category_proba":"",
-                    "sub_category_id":"", "sub_category":"","sub_category_proba":""}
+        :return: {"topn_top_category":
+                        {"top1":{"top_category_id":"","top_category":"","top_category_proba":""},
+                        "top2":{"top_category_id":"","top_category":"","top_category_proba":""},
+                        "top3":{"top_category_id":"","top_category":"","top_category_proba":""}
+                        }
         """
         result = dict()
         request_meta = request.META
@@ -40,8 +43,9 @@ class Category(View):
         logger.info('Successfully received the request content sent by the client {}'.format(client_host))
         text = request_data.get("content", default='')
         title = request_data.get("title", default='')
+        threshold = request_data.get("thresholds", default=(0.3, 0.2))
         if text or title:
-            res = pred.get_category(content=text, title=title, classifier_dict=classifier_dict, idx2label=idx2label_map)
+            res = pred.get_category(content=text, title=title, classifier_dict=classifier_dict, idx2label=idx2label_map, thresholds=threshold)
             result["status"] = 'Successful'
         else:
             res = dict()
@@ -62,7 +66,16 @@ class TopCategory(View):
         """
         只返回新闻一级分类
         :param request:
-        :return:{"top_category_id":"","top_category":"","top_category_proba":""}
+        :return:{"topn_top_category":
+                        {"top1":{"top_category_id":"","top_category":"","top_category_proba":""},
+                        "top2":{"top_category_id":"","top_category":"","top_category_proba":""},
+                        "top3":{"top_category_id":"","top_category":"","top_category_proba":""}
+                        },
+                "topn_sub_category":
+                        {"top1":{"sub_category_id":"","sub_category":"","sub_category_proba":""},
+                        "top2":{"sub_category_id":"","sub_category":"","sub_category_proba":""},
+                        "top3":{"sub_category_id":"","sub_category":"","sub_category_proba":""}
+                        }}
         """
         result = dict()
         request_meta = request.META
@@ -71,10 +84,11 @@ class TopCategory(View):
         logger.info('Successfully received the request content sent by the client {}'.format(client_host))
         title = request_data.get("title", default='')
         text = request_data.get("content", default='')
+        top_threshold = request_data.get("thresholds", default=0.3)
         content_list = []
         content_list.append(pred.clean_string(title + '.' + text))
         if content_list:
-            res = pred.get_topcategory(content_list=content_list, classifier_dict=classifier_dict, idx2label=idx2label_map)
+            res = pred.get_topcategory(content_list=content_list, classifier_dict=classifier_dict, idx2label=idx2label_map,threshold=top_threshold)
             result["status"] = 'Successful'
         else:
             res = dict()
@@ -96,7 +110,11 @@ class SubCategory(View):
         """
         只返回新闻二级分类
         :param request:
-        :return: {"top_category":"", "sub_category_id":"", "sub_category":"","sub_category_proba":""}
+        :return: {"topn_sub_category":
+                        {"top1":{"sub_category_id":"","sub_category":"","sub_category_proba":""},
+                        "top2":{"sub_category_id":"","sub_category":"","sub_category_proba":""},
+                        "top3":{"sub_category_id":"","sub_category":"","sub_category_proba":""}
+                        }
         """
         result = dict()
         request_meta = request.META
@@ -106,11 +124,12 @@ class SubCategory(View):
         title = request_data.get("title", default='')
         text = request_data.get("content", default='')
         top_category = request_data.get("top_category", default='')
+        sub_threshold = request_data.get("thresholds", default=0.2)
         content_list = []
         content_list.append(pred.clean_string(title + '.' + text))
         if top_category in classifier_dict.keys():
             classifier = classifier_dict[top_category]
-            res = pred.get_subcategory(content_list=content_list, classifier=classifier, idx2label=idx2label_map, predict_res={})
+            res = pred.get_subcategory(content_list=content_list, classifier=classifier, idx2label=idx2label_map, predict_res=None, threshold=sub_threshold)
             result["status"] = 'Successful'
         else:
             res = dict()

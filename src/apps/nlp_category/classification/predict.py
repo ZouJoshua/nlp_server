@@ -42,32 +42,36 @@ class Predict(object):
                 cleaned_text += c
         return cleaned_text
 
-    def get_category(self, content, title, classifier_dict, idx2label):
+    def get_category(self, content, title, classifier_dict, idx2label, thresholds=(0.3,0.2)):
         """
         分类结果
         :param content: 内容（str）
         :param title: 标题（str）
         :param classifier_dict: 模型字典（dict）
         :param idx2label: 分类id映射（json）
-        :param topk: 分类top n结果
+        :param topk: 分类topk结果(默认)
         :return: 分类结果（一级类、二级类）
         """
         content_list = []
         content_list.append(self.clean_string(title + '.' + content))
-        predict_top_res = self._predict_topcategory(content_list, classifier_dict, idx2label)
+        if thresholds and len(thresholds) == 2:
+            top_threshold, sub_threshold = thresholds
+        else:
+            top_threshold, sub_threshold = (0.3, 0.2)
+        predict_top_res = self._predict_topcategory(content_list, classifier_dict, idx2label, proba_threshold=top_threshold)
         # self.log.info("Successfully predicting the top_category\n{}".format(predict_top_res))
-        predict_top_category = predict_top_res['top_category']
+        predict_top_category = predict_top_res['topn_top_category']['top1']['top_category']
         if predict_top_category in classifier_dict.keys():
             classifier = classifier_dict[predict_top_category]
             # assert isinstance(classifier, SupervisedModel):
-            predict_sub_res = self._predict_subcategory(content_list, classifier, idx2label, predict_top_res)
+            predict_sub_res = self._predict_subcategory(content_list, classifier, idx2label, predict_top_res, proba_threshold=sub_threshold)
             # self.log.info("Successfully predicting the sub_category\n{}".format(predict_sub_res))
         else:
             predict_sub_res = predict_top_res
             self.log.warning("There is no secondary classification model for this primary classification({}).".format(predict_top_category))
         return predict_sub_res
 
-    def get_topcategory(self, content_list, classifier_dict, idx2label):
+    def get_topcategory(self, content_list, classifier_dict, idx2label, threshold=0.3):
         """
         一级分类结果
         :param content_list: 内容（list）
@@ -75,9 +79,9 @@ class Predict(object):
         :param idx2label: 分类id映射（json）
         :return: 一级分类结果（dict）
         """
-        return self._predict_topcategory(content_list, classifier_dict, idx2label)
+        return self._predict_topcategory(content_list, classifier_dict, idx2label, proba_threshold=threshold)
 
-    def get_subcategory(self, content_list, classifier, idx2label, predict_res):
+    def get_subcategory(self, content_list, classifier, idx2label, predict_res, threshold=0.2):
         """
         二级分类结果
         :param content_list: 内容（list）
@@ -86,9 +90,9 @@ class Predict(object):
         :param predict_res: 一级分类结果
         :return: 二级分类结果
         """
-        return self._predict_subcategory(content_list, classifier, idx2label, predict_res)
+        return self._predict_subcategory(content_list, classifier, idx2label, predict_res, proba_threshold=threshold)
 
-    def _predict_topcategory(self, content_list, classifier_dict, idx2label, topk=3):
+    def _predict_topcategory(self, content_list, classifier_dict, idx2label, topk=3, proba_threshold=0.3):
         result = dict()
         result["topn_top_category"] = dict()
         try:
@@ -110,15 +114,18 @@ class Predict(object):
                     except Exception as e:
                         self.log.error("Error({}) with topcategory model 'auto or science' prediction.".format(e))
                     else:
-                        predict_res['top_category_id'] = int(auto_science_label[i][0][0].replace("__label__", ""))
+                        predict_res['top_category_id'] = int(auto_science_label[i][0][0].replace('__label__', ''))
                         predict_res['top_category'] = idx2label['topcategory'][auto_science_label[i][0][0].replace("__label__", "")]
                         predict_res['top_category_proba'] = auto_science_label[i][0][1]
-                result["topn_top_category"]["top{}".format(i+1)] = predict_res
-            self.log.info("Successfully predicting the top_category\n{}".format(result))
+                if predict_res['top_category_proba'] < proba_threshold and i != 0:
+                    result['topn_top_category']['top{}'.format(i + 1)] = {'top_category_id': -1, 'top_category': '', 'top_category_proba': 0.0}
+                else:
+                    result['topn_top_category']['top{}'.format(i+1)] = predict_res
+            self.log.info('Successfully predicting the top_category\n{}'.format(result))
         return result
 
 
-    def _predict_subcategory(self, content_list, classifier, idx2label, category, topk=3):
+    def _predict_subcategory(self, content_list, classifier, idx2label, category, topk=3, proba_threshold=0.2):
         if category and isinstance(category, dict):
             predict_sub_res = category
             predict_sub_res["topn_sub_category"] = dict()
@@ -137,6 +144,9 @@ class Predict(object):
                 subcategory = idx2label['subcategory'][label[i][0][0].replace("__label__", "")]
                 predict_res['sub_category'] = subcategory
                 predict_res['sub_category_proba'] = label[i][0][1]
-                predict_sub_res["topn_sub_category"]["top{}".format(i+1)] = predict_res
+                if i != 0 and predict_res['sub_category_proba'] < proba_threshold:
+                    predict_sub_res["topn_sub_category"]["top{}".format(i + 1)] = {'sub_category_id': -1, 'sub_category': '', 'sub_category_proba': 0.0}
+                else:
+                    predict_sub_res["topn_sub_category"]["top{}".format(i+1)] = predict_res
             self.log.info("Successfully predicting the sub_category\n{}".format(predict_sub_res))
         return predict_sub_res
