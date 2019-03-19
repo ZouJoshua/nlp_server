@@ -140,10 +140,10 @@ class Predict(object):
         else:
             for i in range(topk):
                 predict_res = dict()
-                predict_res['sub_category_id'] = int(label[i][0][0].replace("__label__", ""))
-                subcategory = idx2label['subcategory'][label[i][0][0].replace("__label__", "")]
+                predict_res['sub_category_id'] = int(label[0][i][0].replace("__label__", ""))
+                subcategory = idx2label['subcategory'][label[0][i][0].replace("__label__", "")]
                 predict_res['sub_category'] = subcategory
-                predict_res['sub_category_proba'] = label[i][0][1]
+                predict_res['sub_category_proba'] = label[0][i][1]
                 if i != 0 and predict_res['sub_category_proba'] < proba_threshold:
                     predict_sub_res["topn_sub_category"]["top{}".format(i + 1)] = {'sub_category_id': -1, 'sub_category': '', 'sub_category_proba': 0.0}
                 else:
