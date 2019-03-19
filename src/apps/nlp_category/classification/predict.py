@@ -49,6 +49,7 @@ class Predict(object):
         :param title: 标题（str）
         :param classifier_dict: 模型字典（dict）
         :param idx2label: 分类id映射（json）
+        :param topk: 分类top n结果
         :return: 分类结果（一级类、二级类）
         """
         content_list = []
@@ -87,47 +88,55 @@ class Predict(object):
         """
         return self._predict_subcategory(content_list, classifier, idx2label, predict_res)
 
-    def _predict_topcategory(self, content_list, classifier_dict, idx2label):
-        predict_res = dict()
+    def _predict_topcategory(self, content_list, classifier_dict, idx2label, topk=3):
+        result = dict()
+        result["topn_top_category"] = dict()
         try:
             classifier = classifier_dict['topcategory_model']
-            label = classifier.predict_proba(content_list)
+            label = classifier.predict_proba(content_list, topk)
         except Exception as e:
             self.log.error("Error({}) with topcategory model prediction.".format(e))
         else:
-            predict_res['top_category_id'] = int(label[0][0][0].replace("__label__", ""))
-            category = idx2label['topcategory'][label[0][0][0].replace("__label__", "")]
-            predict_res['top_category'] = category
-            predict_res['top_category_proba'] = label[0][0][1]
-            if category == 'auto or science':
-                try:
-                    auto_science_classifier = classifier_dict['auto_science']
-                    label = auto_science_classifier.predict_proba(content_list)
-                except Exception as e:
-                    self.log.error("Error({}) with topcategory model 'auto or science' prediction.".format(e))
-                else:
-                    predict_res['top_category_id'] = int(label[0][0][0].replace("__label__", ""))
-                    predict_res['top_category'] = idx2label['topcategory'][label[0][0][0].replace("__label__", "")]
-                    predict_res['top_category_proba'] = label[0][0][1]
-                    self.log.info("Successfully predicting the top_category\n{}".format(predict_res))
+            for i in range(topk):
+                predict_res = dict()
+                predict_res['top_category_id'] = int(label[i][0][0].replace("__label__", ""))
+                category = idx2label['topcategory'][label[i][0][0].replace("__label__", "")]
+                predict_res['top_category'] = category
+                predict_res['top_category_proba'] = label[i][0][1]
+                if category == 'auto or science':
+                    try:
+                        auto_science_classifier = classifier_dict['auto_science']
+                        auto_science_label = auto_science_classifier.predict_proba(content_list)
+                    except Exception as e:
+                        self.log.error("Error({}) with topcategory model 'auto or science' prediction.".format(e))
+                    else:
+                        predict_res['top_category_id'] = int(auto_science_label[i][0][0].replace("__label__", ""))
+                        predict_res['top_category'] = idx2label['topcategory'][auto_science_label[i][0][0].replace("__label__", "")]
+                        predict_res['top_category_proba'] = auto_science_label[i][0][1]
+                result["topn_top_category"]["top{}".format(i+1)] = predict_res
+            self.log.info("Successfully predicting the top_category\n{}".format(result))
+        return result
 
-        return predict_res
 
-
-    def _predict_subcategory(self, content_list, classifier, idx2label, category):
+    def _predict_subcategory(self, content_list, classifier, idx2label, category, topk=3):
         if category and isinstance(category, dict):
             predict_sub_res = category
+            predict_sub_res["topn_sub_category"] = dict()
         else:
-            self.log.warning("Category type error.")
+            self.log.warning("Request only subcategory.")
             predict_sub_res = dict()
+            predict_sub_res["topn_sub_category"] = dict()
         try:
-            label = classifier.predict_proba(content_list)
+            label = classifier.predict_proba(content_list, topk)
         except Exception as e:
             self.log.error("Error({}) with secondary model prediction.".format(e))
         else:
-            predict_sub_res['sub_category_id'] = int(label[0][0][0].replace("__label__", ""))
-            subcategory = idx2label['subcategory'][label[0][0][0].replace("__label__", "")]
-            predict_sub_res['sub_category'] = subcategory
-            predict_sub_res['sub_category_proba'] = label[0][0][1]
+            for i in range(topk):
+                predict_res = dict()
+                predict_res['sub_category_id'] = int(label[i][0][0].replace("__label__", ""))
+                subcategory = idx2label['subcategory'][label[i][0][0].replace("__label__", "")]
+                predict_res['sub_category'] = subcategory
+                predict_res['sub_category_proba'] = label[i][0][1]
+                predict_sub_res["topn_sub_category"]["top{}".format(i+1)] = predict_res
             self.log.info("Successfully predicting the sub_category\n{}".format(predict_sub_res))
         return predict_sub_res
