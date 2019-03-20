@@ -38,6 +38,10 @@ class LoadModel(object):
             auto_science_classifier = fasttext.load_model(topcategory_auto_science_model_path)
             classifier_dict['auto_science'] = auto_science_classifier
             self.log.info('Successfully loaded the first-level classification model')
+        elif os.path.exists(topcategory_model_path):
+            topcategory_classifier = fasttext.load_model(topcategory_model_path)
+            classifier_dict['topcategory_model'] = topcategory_classifier
+            self.log.warning('Successfully loaded the first-level classification model without top_auto_science_model')
         else:
             self.log.error('Please check if the first-level model path exists')
             raise Exception('一级分类模型路径不存在')
