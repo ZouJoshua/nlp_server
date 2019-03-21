@@ -60,7 +60,7 @@ class Predict(object):
             top_threshold, sub_threshold = (0.3, 0.2)
         predict_top_res = self._predict_topcategory(content_list, classifier_dict, idx2label, proba_threshold=top_threshold)
         # self.log.info("Successfully predicting the top_category\n{}".format(predict_top_res))
-        predict_top_category = predict_top_res['topn_top_category']['top1']['top_category']
+        predict_top_category = predict_top_res['top_category'][0]['category']
         if predict_top_category in classifier_dict.keys():
             classifier = classifier_dict[predict_top_category]
             # assert isinstance(classifier, SupervisedModel):
@@ -94,7 +94,7 @@ class Predict(object):
 
     def _predict_topcategory(self, content_list, classifier_dict, idx2label, topk=3, proba_threshold=0.3):
         result = dict()
-        result["topn_top_category"] = dict()
+        result["top_category"] = list()
         try:
             classifier = classifier_dict['topcategory_model']
             label = classifier.predict_proba(content_list, topk)
@@ -103,10 +103,10 @@ class Predict(object):
         else:
             for i in range(topk):
                 predict_res = dict()
-                predict_res['top_category_id'] = int(label[0][i][0].replace('__label__', ''))
+                predict_res['id'] = int(label[0][i][0].replace('__label__', ''))
                 category = idx2label['topcategory'][label[0][i][0].replace('__label__', '')]
-                predict_res['top_category'] = category
-                predict_res['top_category_proba'] = label[0][i][1]
+                predict_res['category'] = category
+                predict_res['proba'] = label[0][i][1]
                 if category == 'auto or science':
                     try:
                         auto_science_classifier = classifier_dict['auto_science']
@@ -114,13 +114,14 @@ class Predict(object):
                     except Exception as e:
                         self.log.error("Error({}) with topcategory model 'auto or science' prediction.".format(e))
                     else:
-                        predict_res['top_category_id'] = int(auto_science_label[0][i][0].replace('__label__', ''))
-                        predict_res['top_category'] = idx2label['topcategory'][auto_science_label[0][i][0].replace('_label__', '')]
-                        predict_res['top_category_proba'] = auto_science_label[0][i][1]
-                if predict_res['top_category_proba'] < proba_threshold and i != 0:
-                    result['topn_top_category']['top{}'.format(i + 1)] = {'top_category_id': -1, 'top_category': '', 'top_category_proba': 0.0}
+                        predict_res['id'] = int(auto_science_label[0][i][0].replace('__label__', ''))
+                        predict_res['category'] = idx2label['topcategory'][auto_science_label[0][i][0].replace('_label__', '')]
+                        predict_res['proba'] = auto_science_label[0][i][1]
+                if predict_res['proba'] < proba_threshold and i != 0:
+                    # predict_res_less_than_theashold = {'id': -1, 'category': '', 'proba': 0.0}
+                    continue
                 else:
-                    result['topn_top_category']['top{}'.format(i+1)] = predict_res
+                    result['top_category'].append(predict_res)
             self.log.info('Successfully predicting the top_category\n{}'.format(result))
         return result
 
@@ -128,11 +129,11 @@ class Predict(object):
     def _predict_subcategory(self, content_list, classifier, idx2label, category, topk=3, proba_threshold=0.2):
         if category and isinstance(category, dict):
             predict_sub_res = category
-            predict_sub_res['topn_sub_category'] = dict()
+            predict_sub_res['sub_category'] = list()
         else:
             self.log.warning('Request only subcategory.')
             predict_sub_res = dict()
-            predict_sub_res['topn_sub_category'] = dict()
+            predict_sub_res['sub_category'] = list()
         try:
             label = classifier.predict_proba(content_list, topk)
         except Exception as e:
@@ -140,13 +141,14 @@ class Predict(object):
         else:
             for i in range(topk):
                 predict_res = dict()
-                predict_res['sub_category_id'] = int(label[0][i][0].replace('__label__', ''))
+                predict_res['id'] = int(label[0][i][0].replace('__label__', ''))
                 subcategory = idx2label['subcategory'][label[0][i][0].replace('__label__', '')]
-                predict_res['sub_category'] = subcategory
-                predict_res['sub_category_proba'] = label[0][i][1]
-                if i != 0 and predict_res['sub_category_proba'] < proba_threshold:
-                    predict_sub_res["topn_sub_category"]["top{}".format(i + 1)] = {'sub_category_id': -1, 'sub_category': '', 'sub_category_proba': 0.0}
+                predict_res['category'] = subcategory
+                predict_res['proba'] = label[0][i][1]
+                if i != 0 and predict_res['proba'] < proba_threshold:
+                    # predict_sub_res_less_than_threshold = {'id': -1, 'category': '', 'proba': 0.0}
+                    continue
                 else:
-                    predict_sub_res['topn_sub_category']['top{}'.format(i+1)] = predict_res
+                    predict_sub_res['sub_category'].append(predict_res)
             self.log.info('Successfully predicting the sub_category\n{}'.format(predict_sub_res))
         return predict_sub_res

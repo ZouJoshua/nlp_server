@@ -30,10 +30,15 @@ class Category(View):
         """
         返回新闻分类
         :param request:
-        :return: {"topn_top_category":
-                        {"top1":{"top_category_id":"","top_category":"","top_category_proba":""},
-                        "top2":{"top_category_id":"","top_category":"","top_category_proba":""},
-                        "top3":{"top_category_id":"","top_category":"","top_category_proba":""}
+        :return: {"top_category":
+                        [{"id":"","category":"","proba":""},
+                        {"id":"","category":"","proba":""},
+                        {"id":"","category":"","proba":""}]
+                        },
+                "sub_category":
+                        [{"id":"","category":"","proba":""},
+                        {"id":"","category":"","proba":""},
+                        {"id":"","category":"","proba":""}]
                         }
         """
         result = dict()
@@ -66,16 +71,16 @@ class TopCategory(View):
         """
         只返回新闻一级分类
         :param request:
-        :return:{"topn_top_category":
-                        {"top1":{"top_category_id":"","top_category":"","top_category_proba":""},
-                        "top2":{"top_category_id":"","top_category":"","top_category_proba":""},
-                        "top3":{"top_category_id":"","top_category":"","top_category_proba":""}
+        :return:{"top_category":
+                        [{"id":"","category":"","proba":""},
+                        {"id":"","category":"","proba":""},
+                        {"id":"","category":"","proba":""}]
                         },
-                "topn_sub_category":
-                        {"top1":{"sub_category_id":"","sub_category":"","sub_category_proba":""},
-                        "top2":{"sub_category_id":"","sub_category":"","sub_category_proba":""},
-                        "top3":{"sub_category_id":"","sub_category":"","sub_category_proba":""}
-                        }}
+                "sub_category":
+                        [{"id":"","category":"","proba":""},
+                        {"id":"","category":"","proba":""},
+                        {"id":"","category":"","proba":""}]
+                        }
         """
         result = dict()
         request_meta = request.META
@@ -110,10 +115,10 @@ class SubCategory(View):
         """
         只返回新闻二级分类
         :param request:
-        :return: {"topn_sub_category":
-                        {"top1":{"sub_category_id":"","sub_category":"","sub_category_proba":""},
-                        "top2":{"sub_category_id":"","sub_category":"","sub_category_proba":""},
-                        "top3":{"sub_category_id":"","sub_category":"","sub_category_proba":""}
+        :return: {"sub_category":
+                        [{"id":"","category":"","proba":""},
+                        {"id":"","category":"","proba":""},
+                        {"id":"","category":"","proba":""}]
                         }
         """
         result = dict()
