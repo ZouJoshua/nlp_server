@@ -67,6 +67,7 @@ class Predict(object):
             predict_sub_res = self._predict_subcategory(content_list, classifier, idx2label, predict_top_res, proba_threshold=sub_threshold)
             # self.log.info("Successfully predicting the sub_category\n{}".format(predict_sub_res))
         else:
+            predict_top_res['sub_category'] = list()
             predict_sub_res = predict_top_res
             self.log.warning("There is no secondary classification model for this primary classification({}).".format(predict_top_category))
         return predict_sub_res
