@@ -42,6 +42,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     # 添加nlp分类app
     'apps.nlp_category',
+    # 添加nlp地域app
+    'apps.nlp_regional',
 ]
 
 MIDDLEWARE = [
@@ -138,8 +140,8 @@ LOG_PATH = os.path.join(BASE_DIR, 'logs')
 if not os.path.exists(LOG_PATH):
     os.mkdir(LOG_PATH)
 
-PROJECT_LOG_FILE = os.path.join(LOG_PATH, 'category_server.log')
+PROJECT_LOG_FILE = os.path.join(LOG_PATH, 'regional_server.log')
 
-# nlp模型
-NLP_MODEL_PATH = os.path.join(BASE_DIR, 'data', 'model')
+# nlp 地域映射
+NLP_REGIONAL_MAP_PATH = os.path.join(BASE_DIR, 'data', 'model')
 # NLP_MODEL_PATH = '/data/zoushuai/news_content/sub_classification_model/model'

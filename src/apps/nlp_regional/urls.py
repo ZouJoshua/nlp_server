@@ -9,7 +9,7 @@
 
 from django.urls import path
 from .views import index_view
-from .views import TopCategory, SubCategory, Category
+from .views import Regional
 
 
 app_name = '[nlp_category]'
