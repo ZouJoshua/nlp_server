@@ -13,15 +13,24 @@ import logging
 
 class Predict(object):
 
-    def __init__(self, logger=None):
+    def __init__(self, regional_map=None, logger=None):
+        self.reg_map = regional_map
         if logger:
             self.log = logger
         else:
-            self.log = logging.getLogger("load_classification_model")
+            self.log = logging.getLogger("nlp_regional_predict")
             self.log.setLevel(logging.INFO)
 
 
-    def get_regional(self, regional_ct, text, topk=3):
+    def get_regional(self, content='', title=''):
+        text = content + '.' + title
+        out_count = self.get_detail_regional(text, self.reg_map)
+        regional_ct = self. _count_regional(out_count, self.reg_map)
+
+        return self._get_regional(regional_ct, text)
+
+
+    def _get_regional(self, regional_ct, text, topk=3):
         regional = dict()
         regional['regional'] = list()
         if regional_ct:

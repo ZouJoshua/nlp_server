@@ -5,15 +5,15 @@ from django.views import View
 from .regional_processer.load_regional_map import LoadRegionalMap
 from .regional_processer.predict import Predict
 from utils.logger import Logger
-from web.settings import PROJECT_LOG_FILE, NLP_MODEL_PATH
+from web.settings import PROJECT_LOG_FILE, NLP_REGIONAL_DATA_PATH
 
 
-logger = Logger('nlp_category_predict', log2console=False, log2file=True, logfile=PROJECT_LOG_FILE).get_logger()
+logger = Logger('nlp_regional_predict', log2console=False, log2file=True, logfile=PROJECT_LOG_FILE).get_logger()
 logger.info("Initialization start...")
 
-logger.info("Loading models and idx2map...")
-regional_map = LoadRegionalMap(logger=logger).load_regional_map(path=NLP_MODEL_PATH)
-pred = Predict(logger=logger)
+logger.info("Loading regional map...")
+regional_map = LoadRegionalMap(logger=logger).load_regional_map(path=NLP_REGIONAL_DATA_PATH)
+pred = Predict(regional_map=regional_map, logger=logger)
 
 
 def index_view(request):
@@ -29,18 +29,18 @@ class Regional(View):
         """
         返回新闻地域分类
         :param request:
-        :return: {"regional": []}
+        :return: {"regional": ["Odisha",""]}
         """
         result = dict()
         request_meta = request.META
         client_host = request_meta['HTTP_HOST']
         request_data = request.POST  # 查看客户端发来的请求内容
-        logger.info('Successfully received the request content sent by the client {}'.format(client_host))
         text = request_data.get("content", default='')
         title = request_data.get("title", default='')
         task_id = request_data.get("id", default='')
+        logger.info('Successfully received the task_id {} sent by the client {}'.format(task_id, client_host))
         if text or title:
-            res = pred.get_regional(content=text, title=title, classifier_dict=classifier_dict, idx2label=idx2label_map, thresholds=threshold)
+            res = pred.get_regional(content=text, title=title)
             result["status"] = 'Successful'
         else:
             res = dict()
