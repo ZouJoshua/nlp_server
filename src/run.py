@@ -20,13 +20,13 @@ if len(sys.argv) != 4 or sys.argv[1] == '-h':
     sys.exit("Usage:sudo %s ServerName {Port} {start, stop, restart}" % SCRPET)
 
 RUN = "python3"
-SERVER_NAME = 'nlp_category_server'
-NAME = sys.argv[1]
-PORT = sys.argv[2]
+SERVER_NAME = sys.argv[1]
+NAME = sys.argv[2]
 OP = sys.argv[3]
 
 # server ip
-SERVER_HOSTS = os.environ.get('SERVER_HOSTS', '10.65.0.76')
+SERVER_HOSTS = os.environ.get('SERVER_HOSTS', '127.0.0.1')
+SERVER_PORT = os.environ.get('PORT', 10901)
 
 SERVER_NAME_PIDFILE = '.{}_pidfile'.format(SERVER_NAME)
 PIDFILE = "{}/{}".format(HOME, SERVER_NAME_PIDFILE)
@@ -42,14 +42,14 @@ def start():
         if not k in ("Y", "y"):
             sys.exit(1)
     try:
-        # p = subprocess.Popen([RUN, NAME, 'runserver', PORT])  # , stdout=subprocess.PIPE)
+        # p = subprocess.Popen([RUN, NAME, 'runserver', SERVER_PORT])  # , stdout=subprocess.PIPE)
         # 生产环境 fork一个子进程保证线上安全
-        p = subprocess.Popen('nohup {} {} runserver {}:{} &'.format(RUN, NAME, SERVER_HOSTS, PORT), shell=True, preexec_fn=os.setsid)  # , stdout=subprocess.PIPE)
+        p = subprocess.Popen('nohup {} {} runserver {}:{} &'.format(RUN, NAME, SERVER_HOSTS, SERVER_PORT), shell=True, preexec_fn=os.setsid)  # , stdout=subprocess.PIPE)
         # 生产环境
-        # p = subprocess.Popen('nohup {} {} runserver {}:{} --noreload &'.format(RUN, NAME, SERVER_HOSTS, PORT), shell=True, preexec_fn=os.setsid)#, stdout=subprocess.PIPE)
+        # p = subprocess.Popen('nohup {} {} runserver {}:{} --noreload &'.format(RUN, NAME, SERVER_HOSTS, SERVER_PORT), shell=True, preexec_fn=os.setsid)#, stdout=subprocess.PIPE)
         p.wait()
         cmd = 'ps -ef | grep %s |grep -v "grep --color=auto" | ' \
-              'grep %s | awk \'{print $2}\'' % (PORT, cmd_server_name)
+              'grep %s | awk \'{print $2}\'' % (SERVER_PORT, cmd_server_name)
         ps_pid = os.popen(cmd).read().strip()
         if len(ps_pid.split("\n")) == 2:
             pid = ps_pid.split("\n")[1]
