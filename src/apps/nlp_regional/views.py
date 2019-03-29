@@ -21,7 +21,7 @@ def index_view(request):
     return HttpResponse("Hello World!")
 
 class Regional(View):
-    global regional_map
+    global pred
 
     def get(self, request):
         pass
