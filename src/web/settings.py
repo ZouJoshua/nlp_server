@@ -41,7 +41,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     # 添加nlp分类app
-    'apps.nlp_category',
+    # apps.nlp_category',
     # 添加nlp地域app
     'apps.nlp_regional',
 ]
