@@ -52,14 +52,13 @@ def start():
               'grep %s | awk \'{print $2}\'' % (SERVER_PORT, cmd_server_name)
         ps_pid = os.popen(cmd).read().strip()
         if len(ps_pid.split("\n")) == 2:
-            monitor_pid = ps_pid.split("\n")[0]
             pid = ps_pid.split("\n")[1]
-            print(" | ".join(["Start OK", "PID:%s" % pid]))
-            # daemonize(pidfile=SERVER_NAME_PIDFILE)
-            open(PIDFILE, 'w+').write('{}\n{}\n'.format(pid, monitor_pid))
         else:
             pid = "error"
-            raise Exception('Process already exists, please check')
+            # raise Exception('Process already exists, please check')
+        print(" | ".join(["Start OK", "PID:%s" % pid]))
+        # daemonize(pidfile=SERVER_NAME_PIDFILE)
+        open(PIDFILE, 'w+').write('{}\n'.format(pid))
     except Exception as e:
         print(e)
     else:
