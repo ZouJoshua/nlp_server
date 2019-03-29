@@ -68,6 +68,7 @@ class Predict(object):
                             regional['regional'].append(topk_regional_ct[2][0])
                         else:
                             pass
+                self.log.info('Get the region of the article {}'.format(regional))
         return regional
 
     def get_detail_regional(self, text, names_map):
@@ -78,6 +79,7 @@ class Predict(object):
             all = re.findall(key + '[\W]', text)
             if len(all):
                 out[key.strip()] = len(all)
+        self.log.info('Get all the regional names of the article\n{}'.format(out))
         return self._re_count_regional(out)
 
     def _re_count_regional(self, regional_ct):
@@ -90,6 +92,7 @@ class Predict(object):
                     out[k] = v
                 else:
                     out[k] += v
+        self.log.info('Standardize all regional names\n{}'.format(out))
         return out
 
     def _count_regional(self, result, names_map):
@@ -103,6 +106,7 @@ class Predict(object):
                 out[region] = v
             else:
                 out[region] += v
+        self.log.info('Get state and city statistics\n{}'.format(out))
         return out
 
 
