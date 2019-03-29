@@ -11,7 +11,6 @@ import json
 import os
 import re
 import logging
-from web.settings import NLP_REGIONAL_DATA_PATH
 
 
 class LoadRegionalMap(object):
@@ -29,22 +28,22 @@ class LoadRegionalMap(object):
         :return: 地域映射（json）
         """
         if not os.path.exists(path):
-            bak_file = os.path.join(NLP_REGIONAL_DATA_PATH, 'india_names2regions_bak.json')
+            bak_file = os.path.join(os.path.split(path)[0], 'india_names2regions_bak.json')
             if not os.path.exists(bak_file):
                 self.log.warning('No bak file {} exists'.format('india_names2regions_bak.json'))
-                self._regional_preprocess()
+                self._regional_preprocess(path)
         with open(path, 'r', encoding='utf-8') as reader:
             names_map = json.load(reader)
         return names_map
 
-    def _regional_preprocess(self):
+    def _regional_preprocess(self, path):
         filename = 'india_division.json'
-        regi_file = os.path.join(NLP_REGIONAL_DATA_PATH, filename)
+        regi_file = os.path.join(os.path.split(path)[0], filename)
         if not os.path.exists(regi_file):
             self.log.error('No file {} exists'.format(filename))
             raise Exception('No file {} exists'.format(filename))
         result = self._process_regional(regi_file)
-        regi2map_file = os.path.join(NLP_REGIONAL_DATA_PATH, 'india_names2regions.json')
+        regi2map_file = os.path.join(os.path.split(path)[0], 'india_names2regions.json')
         with open(regi2map_file, 'w') as f:
             json.dump(result, f, indent=4)
         return

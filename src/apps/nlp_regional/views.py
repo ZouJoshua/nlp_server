@@ -6,13 +6,14 @@ from .regional_processer.load_regional_map import LoadRegionalMap
 from .regional_processer.predict import Predict
 from utils.logger import Logger
 from web.settings import PROJECT_LOG_FILE, NLP_REGIONAL_DATA_PATH
-
+import os
 
 logger = Logger('nlp_regional_predict', log2console=False, log2file=True, logfile=PROJECT_LOG_FILE).get_logger()
 logger.info("Initialization start...")
 
 logger.info("Loading regional map...")
-regional_map = LoadRegionalMap(logger=logger).load_regional_map(path=NLP_REGIONAL_DATA_PATH)
+NLP_REGIONAL_FILE_PATH = os.path.join(NLP_REGIONAL_DATA_PATH, 'india_names2regions.json')
+regional_map = LoadRegionalMap(logger=logger).load_regional_map(path=NLP_REGIONAL_FILE_PATH)
 pred = Predict(regional_map=regional_map, logger=logger)
 
 
