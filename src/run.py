@@ -52,13 +52,24 @@ def start():
               'grep %s | awk \'{print $2}\'' % (SERVER_PORT, cmd_server_name)
         ps_pid = os.popen(cmd).read().strip()
         print(ps_pid)
+        monitor_pid = None
+        pid = None
         if len(ps_pid.split("\n")) == 2:
-            pid = ps_pid.split("\n")[1]
+            pid = ps_pid.split("\n")[0]
+            monitor_pid = ps_pid.split("\n")[1]
+        elif len(ps_pid.split("\n")) == 1:
+            pid = ps_pid.split("\n")[0]
         else:
-            pid = "error"
-        print(" | ".join(["Start OK", "PID:%s" % pid]))
-        # daemonize(pidfile=SERVER_NAME_PIDFILE)
-        open(PIDFILE, 'w+').write('%s\n' % pid)
+            sys.exit(1)
+        if monitor_pid:
+            print(" | ".join(["Start OK", "PID:%s" % pid]))
+            print(" | ".join(["Start OK", "Monitor_PID:%s" % monitor_pid]))
+            # daemonize(pidfile=SERVER_NAME_PIDFILE)
+            open(PIDFILE, 'w+').write('{}\n{}'.format(pid,monitor_pid))
+        else:
+            print(" | ".join(["Start OK", "PID:%s" % pid]))
+            # daemonize(pidfile=SERVER_NAME_PIDFILE)
+            open(PIDFILE, 'w+').write('{}\n'.format(pid))
     except Exception as e:
         print(e)
     else:
