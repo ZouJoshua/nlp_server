@@ -19,7 +19,7 @@ class Predict(object):
         if logger:
             self.log = logger
         else:
-            self.log = logging.getLogger("load_classification_model")
+            self.log = logging.getLogger("nlp_category_predict")
             self.log.setLevel(logging.INFO)
 
     # 全模型用于清洗正文数据

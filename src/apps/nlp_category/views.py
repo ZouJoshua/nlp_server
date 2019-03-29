@@ -5,10 +5,10 @@ from django.views import View
 from .classification.load_model import LoadModel
 from .classification.predict import Predict
 from utils.logger import Logger
-from web.settings import PROJECT_LOG_FILE, NLP_MODEL_PATH
+from web.settings import CATEGORY_LOG_FILE, NLP_MODEL_PATH
 
 
-logger = Logger('nlp_category_predict', log2console=False, log2file=True, logfile=PROJECT_LOG_FILE).get_logger()
+logger = Logger('nlp_category_predict', log2console=False, log2file=True, logfile=CATEGORY_LOG_FILE).get_logger()
 logger.info("Initialization start...")
 
 logger.info("Loading models and idx2map...")

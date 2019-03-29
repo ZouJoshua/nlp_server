@@ -20,7 +20,7 @@ class LoadModel(object):
         if logger:
             self.log = logger
         else:
-            self.log = logging.getLogger("load_classification_model")
+            self.log = logging.getLogger("nlp_category_predict")
 
     def load_models_and_idmap(self, path):
         """
