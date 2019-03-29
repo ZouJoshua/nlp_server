@@ -17,7 +17,7 @@ from utils.daemonize import daemonize
 HOME = os.getcwd()
 SCRPET = os.path.basename(sys.argv[0])
 if len(sys.argv) != 4 or sys.argv[1] == '-h':
-    sys.exit("Usage:sudo %s ServerName {Port} {start, stop, restart}" % SCRPET)
+    sys.exit("Usage:sudo %s {ServerName} {start, stop, restart}" % SCRPET)
 
 RUN = "python3"
 SERVER_NAME = sys.argv[1]
@@ -51,6 +51,7 @@ def start():
         cmd = 'ps -ef | grep %s |grep -v "grep --color=auto" | ' \
               'grep %s | awk \'{print $2}\'' % (SERVER_PORT, cmd_server_name)
         ps_pid = os.popen(cmd).read().strip()
+        print(ps_pid)
         if len(ps_pid.split("\n")) == 2:
             pid = ps_pid.split("\n")[1]
         else:
@@ -95,7 +96,7 @@ def stop():
         if subprocess.call(["rm " + PIDFILE], shell=True) != 0:
             print("Delete Permission Denied")
         cmd = 'ps -ef | grep %s |grep -v "grep --color=auto" | ' \
-              'grep %s | awk \'{print $2}\'' % (PORT, cmd_server_name)
+              'grep %s | awk \'{print $2}\'' % (SERVER_PORT, cmd_server_name)
         ps_pid = os.popen(cmd).read().strip()
         if len(ps_pid.split("\n")) == 2:
             fork_pid = ps_pid.split("\n")[0]
