@@ -63,11 +63,11 @@ class Predict(object):
                         regional['regional'].append(topk_regional_ct[0][0])
                     elif topk_regional_ct[0][1] == topk_regional_ct[1][1]:
                         regional['regional'].append(topk_regional_ct[0][0])
-                        regional['regional'].append(topk_regional_ct[1][0])
-                        if len(topk_regional_ct) > 2 and topk_regional_ct[1][1] == topk_regional_ct[2][1]:
-                            regional['regional'].append(topk_regional_ct[2][0])
-                        else:
-                            pass
+                        # regional['regional'].append(topk_regional_ct[1][0])
+                        # if len(topk_regional_ct) > 2 and topk_regional_ct[1][1] == topk_regional_ct[2][1]:
+                        #     regional['regional'].append(topk_regional_ct[2][0])
+                        # else:
+                        #     pass
                 self.log.info('Get the region of the article {}'.format(regional))
         return regional
 
