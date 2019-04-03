@@ -48,28 +48,31 @@ def start():
         # 生产环境
         # p = subprocess.Popen('nohup {} {} runserver {}:{} --noreload &'.format(RUN, NAME, SERVER_HOSTS, SERVER_PORT), shell=True, preexec_fn=os.setsid)#, stdout=subprocess.PIPE)
         p.wait()
+        time.sleep(1)
+        ppid = None
+        pid = None
         cmd = 'ps -ef | grep %s |grep -v "grep --color=auto" | ' \
               'grep %s | awk \'{print $2}\'' % (SERVER_PORT, cmd_server_name)
         ps_pid = os.popen(cmd).read().strip()
-        print(ps_pid)
-        monitor_pid = None
-        pid = None
         if len(ps_pid.split("\n")) == 2:
-            pid = ps_pid.split("\n")[0]
-            monitor_pid = ps_pid.split("\n")[1]
+            ppid = ps_pid.split("\n")[0]
+            pid = ps_pid.split("\n")[1]
         elif len(ps_pid.split("\n")) == 1:
             pid = ps_pid.split("\n")[0]
         else:
-            sys.exit(1)
-        if monitor_pid:
+            raise Exception('PID Process error, please check')
+            # sys.exit(1)
+        if ppid and pid:
             print(" | ".join(["Start OK", "PID:%s" % pid]))
-            print(" | ".join(["Start OK", "Monitor_PID:%s" % monitor_pid]))
+            print(" | ".join(["Start OK", "PPID:%s" % ppid]))
             # daemonize(pidfile=SERVER_NAME_PIDFILE)
-            open(PIDFILE, 'w+').write('{}\n{}'.format(pid,monitor_pid))
-        else:
+            open(PIDFILE, 'w+').write('{}\n{}\n'.format(pid, ppid))
+        elif pid:
             print(" | ".join(["Start OK", "PID:%s" % pid]))
             # daemonize(pidfile=SERVER_NAME_PIDFILE)
             open(PIDFILE, 'w+').write('{}\n'.format(pid))
+        else:
+            raise Exception('Start error...')
     except Exception as e:
         print(e)
     else:
@@ -81,27 +84,27 @@ def stop():
         return
     pid_list = open(PIDFILE).readlines()
     pid = None
-    monitor_pid = None
+    ppid = None
     if len(pid_list) == 1:
         pid = pid_list[0].strip()
     elif len(pid_list) == 2:
         pid = pid_list[0].strip()
-        monitor_pid = pid_list[1].strip()
+        ppid = pid_list[1].strip()
     else:
-        print(SERVER_NAME, " Stop error")
+        print(SERVER_NAME, " Stop error...")
         return
 
     print("Stopping", SERVER_NAME, '...')
-    if monitor_pid:
-        if subprocess.call(["kill -9 " + monitor_pid], shell=True) == 0:
-            time.sleep(0.2)
-            pass
+    if ppid and pid:
+        if subprocess.call(["kill -9 " + pid], shell=True) == 0:
+            print(" | ".join(["Stop main process OK", "PID:%s" % pid]))
+        if subprocess.call(["kill -9 " + ppid], shell=True) == 0:
+            print(" | ".join(["Stop parent process OK", "PID:%s" % ppid]))
+        if subprocess.call(["rm " + PIDFILE], shell=True) != 0:
+            print("Delete Permission Denied")
         else:
-            print(SERVER_NAME, "monitor stop error")
-    else:
-        pass
-
-    if pid:
+            print(SERVER_NAME, "pid file delete...")
+    elif pid:
         if subprocess.call(["kill -9  " + pid], shell=True) == 0:
             print(" | ".join(["Stop main process OK", "PID:%s" % pid]))
         if subprocess.call(["rm " + PIDFILE], shell=True) != 0:
@@ -112,11 +115,11 @@ def stop():
         if len(ps_pid.split("\n")) == 2:
             fork_pid = ps_pid.split("\n")[0]
             if subprocess.call(["kill -9  " + fork_pid], shell=True) == 0:
-                print(" | ".join(["Stop fork process OK", "PID:%s" % fork_pid]))
+                print(" | ".join(["Stop parent process OK", "PID:%s" % fork_pid]))
         else:
             pass
     else:
-        print("Stop Error")
+        print("Stop Error..")
 
 
 def restart():
@@ -129,19 +132,3 @@ ops = {"start": start, "stop": stop, "restart": restart}
 
 if __name__ == "__main__":
     pid = ops[OP]()
-    # print(pid)
-    # if OP == 'start' \
-    #         or OP == 'restart':
-    #
-    #     cmd = 'ps -ef | grep %s | grep -v "grep" | ' \
-    #           'grep %s | awk \'{print $2}\'' % (pid, cmd_server_name)
-    #     ps_pid = os.popen(cmd).read().strip()
-    #     print('ps_pid,pid', ps_pid, pid)
-    #
-    #     if ps_pid != pid:
-    #         # pass
-    #         subprocess.call(["rm " + PIDFILE], shell=True)
-    #         pid = ops['start']()
-    #     else:
-    #         pass
-    #     time.sleep(1)

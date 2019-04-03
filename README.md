@@ -1,42 +1,48 @@
-# nlp_category_server
-NLP分类服务
 
-## 配置
+- [x] NLP分类服务
+- [x] NLP地域服务
 
-修改 run.py
+---------------
+
+## NLP分类服务(nlp_category_server)
+
+### 配置
+
+修改 run.py 服务ip及端口
 
 ```python
 SERVER_HOSTS = os.environ.get('SERVER_HOSTS', '127.0.0.1')
+SERVER_PORT = os.environ.get('PORT', 19901)
 ```
 
-修改 settings.py
+修改 settings.py 模型路径及日志
 
 ```python
 NLP_MODEL_PATH = ""  # nlp 模型路径
 PROJECT_LOG_FILE = ""  # 日志文件
 ```
 
-## 服务设置
+### 服务设置
 
-### 启动
-
-```bash
-python3 run.py manage.py {port} start
-```
-
-### 停止
+#### 启动
 
 ```bash
-python3 run.py manage.py {port} stop
+python3 run.py nlp_category_server manage.py start
 ```
 
-### 重启
+#### 停止
 
 ```bash
-python3 run.py manage.py {port} restart
+python3 run.py nlp_category_server manage.py stop
 ```
 
-## API
+#### 重启
+
+```bash
+python3 run.py nlp_category_server manage.py restart
+```
+
+### API Demo
 
 ```python
 # url
@@ -54,47 +60,57 @@ resp1 = requests.post(url1, data=parms)
 result = resp1.text
 ```
 
-# nlp_regional_server
-NLP地域服务
+### 目前情况
+* 一级分类达到9个类别（1个独立模型），准确率达到95%+，
+* 二级分类达到88个类别（8个独立模型），整体准确率达到85%
 
 
-## 配置
+### 后续优化
+* 优化线上模型大小，解决多个模型占内存的问题
 
-修改 run.py
+
+---------------
+
+## NLP地域服务(nlp_regional_server)
+
+
+### 配置
+
+修改 `run.py` 服务端口及ip
 
 ```python
 SERVER_HOSTS = os.environ.get('SERVER_HOSTS', '127.0.0.1')
 SERVER_PORT = os.environ.get('PORT', 18801)
 ```
 
-修改 settings.py
+修改 `settings.py` 地域映射文件及日志
 
 ```python
 NLP_REGIONAL_DATA_PATH = ""  # nlp 地域映射
 PROJECT_LOG_FILE = ""  # 日志文件
 ```
 
-## 服务设置
+### 服务设置
 
-### 启动
+#### 启动
 
 ```bash
 python3 run.py nlp_regional_server manage.py start
 ```
 
-### 停止
+#### 停止
 
 ```bash
 python3 run.py nlp_regional_server manage.py stop
 ```
 
-### 重启
+#### 重启
 
 ```bash
 python3 run.py nlp_regional_server manage.py restart
 ```
 
-## API
+### API Demo
 
 ```python
 # url
@@ -109,3 +125,14 @@ resp = requests.post(url, data=parms)
 # 获取结果
 result = resp.text
 ```
+
+
+### 目前支持
+* 支持印度地区邦（联盟）、县、分区、村识别，目前提供到邦级别
+* 支持印度地区35个邦和联盟区域识别，并支持5个热门城市（Delhi，Mumbai, Bengaluru, Kolkata, Hyderabad）识别
+* 目前抽样地域识别准确率达到85%
+
+### 后续优化
+* 针对无明显地域名称的新闻，提供基于内容的地域识别
+* 优化地域查找时间
+* 优化细分地域，提供到县级新闻识别
