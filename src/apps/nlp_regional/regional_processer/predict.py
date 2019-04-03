@@ -9,7 +9,7 @@
 
 import re
 import logging
-from .find_regional import Find
+from .mul_find_regional import multithread_find_regional
 import threading
 
 
@@ -33,7 +33,7 @@ class Predict(object):
 
     def get_regional_multithread(self, content='', title=''):
         text = content + '.' + title
-        out_count = self.get_detail_regional_multithread(text, self.reg_map)
+        out_count = self._find_regional_multithread(text, self.reg_map)
         regional_ct = self._count_regional(out_count, self.reg_map)
 
         return self._get_regional(regional_ct, text)
@@ -72,11 +72,11 @@ class Predict(object):
                         regional['regional'].append(topk_regional_ct[0][0])
                     elif topk_regional_ct[0][1] == topk_regional_ct[1][1]:
                         regional['regional'].append(topk_regional_ct[0][0])
-                        regional['regional'].append(topk_regional_ct[1][0])
-                        if len(topk_regional_ct) > 2 and topk_regional_ct[1][1] == topk_regional_ct[2][1]:
-                            regional['regional'].append(topk_regional_ct[2][0])
-                        else:
-                            pass
+                        # regional['regional'].append(topk_regional_ct[1][0])
+                        # if len(topk_regional_ct) > 2 and topk_regional_ct[1][1] == topk_regional_ct[2][1]:
+                        #     regional['regional'].append(topk_regional_ct[2][0])
+                        # else:
+                        #     pass
                 self.log.info('Get the region of the article {}'.format(regional))
         return regional
 
@@ -91,27 +91,10 @@ class Predict(object):
         self.log.info('Get all the regional names of the article\n{}'.format(out))
         return self._re_count_regional(out)
 
-    def get_detail_regional_multithread(self, text, names_map, thread_num=10):
-        out = dict()
-        namelist = list(names_map.keys())
-        namenum = len(namelist)
-        mutex = threading.Lock()  # 创建一个锁
-        threadlist = []  # 线程列表
-        # 97 9    0-1000000  1000000-2000000  2000000-3000000
-        for i in range(0, thread_num - 1):  # 0,1,2,3,4,5,6,7,8  数据切割
-            mythd = Find(namelist, i * (namenum // (thread_num - 1)), (i + 1) * (namenum // (thread_num - 1)), text, out)
-            mythd.start()
-            threadlist.append(mythd)  # 添加到线程列表
-
-        # 97 =  97//10*10=90
-        mylastthd = Find(namelist, namenum // (thread_num - 1) * (thread_num - 1), namenum, text, out)  # 最后的线程搜索剩下的尾数
-        mylastthd.start()
-        threadlist.append(mylastthd)  # 添加到线程列表
-        for thd in threadlist:  # 遍历线程列表
-            thd.join()
-
-        self.log.info('Get all the regional names of the article\n{}'.format(out))
-        return self._re_count_regional(out)
+    def _find_regional_multithread(self, text, names_map):
+        finddict = multithread_find_regional(text, names_map)
+        self.log.info('Get all the regional names of the article\n{}'.format(finddict))
+        return self._re_count_regional(finddict)
 
     def _re_count_regional(self, regional_ct):
         out = dict()

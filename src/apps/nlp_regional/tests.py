@@ -45,7 +45,7 @@ class TestPredict(TestCase):
     def test_multithread_time_use(self):
         s = time.time()
         text = self.content + '.' + self.title
-        out_count = pred.get_detail_regional_multithread(text, regional_map)
+        out_count = pred._find_regional_multithread(text, regional_map)
         s1 = time.time()
         print(">>>>>>>>>>查找地域耗时： {}".format(s1 - s))
         regional_ct = pred._count_regional(out_count, regional_map)
