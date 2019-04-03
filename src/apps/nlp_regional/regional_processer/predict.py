@@ -2,13 +2,15 @@
 # -*- coding: utf-8 -*-
 """
 @Author  : Joshua
-@Time    : 2019/3/4 12:26
+@Time    : 2019/3/29 17:15
 @File    : predict.py
 @Desc    : 
 """
 
 import re
 import logging
+from .mul_find_regional import multithread_find_regional
+import threading
 
 
 class Predict(object):
@@ -26,6 +28,13 @@ class Predict(object):
         text = content + '.' + title
         out_count = self.get_detail_regional(text, self.reg_map)
         regional_ct = self. _count_regional(out_count, self.reg_map)
+
+        return self._get_regional(regional_ct, text)
+
+    def get_regional_multithread(self, content='', title=''):
+        text = content + '.' + title
+        out_count = self._find_regional_multithread(text, self.reg_map)
+        regional_ct = self._count_regional(out_count, self.reg_map)
 
         return self._get_regional(regional_ct, text)
 
@@ -82,6 +91,11 @@ class Predict(object):
         self.log.info('Get all the regional names of the article\n{}'.format(out))
         return self._re_count_regional(out)
 
+    def _find_regional_multithread(self, text, names_map):
+        finddict = multithread_find_regional(text, names_map)
+        self.log.info('Get all the regional names of the article\n{}'.format(finddict))
+        return self._re_count_regional(finddict)
+
     def _re_count_regional(self, regional_ct):
         out = dict()
         if regional_ct:
@@ -108,7 +122,3 @@ class Predict(object):
                 out[region] += v
         self.log.info('Get state and city statistics\n{}'.format(out))
         return out
-
-
-
-
