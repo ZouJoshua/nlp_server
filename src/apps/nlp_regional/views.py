@@ -41,7 +41,8 @@ class Regional(View):
         task_id = request_data.get("id", default='')
         logger.info('Successfully received the task_id {} sent by the client {}'.format(task_id, client_host))
         if text or title:
-            res = pred.get_regional(content=text, title=title)
+            res = pred.get_regional_multithread(content=text, title=title)
+            # res = pred.get_regional(content=text, title=title)
             result["status"] = 'Successful'
         else:
             res = dict()

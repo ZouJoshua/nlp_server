@@ -10,7 +10,7 @@
 import requests
 import json
 
-url = 'http://10.65.0.76:18801/nlp_regional/regional'
+url = 'http://127.0.0.1:18801/nlp_regional/regional'
 
 id1 = "1502764925793848"
 title1 = "Celebrated independence in Burma, says old INA warhorse MK Valampuri"

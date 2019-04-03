@@ -78,7 +78,11 @@ class Predict(object):
                         # else:
                         #     pass
                 self.log.info('Get the region of the article {}'.format(regional))
-        return regional
+        result = dict()
+        result['regional'] = ''
+        if len(regional['regional']):
+            result['regional'] = regional['regional'][0]
+        return result
 
     def get_detail_regional(self, text, names_map):
         out = dict()
