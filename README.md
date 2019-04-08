@@ -114,7 +114,7 @@ python3 run.py nlp_regional_server manage.py restart
 
 ```python
 # url
-url = 'http://127.0.0.1:18801/nlp_regional/regional'
+url = nlp_parser
 
 # post data format(请求地域服务，传id、title、content) 
 parms = {"id":id,"title": title, "content": content}

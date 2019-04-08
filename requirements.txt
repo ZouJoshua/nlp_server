@@ -1,3 +1,4 @@
 fasttext==0.8.3
-django==2.1.7
+django==2.2
 pyquery==1.4.0
+msgpack==0.6.1

@@ -43,7 +43,7 @@ INSTALLED_APPS = [
     # 添加nlp分类app
     # apps.nlp_category',
     # 添加nlp地域app
-    'apps.nlp_regional',
+    'apps.nlp_parser',
 ]
 
 MIDDLEWARE = [
@@ -136,11 +136,11 @@ sys.path.insert(0, os.path.join(BASE_DIR, 'utils'))
 
 # 日志
 DEFAULT_LOGGING_LEVEL = logging.INFO
-LOG_PATH = os.path.join(BASE_DIR, 'logs')
-if not os.path.exists(LOG_PATH):
-    os.mkdir(LOG_PATH)
+PROJECT_LOGS_PATH = os.path.join(BASE_DIR, 'logs')
+if not os.path.exists(PROJECT_LOGS_PATH):
+    os.mkdir(PROJECT_LOGS_PATH)
 
-PROJECT_LOG_FILE = os.path.join(LOG_PATH, 'regional_server.log')
+PROJECT_LOG_FILE = os.path.join(PROJECT_LOGS_PATH, 'regional_server.log')
 
-# nlp 地域映射
-NLP_REGIONAL_DATA_PATH = os.path.join(BASE_DIR, 'data')
+# 数据路径
+PROJECT_DATA_PATH = os.path.join(BASE_DIR, 'data')
