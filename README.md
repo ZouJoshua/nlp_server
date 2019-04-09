@@ -1,7 +1,7 @@
 
 - [x] NLP分类服务
 - [x] NLP地域服务
-
+- [x] NLP爬虫解析服务
 ---------------
 
 ## NLP分类服务(nlp_category_server)
