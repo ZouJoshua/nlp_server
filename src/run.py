@@ -26,7 +26,7 @@ OP = sys.argv[3]
 
 # server ip
 SERVER_HOSTS = os.environ.get('SERVER_HOSTS', '127.0.0.1')
-SERVER_PORT = os.environ.get('PORT', 18801)
+SERVER_PORT = os.environ.get('PORT', 8020)
 
 SERVER_NAME_PIDFILE = '.{}_pidfile'.format(SERVER_NAME)
 PIDFILE = "{}/{}".format(HOME, SERVER_NAME_PIDFILE)

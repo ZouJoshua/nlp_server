@@ -26,6 +26,7 @@ SECRET_KEY = 'dxj13rzpw*(h%ew#vk5rbmj-rh%i(*kvp*m^ll_kxvkxdoc@-)'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
+# DEBUG = True
 
 # ALLOWED_HOSTS = ["localhost", "127.0.0.1"]
 ALLOWED_HOSTS = ['*', ]
@@ -140,7 +141,7 @@ PROJECT_LOGS_PATH = os.path.join(BASE_DIR, 'logs')
 if not os.path.exists(PROJECT_LOGS_PATH):
     os.mkdir(PROJECT_LOGS_PATH)
 
-PROJECT_LOG_FILE = os.path.join(PROJECT_LOGS_PATH, 'regional_server.log')
+PROJECT_LOG_FILE = os.path.join(PROJECT_LOGS_PATH, 'parser_server.log')
 
 # 数据路径
 PROJECT_DATA_PATH = os.path.join(BASE_DIR, 'data')

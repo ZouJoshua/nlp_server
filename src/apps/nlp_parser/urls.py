@@ -8,13 +8,12 @@
 """
 
 from django.urls import path
-from .views import index_view
+
 from .views import SpiderParser
 
 
 app_name = '[nlp_parser]'
 
 urlpatterns = [
-    path('', index_view, name='index_url'),
-    path('result', SpiderParser.as_view()),
+    path('parser', SpiderParser.as_view()),
 ]
