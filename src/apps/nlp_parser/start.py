@@ -9,10 +9,10 @@
 
 from .parser_processer.get_html import HtmlDownloader
 from .parser_processer.parse_html import HtmlPaser
-from .parser_processer.write_local_file import write_file
 from utils.logger import Logger
 from web.settings import PROJECT_LOG_FILE, PROJECT_DATA_PATH
 
+from .parser_processer.write_local_file import write_file
 from multiprocessing import Pool, Manager
 
 import os

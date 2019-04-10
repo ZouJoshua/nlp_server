@@ -19,9 +19,9 @@ class HtmlDownloader(object):
         self.TIMEOUT = 3
         self.RETRY_TIME = 1
         if logger:
-            self.log = logging.getLogger("nlp_parser")
-        else:
             self.log = logger
+        else:
+            self.log = logging.getLogger("nlp_parser")
     # @staticmethod
     def download(self,url, header):
         try:

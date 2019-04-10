@@ -25,9 +25,9 @@ class HtmlPaser(object):
         self.new_file = new_domains_fo
         self.error_file = xpath_error_fo
         if logger:
-            self.log = logging.getLogger("nlp_parser")
-        else:
             self.log = logger
+        else:
+            self.log = logging.getLogger("nlp_parser")
 
     def parse(self, url, html, rules_xpath):
         domain = urlparse(url).netloc

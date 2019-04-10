@@ -114,7 +114,7 @@ python3 run.py nlp_regional_server manage.py restart
 
 ```python
 # url
-url = nlp_parser
+url = '127.0.0.1:18801/nlp_regional/regional'
 
 # post data format(请求地域服务，传id、title、content) 
 parms = {"id":id,"title": title, "content": content}
@@ -136,3 +136,69 @@ result = resp.text
 * 针对无明显地域名称的新闻，提供基于内容的地域识别
 * 优化地域查找时间
 * 优化细分地域，提供到县级新闻识别
+
+
+---------------
+
+## NLP爬虫解析服务(nlp_parser_server)
+
+
+### 配置
+
+修改 `run.py` 服务端口及ip
+
+```python
+SERVER_HOSTS = os.environ.get('SERVER_HOSTS', '127.0.0.1')
+SERVER_PORT = os.environ.get('PORT', 8020)
+```
+
+修改 `settings.py` 日志
+
+```python
+PROJECT_LOG_FILE = ""  # 日志文件
+```
+
+### 服务设置
+
+#### 启动
+
+```bash
+python3 run.py nlp_parser_server manage.py start
+```
+
+#### 停止
+
+```bash
+python3 run.py nlp_parser_server manage.py stop
+```
+
+#### 重启
+
+```bash
+python3 run.py nlp_parser_server manage.py restart
+```
+
+### API Demo
+
+```python
+# url
+url = 'http://127.0.0.1:8020/nlp_parser/parser'
+
+id1 = "1502776564471413"
+parser_url = "https://www.sciencedaily.com/releases/2019/02/190225123449.htm"
+parms1 = {"id": id1, "website": parser_url}
+
+# spider parser test
+resp1 = requests.post(url, data=parms1)  # 发送请求
+# Decoded text returned by the request
+print(resp1.text)
+```
+
+
+### 目前支持
+* 新闻html爬取、解析
+* 支持130+网站的解析规则
+
+### 后续优化
+* 优化解析规则，使提取的数据更精确
+* 修复旧网址失效解析规则, 增加新网址的解析规则
