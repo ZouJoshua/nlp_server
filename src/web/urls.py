@@ -20,5 +20,6 @@ from django.conf.urls import include
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('nlp_category/', include('nlp_category.urls', namespace='nlp_category')),
-    path('nlp_regional/', include('nlp_regional.urls', namespace='nlp_regional'))
+    path('nlp_regional/', include('nlp_regional.urls', namespace='nlp_regional')),
+    path('nlp_parser/', include('nlp_parser.urls', namespace='nlp_parser'))
 ]

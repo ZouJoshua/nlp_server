@@ -44,6 +44,8 @@ INSTALLED_APPS = [
     'apps.nlp_category',
     # 添加nlp地域app
     'apps.nlp_regional',
+    # 添加nlp爬虫解析app
+    'apps.nlp_parser',
 ]
 
 MIDDLEWARE = [
@@ -136,17 +138,19 @@ sys.path.insert(0, os.path.join(BASE_DIR, 'utils'))
 
 # 日志
 DEFAULT_LOGGING_LEVEL = logging.INFO
-LOG_PATH = os.path.join(BASE_DIR, 'logs')
-if not os.path.exists(LOG_PATH):
-    os.mkdir(LOG_PATH)
+PROJECT_LOGS_PATH = os.path.join(BASE_DIR, 'logs')
+if not os.path.exists(PROJECT_LOGS_PATH):
+    os.mkdir(PROJECT_LOGS_PATH)
 
-CATEGORY_LOG_FILE = os.path.join(LOG_PATH, 'category_server.log')
-REGIONAL_LOG_FILE = os.path.join(LOG_PATH, 'regional_server.log')
+# NLP数据目录
+PROJECT_DATA_PATH = os.path.join(BASE_DIR, 'data')
 
 
-# nlp模型
-NLP_MODEL_PATH = os.path.join(BASE_DIR, 'data', 'model')
+
+CATEGORY_LOG_FILE = os.path.join(PROJECT_LOGS_PATH, 'category_server.log')
+REGIONAL_LOG_FILE = os.path.join(PROJECT_LOGS_PATH, 'regional_server.log')
+PARSER_LOG_FILE = os.path.join(PROJECT_LOGS_PATH, 'parser_server.log')
+
+# NLP分类模型路径
+NLP_MODEL_PATH = os.path.join(PROJECT_DATA_PATH, 'model')
 # NLP_MODEL_PATH = '/data/zoushuai/news_content/sub_classification_model/model'
-
-# nlp 地域映射
-NLP_REGIONAL_DATA_PATH = os.path.join(BASE_DIR, 'data')
