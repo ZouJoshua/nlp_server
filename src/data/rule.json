@@ -1,0 +1,968 @@
+{
+  "indianexpress.com": {
+    "category": "//*[contains(concat( ' ', @class, ' ' ), concat( ' ', 'm-breadcrumb', ' ' ))]//a//text()",
+    "title": "//*[contains(concat( ' ', @class, ' ' ), concat( ' ', 'm-story-header__title', ' ' ))]//text()",
+    "tag": "//*[contains(concat( ' ', @class, ' ' ), concat( ' ', 'a-tag', ' ' ))]//text()",
+    "hyperlink_text": "//p//a//text()",
+    "hyperlink_url": "//p//a//@href"
+  },
+  "www.deccanchronicle.com": {
+    "category": "//*[contains(concat( ' ', @class, ' ' ), concat( ' ', 'color', ' ' ))]//a//text()",
+    "title": "//*[contains(concat( ' ', @class, ' ' ), concat( ' ', 'headline', ' ' ))]//span//text()",
+    "tag": "//div[@class='story-body']/div/a/text()",
+    "hyperlink_text": "none",
+    "hyperlink_url": "none"
+  },
+  "www.dnaindia.com": {
+    "category": "//*//*[contains(concat( ' ', @class, ' ' ), concat( ' ', 'last', ' ' ))]//a//text()",
+    "title": "//h1//text()",
+    "tag": "//*//*[contains(concat( ' ', @class, ' ' ), concat( ' ', 'tagarticlpge', ' ' ))]//a//text()",
+    "hyperlink_text": "//p//a//text()",
+    "hyperlink_url": "//p//a//@href"
+  },
+  "www.popsugar.com": {
+    "category": "//*[contains(concat( ' ', @class, ' ' ), concat( ' ', 'breadcrumb', ' ' ))]//span//text()",
+    "title": "//*[contains(concat( ' ', @class, ' ' ), concat( ' ', 'title-text', ' ' ))]//text()",
+    "tag": "//section/div[@class='post-tags clearfix']/a/text()",
+    "hyperlink_text": "//article//p//a//text()",
+    "hyperlink_url": "//article//p//a//@href"
+  },
+  "www.news18.com": {
+    "category": "//*[contains(concat( ' ', @class, ' ' ), concat( ' ', 'abrdacrum', ' ' ))]//span//text()",
+    "title": "//h1//text()",
+    "tag": "//*[(@id = 'article_body')]//a//text()",
+    "hyperlink_text": "none",
+    "hyperlink_url": "none"
+  },
+  "economictimes.indiatimes.com": {
+    "category": "//*[contains(concat( ' ', @class, ' ' ), concat( ' ', 'breadCrumb', ' ' ))]//span//a//text()",
+    "title": "//*[contains(concat( ' ', @class, ' ' ), concat( ' ', 'clearfix', ' ' )) and contains(concat( ' ', @class, ' ' ), concat( ' ', 'title', ' ' ))]//text()",
+    "tag": "//div/span[@class='readanchore']/div/a/text()",
+    "hyperlink_text": "//*[contains(concat( ' ', @class, ' ' ), concat( ' ', 'Normal', ' ' ))]//a//text()",
+    "hyperlink_url": "//*[contains(concat( ' ', @class, ' ' ), concat( ' ', 'Normal', ' ' ))]//a//@href"
+  },
+  "www.bollywoodlife.com": {
+    "category": "//*[contains(concat( ' ', @class, ' ' ), concat( ' ', 'breadcrumb', ' ' ))]//span//text()",
+    "title": "//*[contains(concat( ' ', @class, ' ' ), concat( ' ', 'main_title', ' ' ))]//text()",
+    "tag": "//*[contains(concat( ' ', @class, ' ' ), concat( ' ', 'related_topics_links', ' ' ))]//span//text()",
+    "hyperlink_text": "//*[contains(concat( ' ', @class, ' ' ), concat( ' ', 'art_content', ' ' ))]//p//a//text()",
+    "hyperlink_url": "//*[contains(concat( ' ', @class, ' ' ), concat( ' ', 'art_content', ' ' ))]//p//a//@href"
+  },
+  "www.firstpost.com": {
+    "category": "//*[contains(concat( ' ', @class, ' ' ), concat( ' ', 'breadcrumb', ' ' ))]//span//text()",
+    "title": "//*[(@id = 'headlineitem')]//text()",
+    "tag": "//*[contains(concat( ' ', @class, ' ' ), concat( ' ', 'hidden-sm', ' ' ))]//a//text()",
+    "hyperlink_text": "//*[contains(concat( ' ', @class, ' ' ), concat( ' ', 'article-full-content', ' ' ))]//a//text()",
+    "hyperlink_url": "//*[contains(concat( ' ', @class, ' ' ), concat( ' ', 'article-full-content', ' ' ))]//a//@href"
+  },
+  "www.hindustantimes.com": {
+    "category": "//*[contains(concat( ' ', @class, ' ' ), concat( ' ', 'india-news-cb-sectionmr-15', ' ' ))]//text()",
+    "title": "//h1//text()",
+    "tag": "//*[contains(concat( ' ', @class, ' ' ), concat( ' ', 'topic-tags', ' ' ))]//a//text()",
+    "hyperlink_text": "none",
+    "hyperlink_url": "none"
+  },
+  "www.india.com": {
+    "category": "//*[contains(concat( ' ', @class, ' ' ), concat( ' ', 'breadcru', ' ' ))]//a//span//text()",
+    "title": "//*[(@id = 'headlineitem')]//text()",
+    "tag": "//*[contains(concat( ' ', @class, ' ' ), concat( ' ', 'topics-tags', ' ' ))]//a//text()",
+    "hyperlink_text": "//*[contains(concat( ' ', @class, ' ' ), concat( ' ', 'articleBody', ' ' ))]//a//text()",
+    "hyperlink_url": "//*[contains(concat( ' ', @class, ' ' ), concat( ' ', 'articleBody', ' ' ))]//a//@href"
+  },
+  "zeenews.india.com": {
+    "category": "//*[contains(concat( ' ', @class, ' ' ), concat( ' ', 'breadcrumb', ' ' ))]//span//text()",
+    "title": "//*[contains(concat( ' ', @class, ' ' ), concat( ' ', 'article-heading', ' ' ))]//text()",
+    "tag": "//*[contains(concat( ' ', @class, ' ' ), concat( ' ', 'tag-link', ' ' ))]//a//text()",
+    "hyperlink_text": "none",
+    "hyperlink_url": "none"
+  },
+  "www.thehansindia.com": {
+    "category": "//*[contains(concat( ' ', @class, ' ' ), concat( ' ', 'mnone', ' ' ))]//a//text()",
+    "title": "//*[contains(concat( ' ', @class, ' ' ), concat( ' ', 'article-heading', ' ' ))]//text()",
+    "tag": "//*[(@id = 'main')]//*[contains(concat( ' ', @class, ' ' ), concat( ' ', 'row', ' ' ))]//a//text()",
+    "hyperlink_text": "none",
+    "hyperlink_url": "none"
+  },
+  "www.oneindia.com": {
+    "category": "//*[contains(concat( ' ', @class, ' ' ), concat( ' ', 'breadcrump', ' ' ))]//a//span//text()",
+    "title": "//*[contains(concat( ' ', @class, ' ' ), concat( ' ', 'heading', ' ' ))]//text()",
+    "tag": "//*[(@id = 'tag-container')]//a//text()",
+    "hyperlink_text": "none",
+    "hyperlink_url": "none"
+  },
+  "www.newindianexpress.com": {
+    "category": "//*[contains(concat( ' ', @class, ' ' ), concat( ' ', 'bcrums', ' ' ))]//a//text()",
+    "title": "//*[(@id = 'content_head')]//text()",
+    "tag": "//*[contains(concat( ' ', @class, ' ' ), concat( ' ', 'tags', ' ' ))]//a//text()",
+    "hyperlink_text": "//*[(@id = 'storyContent')]//a//text()",
+    "hyperlink_url": "//*[(@id = 'storyContent')]//a//@href"
+  },
+  "www.asianage.com": {
+    "category": "none",
+    "title": "//*[contains(concat( ' ', @class, ' ' ), concat( ' ', 'single-head-title', ' ' ))]//text()",
+    "tag": "//h5//a//text()",
+    "hyperlink_text": "none",
+    "hyperlink_url": "none"
+  },
+  "gadgets.ndtv.com": {
+    "category": "//*[contains(concat( ' ', @class, ' ' ), concat( ' ', 'stitle', ' ' ))]//a//span//text()",
+    "title": "//*[(@id = 'ContentPlaceHolder1_FullstoryCtrl_Stitle')]//text()",
+    "tag": "//*[contains(concat( ' ', @class, ' ' ), concat( ' ', 'link', ' ' ))]//text()",
+    "hyperlink_text": "//*[(@id = 'center_content_div')]//a//text()",
+    "hyperlink_url": "//*[(@id = 'center_content_div')]//a//@href"
+  },
+  "www.ndtv.com": {
+    "category": "//*[contains(concat( ' ', @class, ' ' ), concat( ' ', 'breadcrums', ' ' ))]//a//span//text()",
+    "title": "//*[contains(concat( ' ', @class, ' ' ), concat( ' ', 'ins_headline', ' ' ))]//span//text()",
+    "tag": "//*[contains(concat( ' ', @class, ' ' ), concat( ' ', 'ins_keyword', ' ' ))]//a//text()",
+    "hyperlink_text": "none",
+    "hyperlink_url": "none"
+  },
+  "www.crictracker.com": {
+    "category": "//*[contains(concat( ' ', @class, ' ' ), concat( ' ', 'meta-category', ' ' ))]//li+//li//a//text()",
+    "title": "//h1//text()",
+    "tag": "//*[contains(concat( ' ', @class, ' ' ), concat( ' ', 'meta-tags', ' ' ))]//a//text()",
+    "hyperlink_text": "//strong//text()",
+    "hyperlink_url": "//strong//@href"
+  },
+  "sportzwiki.com": {
+    "category": "//*[contains(concat( ' ', @class, ' ' ), concat( ' ', 'breadcrumb', ' ' ))]//a//text()",
+    "title": "//*[contains(concat( ' ', @class, ' ' ), concat( ' ', 'entry-title', ' ' ))]//text()",
+    "tag": "//*[contains(concat( ' ', @class, ' ' ), concat( ' ', 'tags', ' ' ))]//a//text()",
+    "hyperlink_text": "none",
+    "hyperlink_url": "none"
+  },
+  "www.rediff.com": {
+    "category": "//*[contains(concat( ' ', @class, ' ' ), concat( ' ', 'sm1', ' ' ))]//a//text()",
+    "title": "//h1//text()",
+    "tag": "//*[contains(concat( ' ', @class, ' ' ), concat( ' ', 'tagsdiv', ' ' ))]//a//text()",
+    "hyperlink_text": "none",
+    "hyperlink_url": "none"
+  },
+  "www.standard.co.uk": {
+    "category": "//*[contains(concat( ' ', @class, ' ' ), concat( ' ', 'breadcrumb', ' ' ))]//a//text()",
+    "title": "//*[contains(concat( ' ', @class, ' ' ), concat( ' ', 'headline', ' ' ))]//span//text()",
+    "tag": "//*[contains(concat( ' ', @class, ' ' ), concat( ' ', 'tags', ' ' ))]//a//text()",
+    "hyperlink_text": "//*[contains(concat( ' ', @class, ' ' ), concat( ' ', 'body-link', ' ' ))]//text()",
+    "hyperlink_url": "//*[contains(concat( ' ', @class, ' ' ), concat( ' ', 'body-link', ' ' ))]//@href"
+  },
+  "english.tupaki.com": {
+    "category": "//*[contains(concat( ' ', @class, ' ' ), concat( ' ', 'urhere', ' ' ))]//a//text()",
+    "title": "//h1//text()",
+    "tag": "//*[contains(concat( ' ', @class, ' ' ), concat( ' ', 'tags', ' ' ))]//a//text()",
+    "hyperlink_text": "none",
+    "hyperlink_url": "none"
+  },
+  "www.cricbuzz.com": {
+    "category": "//*[contains(concat( ' ', @class, ' ' ), concat( ' ', 'cb-text-gray', ' ' ))]//text()",
+    "title": "//*[contains(concat( ' ', @class, ' ' ), concat( ' ', 'nws-dtl-hdln', ' ' ))]//text()",
+    "tag": "//*[(@id = 'page-wrapper')]//*[contains(concat( ' ', @class, ' ' ), concat( ' ', 'text-white', ' ' ))]//text()",
+    "hyperlink_text": "//p//a//text()",
+    "hyperlink_url": "//p//a//@href"
+  },
+  "www.androidheadlines.com": {
+    "category": "none",
+    "title": "//h1//text()",
+    "tag": "//*[contains(concat( ' ', @class, ' ' ), concat( ' ', 'tag', ' ' ))]//text()",
+    "hyperlink_text": "//p//a//text()",
+    "hyperlink_url": "//p//a//@href"
+  },
+  "www.naukrinama.com": {
+    "category": "//*[contains(concat( ' ', @class, ' ' ), concat( ' ', 'entry-crumb', ' ' ))]//span//text()",
+    "title": "//*[contains(concat( ' ', @class, ' ' ), concat( ' ', 'td-post-title', ' ' ))]//*[contains(concat( ' ', @class, ' ' ), concat( ' ', 'entry-title', ' ' ))]//text()",
+    "tag": "//*[contains(concat( ' ', @class, ' ' ), concat( ' ', 'clearfix', ' ' ))]//a//text()",
+    "hyperlink_text": "none",
+    "hyperlink_url": "none"
+  },
+  "www.digitaljournal.com": {
+    "category": "none",
+    "title": "//*[contains(concat( ' ', @class, ' ' ), concat( ' ', 'in-article', ' ' ))]//text()",
+    "tag": "//*[contains(concat( ' ', @class, ' ' ), concat( ' ', 'tag', ' ' ))]//text()",
+    "hyperlink_text": "//*[contains(concat( ' ', @class, ' ' ), concat( ' ', 'body', ' ' ))]//a//text()",
+    "hyperlink_url": "//*[contains(concat( ' ', @class, ' ' ), concat( ' ', 'body', ' ' ))]//a//@href"
+  },
+  "www.gizbot.com": {
+    "category": "//*[(@id = 'article-breadcrumb')]//a//span//text()",
+    "title": "//*[contains(concat( ' ', @class, ' ' ), concat( ' ', 'articleheading', ' ' ))]//text()",
+    "tag": "//*[(@id = 'tag-container')]//a//text()",
+    "hyperlink_text": "none",
+    "hyperlink_url": "none"
+  },
+  "www.mykhel.com": {
+    "category": "//*[contains(concat( ' ', @class, ' ' ), concat( ' ', 'os-breadcrumb-nav', ' ' ))]//div//span//text()",
+    "title": "//*[contains(concat( ' ', @class, ' ' ), concat( ' ', 'heading', ' ' ))]//text()",
+    "tag": "//*[(@id = 'tag-container')]//a//text()",
+    "hyperlink_text": "none",
+    "hyperlink_url": "none"
+  },
+  "www.cricketcountry.com": {
+    "category": "//*[contains(concat( ' ', @class, ' ' ), concat( ' ', 'cc-breadcrumb', ' ' ))]//span//text()",
+    "title": "//*[contains(concat( ' ', @class, ' ' ), concat( ' ', 'h1-np', ' ' ))]//text()",
+    "tag": "//*[(@id = 'tag-list')]//a//text()",
+    "hyperlink_text": "//*[contains(concat( ' ', @class, ' ' ), concat( ' ', 'p1', ' ' ))]//a//text()",
+    "hyperlink_url": "//*[contains(concat( ' ', @class, ' ' ), concat( ' ', 'p1', ' ' ))]//a//@href"
+  },
+  "www.boldsky.com": {
+    "category": "//*[(@id = 'container')]//nav//a//text()",
+    "title": "//*[contains(concat( ' ', @class, ' ' ), concat( ' ', 'articleheading', ' ' ))]//text()",
+    "tag": "//*[(@id = 'tag-container')]//a//text()",
+    "hyperlink_text": "none",
+    "hyperlink_url": "none"
+  },
+  "www.telegraph.co.uk": {
+    "category": "//*[contains(concat( ' ', @class, ' ' ), concat( ' ', 'breadcrumbs__item-content', ' ' ))]//text()",
+    "title": "//*[contains(concat( ' ', @class, ' ' ), concat( ' ', 'headline__heading', ' ' ))]//text()",
+    "tag": "//*[contains(concat( ' ', @class, ' ' ), concat( ' ', 'list-of-tags__link', ' ' ))]//text()",
+    "hyperlink_text": "none",
+    "hyperlink_url": "none"
+  },
+  "www.thehindubusinessline.com": {
+    "category": "//*[contains(concat( ' ', @class, ' ' ), concat( ' ', 'paddingTopBottom20', ' ' ))]//a//text()",
+    "title": "//*[contains(concat( ' ', @class, ' ' ), concat( ' ', 'tp-title-inf', ' ' ))]//text()",
+    "tag": "//*[contains(concat( ' ', @class, ' ' ), concat( ' ', 'tag-button-inscroll', ' ' ))]//a//text()",
+    "hyperlink_text": "none",
+    "hyperlink_url": "none"
+  },
+  "www.gulte.com": {
+    "category": "//*[contains(concat( ' ', @class, ' ' ), concat( ' ', 'breadcrumb', ' ' ))]//span//text()",
+    "title": "//h1//text()",
+    "tag": "//*[contains(concat( ' ', @class, ' ' ), concat( ' ', 'tags', ' ' ))]//a//text()",
+    "hyperlink_text": "none",
+    "hyperlink_url": "none"
+  },
+  "sports.ndtv.com": {
+    "category": "//*[(@id = 'breadcrumb')]//a//span//text()",
+    "title": "//h1//text()",
+    "tag": "//*[contains(concat( ' ', @class, ' ' ), concat( ' ', 'topic-article', ' ' ))]//span//a//text()",
+    "hyperlink_text": "//p//a//text()",
+    "hyperlink_url": "//p//a//@href"
+  },
+  "www.indiatvnews.com": {
+    "category": "//*[contains(concat( ' ', @class, ' ' ), concat( ' ', 'brdcrbs', ' ' ))]//a//span//text()",
+    "title": "//*[contains(concat( ' ', @class, ' ' ), concat( ' ', 'p_title', ' ' ))]//text()",
+    "tag": "//*[contains(concat( ' ', @class, ' ' ), concat( ' ', 'tag', ' ' ))]//a//text()",
+    "hyperlink_text": "none",
+    "hyperlink_url": "none"
+  },
+  "www.dailypioneer.com": {
+    "category": "//*[contains(concat( ' ', @class, ' ' ), concat( ' ', 'pb-sm-4', ' ' ))]//a//text()",
+    "title": "//h2//text()",
+    "tag": "//*[(@id = 'tag-container')]//a//text()",
+    "hyperlink_text": "none",
+    "hyperlink_url": "none"
+  },
+  "www.drivespark.com": {
+    "category": "//*[contains(concat( ' ', @class, ' ' ), concat( ' ', 'oi2', ' ' ))]//a//span//text()",
+    "title": "//*[contains(concat( ' ', @class, ' ' ), concat( ' ', 'articleheading', ' ' ))]//text()",
+    "tag": "//*[(@id = 'tag-container')]//a//text()",
+    "hyperlink_text": "none",
+    "hyperlink_url": "none"
+  },
+  "www.ubergizmo.com": {
+    "category": "none",
+    "title": "//h1//text()",
+    "tag": "//*[(@id = 'single_tag')]//text()",
+    "hyperlink_text": "//*[contains(concat( ' ', @class, ' ' ), concat( ' ', 'article', ' ' ))]//a//text()",
+    "hyperlink_url": "//*[contains(concat( ' ', @class, ' ' ), concat( ' ', 'article', ' ' ))]//a//@href"
+  },
+  "parstoday.com": {
+    "category": "none",
+    "title": "//*[contains(concat( ' ', @class, ' ' ), concat( ' ', 'item-title', ' ' ))]//text()",
+    "tag": "//*[contains(concat( ' ', @class, ' ' ), concat( ' ', 'btn-sm', ' ' ))]//text()",
+    "hyperlink_text": "none",
+    "hyperlink_url": "none"
+  },
+  "www.newsnation.in": {
+    "category": "//*[contains(concat( ' ', @class, ' ' ), concat( ' ', 'fs14', ' ' ))]//span//text()",
+    "title": "//h1//text()",
+    "tag": "//*[contains(concat( ' ', @class, ' ' ), concat( ' ', 'ptag', ' ' ))]//a//text()",
+    "hyperlink_text": "none",
+    "hyperlink_url": "none"
+  },
+  "www.fin24.com": {
+    "category": "none",
+    "title": "//*[(@id = 'articleHeadline')]//text()",
+    "tag": "//*[contains(concat( ' ', @class, ' ' ), concat( ' ', 'tag', ' ' ))]//text()",
+    "hyperlink_text": "none",
+    "hyperlink_url": "none"
+  },
+  "tech.firstpost.com": {
+    "category": "//*[contains(concat( ' ', @class, ' ' ), concat( ' ', 'post-by', ' ' ))]//text()",
+    "title": "//*[contains(concat( ' ', @class, ' ' ), concat( ' ', 'post-title', ' ' ))]//text()",
+    "tag": "//*[contains(concat( ' ', @class, ' ' ), concat( ' ', 'tags-list', ' ' ))]//a//text()",
+    "hyperlink_text": "none",
+    "hyperlink_url": "none"
+  },
+  "www.filmibeat.com": {
+    "category": "//*[(@id = 'story')]//a//span//text()",
+    "title": "//*[contains(concat( ' ', @class, ' ' ), concat( ' ', 'filmibeat-article-heading', ' ' ))]//text()",
+    "tag": "//*[(@id = 'tag-container')]//a//text()",
+    "hyperlink_text": "none",
+    "hyperlink_url": "none"
+  },
+  "www.androidauthority.com": {
+    "category": "none",
+    "title": "//*[contains(concat( ' ', @class, ' ' ), concat( ' ', 'entry-title', ' ' ))]//text()",
+    "tag": "//*[contains(concat( ' ', @class, ' ' ), concat( ' ', 'clearfix', ' ' ))]//*[contains(concat( ' ', @class, ' ' ), concat( ' ', 'aa_cat_name_block', ' ' ))]//text()",
+    "hyperlink_text": "//*[(@id = 'content-anchor-inner')]//a//text()",
+    "hyperlink_url": "//*[(@id = 'content-anchor-inner')]//a//@href"
+  },
+  "www.theweek.in": {
+    "category": "//*[contains(concat( ' ', @class, ' ' ), concat( ' ', 'breadcrumb', ' ' ))]//span//text()",
+    "title": "//h1//text()",
+    "tag": "//*[contains(concat( ' ', @class, ' ' ), concat( ' ', 'article-topics', ' ' ))]//a//text()",
+    "hyperlink_text": "none",
+    "hyperlink_url": "none"
+  },
+  "www.xda-developers.com": {
+    "category": "none",
+    "title": "//*[contains(concat( ' ', @class, ' ' ), concat( ' ', 'entry-title', ' ' ))]//text()",
+    "tag": "//*[contains(concat( ' ', @class, ' ' ), concat( ' ', 'entry_tags', ' ' ))]//a//text()",
+    "hyperlink_text": "none",
+    "hyperlink_url": "none"
+  },
+  "www.greatandhra.com": {
+    "category": "//*[contains(concat( ' ', @class, ' ' ), concat( ' ', 'breade_crumb', ' ' ))]//a//text()",
+    "title": "//h1//text()",
+    "tag": "//*[contains(concat( ' ', @class, ' ' ), concat( ' ', 'tags', ' ' ))]//a//text()",
+    "hyperlink_text": "none",
+    "hyperlink_url": "none"
+  },
+  "www.telegraphindia.com": {
+    "category": "//*[contains(concat( ' ', @class, ' ' ), concat( ' ', 'nopadding-normal', ' ' ))]//a//text()",
+    "title": "//h1//text()",
+    "tag": "//*[contains(concat( ' ', @class, ' ' ), concat( ' ', 'Tags_dec', ' ' ))]//a//text()",
+    "hyperlink_text": "none",
+    "hyperlink_url": "none"
+  },
+  "www.livemint.com": {
+    "category": "//*[contains(concat( ' ', @class, ' ' ), concat( ' ', 'bread-crumbs', ' ' ))]//a//text()",
+    "title": "//h1//text()",
+    "tag": "//*[contains(concat( ' ', @class, ' ' ), concat( ' ', 'story-tags', ' ' ))]//a//text()",
+    "hyperlink_text": "none",
+    "hyperlink_url": "none"
+  },
+  "www.gadgetsnow.com": {
+    "category": "//*[(@id = 'c_wdt_header_1')]//a//span//text()",
+    "title": "//*[contains(concat( ' ', @class, ' ' ), concat( ' ', 'heading1', ' ' ))]//text()",
+    "tag": "none",
+    "hyperlink_text": "//*[contains(concat( ' ', @class, ' ' ), concat( ' ', 'key_underline', ' ' ))]//text()",
+    "hyperlink_url": "//*[contains(concat( ' ', @class, ' ' ), concat( ' ', 'key_underline', ' ' ))]//@href"
+  },
+  "mspoweruser.com": {
+    "category": "none",
+    "title": "//*[contains(concat( ' ', @class, ' ' ), concat( ' ', 'entry-title', ' ' ))]//text()",
+    "tag": "//*[contains(concat( ' ', @class, ' ' ), concat( ' ', 'post-meta-spans', ' ' ))]//li//text()",
+    "hyperlink_text": "none",
+    "hyperlink_url": "none"
+  },
+  "www.bgr.in": {
+    "category": "//*[contains(concat( ' ', @class, ' ' ), concat( ' ', 'breadcrumb', ' ' ))]//a//text()",
+    "title": "//*[contains(concat( ' ', @class, ' ' ), concat( ' ', 'title_name', ' ' ))]//text()",
+    "tag": "//*[contains(concat( ' ', @class, ' ' ), concat( ' ', 'article-content', ' ' ))]//*[contains(concat( ' ', @class, ' ' ), concat( ' ', 'prod-quick-links', ' ' ))]//a//text()",
+    "hyperlink_text": "//*[contains(concat( ' ', @class, ' ' ), concat( ' ', 'article-content', ' ' ))]//p//a//text()",
+    "hyperlink_url": "//*[contains(concat( ' ', @class, ' ' ), concat( ' ', 'article-content', ' ' ))]//p//a//@href"
+  },
+  "www.thestatesman.com": {
+    "category": "//*[contains(concat( ' ', @class, ' ' ), concat( ' ', 'breadcrumb-item', ' ' ))]//a//text()",
+    "title": "//*[contains(concat( ' ', @class, ' ' ), concat( ' ', 'heading', ' ' ))]//text()",
+    "tag": "//*[contains(concat( ' ', @class, ' ' ), concat( ' ', 'tag', ' ' ))]//a//text()",
+    "hyperlink_text": "none",
+    "hyperlink_url": "none"
+  },
+  "sportscafe.in": {
+    "category": "//*[contains(concat( ' ', @class, ' ' ), concat( ' ', 'bread-crumbs', ' ' ))]//*[contains(concat( ' ', @class, ' ' ), concat( ' ', 'rmq-5f3a393b', ' ' ))]//text()",
+    "title": "//*[contains(concat( ' ', @class, ' ' ), concat( ' ', 'rmq-2074855a', ' ' ))]//text()",
+    "tag": "//*[contains(concat( ' ', @class, ' ' ), concat( ' ', 'tag-list', ' ' ))]//a//text()",
+    "hyperlink_text": "//*[contains(concat( ' ', @class, ' ' ), concat( ' ', 'content', ' ' ))]//a//text()",
+    "hyperlink_url": "//*[contains(concat( ' ', @class, ' ' ), concat( ' ', 'content', ' ' ))]//a//@href"
+  },
+  "www.androidpolice.com": {
+    "category": "none",
+    "title": "//h2//a//text()",
+    "tag": "//*[contains(concat( ' ', @class, ' ' ), concat( ' ', 'horizontal-boxes-tags', ' ' ))]//a//text()",
+    "hyperlink_text": "none",
+    "hyperlink_url": "none"
+  },
+  "www.cultofmac.com": {
+    "category": "none",
+    "title": "//h2//text()",
+    "tag": "//*[contains(concat( ' ', @class, ' ' ), concat( ' ', 'tagged', ' ' ))]//a//text()",
+    "hyperlink_text": "none",
+    "hyperlink_url": "none"
+  },
+  "www.themobileindian.com": {
+    "category": "//*[contains(concat( ' ', @class, ' ' ), concat( ' ', 'breadcrumb', ' ' ))]//a//text()",
+    "title": "//*[contains(concat( ' ', @class, ' ' ), concat( ' ', 'news-topic', ' ' ))]//text()",
+    "tag": "//*[contains(concat( ' ', @class, ' ' ), concat( ' ', 'mt-20', ' ' ))]//a//text()",
+    "hyperlink_text": "none",
+    "hyperlink_url": "none"
+  },
+  "www.aninews.in": {
+    "category": "none",
+    "title": "//*[contains(concat( ' ', @class, ' ' ), concat( ' ', 'left-block', ' ' ))]//*[contains(concat( ' ', @class, ' ' ), concat( ' ', 'content', ' ' ))]//*[contains(concat( ' ', @class, ' ' ), concat( ' ', 'title', ' ' ))]//text()",
+    "tag": "//*[contains(concat( ' ', @class, ' ' ), concat( ' ', 'box-tag', ' ' ))]//text()",
+    "hyperlink_text": "none",
+    "hyperlink_url": "none"
+  },
+  "www.rollingstone.com": {
+    "category": "//*[contains(concat( ' ', @class, ' ' ), concat( ' ', 'c-breadcrumbs__link', ' ' ))]//text()",
+    "title": "//*[contains(concat( ' ', @class, ' ' ), concat( ' ', 'l-article-header__row--title', ' ' ))]//text()",
+    "tag": "//*[contains(concat( ' ', @class, ' ' ), concat( ' ', 'c-tags__item', ' ' ))]//text()",
+    "hyperlink_text": "//*[contains(concat( ' ', @class, ' ' ), concat( ' ', 't-copy', ' ' ))]//p//a//text()",
+    "hyperlink_url": "//*[contains(concat( ' ', @class, ' ' ), concat( ' ', 't-copy', ' ' ))]//p//a//@href"
+  },
+  "profit.ndtv.com": {
+    "category": "//*[contains(concat( ' ', @class, ' ' ), concat( ' ', 'breadcrums', ' ' ))]//a//span//text()",
+    "title": "//*[contains(concat( ' ', @class, ' ' ), concat( ' ', 'ins_headline', ' ' ))]//span//text()",
+    "tag": "//*[contains(concat( ' ', @class, ' ' ), concat( ' ', 'ins_keyword', ' ' ))]//a//text()",
+    "hyperlink_text": "none",
+    "hyperlink_url": "none"
+  },
+  "www.ladbible.com": {
+    "category": "none",
+    "title": "//*[contains(concat( ' ', @class, ' ' ), concat( ' ', 'article__title', ' ' ))]//text()",
+    "tag": "//*[contains(concat( ' ', @class, ' ' ), concat( ' ', 'article__tag', ' ' ))]//text()",
+    "hyperlink_text": "//p//a//text()",
+    "hyperlink_url": "//p//a//@href"
+  },
+  "www.herworldplus.com": {
+    "category": "none",
+    "title": "//h1//text()",
+    "tag": "//*[contains(concat( ' ', @class, ' ' ), concat( ' ', 'field-content', ' ' ))]//a//text()",
+    "hyperlink_text": "none",
+    "hyperlink_url": "none"
+  },
+  "english.manoramaonline.com": {
+    "category": "//*[contains(concat( ' ', @class, ' ' ), concat( ' ', 'block-ele', ' ' ))]//text()",
+    "title": "//*[contains(concat( ' ', @class, ' ' ), concat( ' ', 'story-headline', ' ' ))]//text()",
+    "tag": "//*[contains(concat( ' ', @class, ' ' ), concat( ' ', 'story-tags-list', ' ' ))]//a//text()",
+    "hyperlink_text": "none",
+    "hyperlink_url": "none"
+  },
+  "hellogiggles.com": {
+    "category": "//*[contains(concat( ' ', @class, ' ' ), concat( ' ', 'breadcrumb-title', ' ' ))]//text()",
+    "title": "//*[contains(concat( ' ', @class, ' ' ), concat( ' ', 'margin-16-tb', ' ' ))]//text()",
+    "tag": "//*[contains(concat( ' ', @class, ' ' ), concat( ' ', 'tag-link', ' ' ))]//text()",
+    "hyperlink_text": "none",
+    "hyperlink_url": "none"
+  },
+  "movies.ndtv.com": {
+    "category": "//*[contains(concat( ' ', @class, ' ' ), concat( ' ', 'breadcrums', ' ' ))]//a//span//text()",
+    "title": "//*[contains(concat( ' ', @class, ' ' ), concat( ' ', 'ins_headline', ' ' ))]//span//text()",
+    "tag": "//*[contains(concat( ' ', @class, ' ' ), concat( ' ', 'ins_keyword', ' ' ))]//a//text()",
+    "hyperlink_text": "none",
+    "hyperlink_url": "none"
+  },
+  "www.cinejosh.com": {
+    "category": "//*[contains(concat( ' ', @class, ' ' ), concat( ' ', 'col-lg-9', ' ' ))]//a//span//text()",
+    "title": "//*[contains(concat( ' ', @class, ' ' ), concat( ' ', 'panel-body', ' ' ))]//h1//text()",
+    "tag": "//*[contains(concat( ' ', @class, ' ' ), concat( ' ', 'label-infonolink', ' ' ))]//a//text()",
+    "hyperlink_text": "//*[contains(concat( ' ', @class, ' ' ), concat( ' ', 'tagLinkInText', ' ' ))]//text()",
+    "hyperlink_url": "//*[contains(concat( ' ', @class, ' ' ), concat( ' ', 'tagLinkInText', ' ' ))]//@href"
+  },
+  "www.crictoday.com": {
+    "category": "none",
+    "title": "//*[contains(concat( ' ', @class, ' ' ), concat( ' ', 'article-title', ' ' ))]//a//text()",
+    "tag": "//*[contains(concat( ' ', @class, ' ' ), concat( ' ', 'content-showtags', ' ' ))]//a//text()",
+    "hyperlink_text": "none",
+    "hyperlink_url": "none"
+  },
+  "www.allure.com": {
+    "category": "none",
+    "title": "//*[contains(concat( ' ', @class, ' ' ), concat( ' ', 'content-header__hed', ' ' ))]//text()",
+    "tag": "//*[contains(concat( ' ', @class, ' ' ), concat( ' ', 'tag-cloud__tag-name', ' ' ))]//text()",
+    "hyperlink_text": "//*[contains(concat( ' ', @class, ' ' ), concat( ' ', 'container--body-inner', ' ' ))]//a//text()",
+    "hyperlink_url": "//*[contains(concat( ' ', @class, ' ' ), concat( ' ', 'container--body-inner', ' ' ))]//a//@href"
+  },
+  "www.nagalandpost.com": {
+    "category": "none",
+    "title": "//h3//text()",
+    "tag": "//*[(@id = 'ctl00_ContentPlaceHolder1_artfldvlftid')]//a//text()",
+    "hyperlink_text": "none",
+    "hyperlink_url": "none"
+  },
+  "www.manchestereveningnews.co.uk": {
+    "category": "//*[contains(concat( ' ', @class, ' ' ), concat( ' ', 'breadcrumbs-news', ' ' ))]//a//text()",
+    "title": "//*[contains(concat( ' ', @class, ' ' ), concat( ' ', 'section-theme-background-indicator', ' ' ))]//text()",
+    "tag": "//*[contains(concat( ' ', @class, ' ' ), concat( ' ', 'publication-theme-button-highlight', ' ' ))]//text()",
+    "hyperlink_text": "none",
+    "hyperlink_url": "none"
+  },
+  "nagalandpost.com": {
+    "category": "none",
+    "title": "//h3//text()",
+    "tag": "//*[(@id = 'ctl00_ContentPlaceHolder1_artfldvlftid')]//a//text()",
+    "hyperlink_text": "none",
+    "hyperlink_url": "none"
+  },
+  "www.motoroids.com": {
+    "category": "//*[contains(concat( ' ', @class, ' ' ), concat( ' ', 'breadcrumb_wrap', ' ' ))]//a//span//text()",
+    "title": "//h1//text()",
+    "tag": "//*[contains(concat( ' ', @class, ' ' ), concat( ' ', 'postCatsName', ' ' ))]//a//text()",
+    "hyperlink_text": "none",
+    "hyperlink_url": "none"
+  },
+  "www.newsworldindia.in": {
+    "category": "//*[contains(concat( ' ', @class, ' ' ), concat( ' ', 'breadcrumb', ' ' ))]//a//text()",
+    "title": "//*[contains(concat( ' ', @class, ' ' ), concat( ' ', 'storychange', ' ' ))]//h2//text()",
+    "tag": "//*[contains(concat( ' ', @class, ' ' ), concat( ' ', 'tags', ' ' ))]//a//text()",
+    "hyperlink_text": "none",
+    "hyperlink_url": "none"
+  },
+  "www.sportswallah.com": {
+    "category": "//*[contains(concat( ' ', @class, ' ' ), concat( ' ', 'single-breadcrumb', ' ' ))]//a//text()",
+    "title": "//*[contains(concat( ' ', @class, ' ' ), concat( ' ', 'entry-title', ' ' ))]//text()",
+    "tag": "//*[contains(concat( ' ', @class, ' ' ), concat( ' ', 'post-tags', ' ' ))]//a//text()",
+    "hyperlink_text": "none",
+    "hyperlink_url": "none"
+  },
+  "www.filmfare.com": {
+    "category": "//*[contains(concat( ' ', @class, ' ' ), concat( ' ', 'breadcrumb', ' ' ))]//a//span//text()",
+    "title": "//h1//text()",
+    "tag": "//*[contains(concat( ' ', @class, ' ' ), concat( ' ', 'more', ' ' ))]//span//text()",
+    "hyperlink_text": "none",
+    "hyperlink_url": "none"
+  },
+  "www.abplive.in": {
+    "category": "//*[contains(concat( ' ', @class, ' ' ), concat( ' ', 'clearfix', ' ' )) and contains(concat( ' ', @class, ' ' ), concat( ' ', 'd-md-block', ' ' ))]//a//text()",
+    "title": "//h1//text()",
+    "tag": "//*[contains(concat( ' ', @class, ' ' ), concat( ' ', 'stry_tagnews', ' ' ))]//a//text()",
+    "hyperlink_text": "none",
+    "hyperlink_url": "none"
+  },
+  "www.imore.com": {
+    "category": "none",
+    "title": "//*[contains(concat( ' ', @class, ' ' ), concat( ' ', 'article-header__title', ' ' ))]//text()",
+    "tag": "//*[contains(concat( ' ', @class, ' ' ), concat( ' ', 'article-meta-tags', ' ' ))]//a//text()",
+    "hyperlink_text": "none",
+    "hyperlink_url": "none"
+  },
+  "www.radioandmusic.com": {
+    "category": "none",
+    "title": "//*[(@id = 'block-system-main')]//h1//text()",
+    "tag": "//*[contains(concat( ' ', @class, ' ' ), concat( ' ', 'right', ' ' ))]//a//text()",
+    "hyperlink_text": "none",
+    "hyperlink_url": "none"
+  },
+  "www.autocarpro.in": {
+    "category": "//*[(@id = 'dnn_dnnBreadcrumb_lblBreadCrumb')]//span//span//span//text()",
+    "title": "//*[contains(concat( ' ', @class, ' ' ), concat( ' ', 'articleDetails_heading', ' ' ))]//span//text()",
+    "tag": "//*[contains(concat( ' ', @class, ' ' ), concat( ' ', 'm-detail--keywords', ' ' ))]//a//text()",
+    "hyperlink_text": "none",
+    "hyperlink_url": "none"
+  },
+  "www.opposingviews.com": {
+    "category": "none",
+    "title": "//*[contains(concat( ' ', @class, ' ' ), concat( ' ', 'm-detail-header--title', ' ' ))]//text()",
+    "tag": "//*[contains(concat( ' ', @class, ' ' ), concat( ' ', 'm-detail--keywords', ' ' ))]//a//text()",
+    "hyperlink_text": "none",
+    "hyperlink_url": "none"
+  },
+  "www.mobipicker.com": {
+    "category": "//*[contains(concat( ' ', @class, ' ' ), concat( ' ', 'entry-crumb', ' ' ))]//text()",
+    "title": "//*[contains(concat( ' ', @class, ' ' ), concat( ' ', 'td-post-title', ' ' ))]//*[contains(concat( ' ', @class, ' ' ), concat( ' ', 'entry-title', ' ' ))]//text()",
+    "tag": "//*[contains(concat( ' ', @class, ' ' ), concat( ' ', 'clearfix', ' ' ))]//a//text()",
+    "hyperlink_text": "none",
+    "hyperlink_url": "none"
+  },
+  "www.wheels24.co.za": {
+    "category": "none",
+    "title": "//*[contains(concat( ' ', @class, ' ' ), concat( ' ', 'article', ' ' ))]//*[contains(concat( ' ', @class, ' ' ), concat( ' ', 'col623', ' ' ))]//*[contains(concat( ' ', @class, ' ' ), concat( ' ', 'bold', ' ' ))]//text()",
+    "tag": "//*[(@id = 'divKeywordListing')]//a//text()",
+    "hyperlink_text": "none",
+    "hyperlink_url": "none"
+  },
+  "www.team-bhp.com": {
+    "category": "none",
+    "title": "//*[contains(concat( ' ', @class, ' ' ), concat( ' ', 'w460', ' ' ))]//h1//text()",
+    "tag": "//*[(@id = 'leftColumn')]//*[contains(concat( ' ', @class, ' ' ), concat( ' ', 'clearfix', ' ' )) and contains(concat( ' ', @class, ' ' ), concat( ' ', 'marB10', ' ' ))]//a//text()",
+    "hyperlink_text": "none",
+    "hyperlink_url": "none"
+  },
+  "www.thetechbulletin.com": {
+    "category": "//*[contains(concat( ' ', @class, ' ' ), concat( ' ', 'entry-crumb', ' ' ))]//text()",
+    "title": "//*[contains(concat( ' ', @class, ' ' ), concat( ' ', 'td-post-title', ' ' ))]//*[contains(concat( ' ', @class, ' ' ), concat( ' ', 'entry-title', ' ' ))]//text()",
+    "tag": "//*[contains(concat( ' ', @class, ' ' ), concat( ' ', 'clearfix', ' ' ))]//a//text()",
+    "hyperlink_text": "none",
+    "hyperlink_url": "none"
+  },
+  "www.autocar.co.uk": {
+    "category": "none",
+    "title": "//h1//text()",
+    "tag": "//p//a//*[(((count(preceding-sibling::*) + 1) = 1) and parent::*)]//text()",
+    "hyperlink_text": "//*[contains(concat( ' ', @class, ' ' ), concat( ' ', 'subsection', ' ' ))]//a//text()",
+    "hyperlink_url": "//*[contains(concat( ' ', @class, ' ' ), concat( ' ', 'subsection', ' ' ))]//a//@href"
+  },
+  "www.televisionpost.com": {
+    "category": "none",
+    "title": "//*[contains(concat( ' ', @class, ' ' ), concat( ' ', 'single-title', ' ' ))]//text()",
+    "tag": "//*[contains(concat( ' ', @class, ' ' ), concat( ' ', 'tags', ' ' ))]//a//text()",
+    "hyperlink_text": "none",
+    "hyperlink_url": "none"
+  },
+  "www.bollywoodcat.com": {
+    "category": "none",
+    "title": "//*[contains(concat( ' ', @class, ' ' ), concat( ' ', 'single-entry-title', ' ' ))]//text()",
+    "tag": "//*[contains(concat( ' ', @class, ' ' ), concat( ' ', 'awaken-tag-list', ' ' ))]//a//text()",
+    "hyperlink_text": "none",
+    "hyperlink_url": "none"
+  },
+  "food.ndtv.com": {
+    "category": "//*[contains(concat( ' ', @class, ' ' ), concat( ' ', 'm-0', ' ' ))]//*[contains(concat( ' ', @class, ' ' ), concat( ' ', 'm-0', ' ' ))]//text()",
+    "title": "//h1//text()",
+    "tag": "//*[contains(concat( ' ', @class, ' ' ), concat( ' ', 'recipeTag', ' ' ))]//strong//text()",
+    "hyperlink_text": "none",
+    "hyperlink_url": "none"
+  },
+  "www.parents.com": {
+    "category": "//*[contains(concat( ' ', @class, ' ' ), concat( ' ', 'breadcrumbs__link', ' ' ))]//text()",
+    "title": "//*[contains(concat( ' ', @class, ' ' ), concat( ' ', 'contentHeader__title', ' ' ))]//text()",
+    "tag": "//*[contains(concat( ' ', @class, ' ' ), concat( ' ', 'carouselNav__link', ' ' ))]//text()",
+    "hyperlink_text": "//*[contains(concat( ' ', @class, ' ' ), concat( ' ', 'gmail-p5', ' ' ))]//a//text()",
+    "hyperlink_url": "//*[contains(concat( ' ', @class, ' ' ), concat( ' ', 'gmail-p5', ' ' ))]//a//@href"
+  },
+  "www.techtree.com": {
+    "category": "//*[(@id = 'breadcrumb')]//a//text()",
+    "title": "//*[contains(concat( ' ', @class, ' ' ), concat( ' ', 'story-title', ' ' ))]//text()",
+    "tag": "//*[contains(concat( ' ', @class, ' ' ), concat( ' ', 'story-content', ' ' ))]//a//text()",
+    "hyperlink_text": "none",
+    "hyperlink_url": "none"
+  },
+  "www.thepapare.com": {
+    "category": "//*[contains(concat( ' ', @class, ' ' ), concat( ' ', 'entry-crumb', ' ' ))]//text()",
+    "title": "//*[contains(concat( ' ', @class, ' ' ), concat( ' ', 'td-post-title', ' ' ))]//*[contains(concat( ' ', @class, ' ' ), concat( ' ', 'entry-title', ' ' ))]//text()",
+    "tag": "//*[contains(concat( ' ', @class, ' ' ), concat( ' ', 'clearfix', ' ' ))]//a//text()",
+    "hyperlink_text": "none",
+    "hyperlink_url": "none"
+  },
+  "auto.ndtv.com": {
+    "category": "//*[contains(concat( ' ', @class, ' ' ), concat( ' ', 'cnb-breadcrumb__link', ' ' ))]//*[contains(concat( ' ', @class, ' ' ), concat( ' ', 'js-breadcrumb-name', ' ' ))]//text()",
+    "title": "//*[contains(concat( ' ', @class, ' ' ), concat( ' ', 'h__inline', ' ' ))]//text()",
+    "tag": "//*[contains(concat( ' ', @class, ' ' ), concat( ' ', 'tag__link', ' ' ))]//text()",
+    "hyperlink_text": "none",
+    "hyperlink_url": "none"
+  },
+  "www.fashionlady.in": {
+    "category": "//*[(@id = 'breadcrumbs')]//a//text()",
+    "title": "//*[contains(concat( ' ', @class, ' ' ), concat( ' ', 'story-title', ' ' ))]//text()",
+    "tag": "//*[contains(concat( ' ', @class, ' ' ), concat( ' ', 'post-tags', ' ' ))]//a//text()",
+    "hyperlink_text": "none",
+    "hyperlink_url": "none"
+  },
+  "stylecaster.com": {
+    "category": "none",
+    "title": "//h1//text()",
+    "tag": "//*[contains(concat( ' ', @class, ' ' ), concat( ' ', 'small', ' ' ))]//text()",
+    "hyperlink_text": "none",
+    "hyperlink_url": "none"
+  },
+  "swarajyamag.com": {
+    "category": "//*[contains(concat( ' ', @class, ' ' ), concat( ' ', 'article__hero__category', ' ' ))]//text()",
+    "title": "//*[contains(concat( ' ', @class, ' ' ), concat( ' ', 'article__hero__headline', ' ' ))]//text()",
+    "tag": "//*[contains(concat( ' ', @class, ' ' ), concat( ' ', 'tags', ' ' ))]//span//text()",
+    "hyperlink_text": "none",
+    "hyperlink_url": "none"
+  },
+  "www.bollywoodshaadis.com": {
+    "category": "//*[contains(concat( ' ', @class, ' ' ), concat( ' ', 'brd_crmb', ' ' ))]//a//text()",
+    "title": "//h1//text()",
+    "tag": "//*[contains(concat( ' ', @class, ' ' ), concat( ' ', 'art_tags', ' ' ))]//a//text()",
+    "hyperlink_text": "none",
+    "hyperlink_url": "none"
+  },
+  "sport360.com": {
+    "category": "//*[contains(concat( ' ', @class, ' ' ), concat( ' ', 'club-title', ' ' ))]//a//text()",
+    "title": "//*[contains(concat( ' ', @class, ' ' ), concat( ' ', 'articlemaintitle', ' ' ))]//text()",
+    "tag": "//*[contains(concat( ' ', @class, ' ' ), concat( ' ', 'tags-section', ' ' ))]//*[contains(concat( ' ', @class, ' ' ), concat( ' ', 'rounded', ' ' ))]//text()",
+    "hyperlink_text": "none",
+    "hyperlink_url": "none"
+  },
+  "www.mid-day.com": {
+    "category": "//*[(@id = 'ls-row-2-area-3')]//span//text()",
+    "title": "//h1//text()",
+    "tag": "//*[contains(concat( ' ', @class, ' ' ), concat( ' ', 'tags', ' ' ))]//a//text()",
+    "hyperlink_text": "none",
+    "hyperlink_url": "none"
+  },
+  "autoweek.com": {
+    "category": "//*[contains(concat( ' ', @class, ' ' ), concat( ' ', 'oswald', ' ' ))]//text()",
+    "title": "//h1//text()",
+    "tag": "//*[contains(concat( ' ', @class, ' ' ), concat( ' ', 'no-pad-top', ' ' ))]//a//text()",
+    "hyperlink_text": "none",
+    "hyperlink_url": "none"
+  },
+  "www.sci-news.com": {
+    "category": "//*[contains(concat( ' ', @class, ' ' ), concat( ' ', 'post-categories', ' ' ))]//a//text()",
+    "title": "//*[(@id = 'single-heading-content')]//strong//text()",
+    "tag": "//*[contains(concat( ' ', @class, ' ' ), concat( ' ', 'single-tags', ' ' ))]//a//text()",
+    "hyperlink_text": "none",
+    "hyperlink_url": "none"
+  },
+  "www.santabanta.com": {
+    "category": "//*[(@id = 'header_master_div')]//a//text()",
+    "title": "//h1//text()",
+    "tag": "none",
+    "hyperlink_text": "none",
+    "hyperlink_url": "none"
+  },
+  "www.eenaduindia.com": {
+    "category": "//*[(@id = 'BCheader_breadcrumbwolediv')]//a//text()",
+    "title": "//*[(@id = 'MainContent_articaldetailheading')]//text()",
+    "tag": "//*[contains(concat( ' ', @class, ' ' ), concat( ' ', 'KeywordList', ' ' ))]//text()",
+    "hyperlink_text": "none",
+    "hyperlink_url": "none"
+  },
+  "www.mirchi9.com": {
+    "category": "//*[contains(concat( ' ', @class, ' ' ), concat( ' ', 'entry-crumb', ' ' ))]//span//text()",
+    "title": "//*[contains(concat( ' ', @class, ' ' ), concat( ' ', 'entry-title', ' ' ))]//span//text()",
+    "tag": "none",
+    "hyperlink_text": "none",
+    "hyperlink_url": "none"
+  },
+  "www.siliconindia.com": {
+    "category": "//*[(@id = 'breadcrumb')]//a//text()",
+    "title": "//*[(@id = 'allanswer2')]//*[contains(concat( ' ', @class, ' ' ), concat( ' ', 'Georgia26', ' ' ))]//text()",
+    "tag": "none",
+    "hyperlink_text": "none",
+    "hyperlink_url": "none"
+  },
+  "www.moneycontrol.com": {
+    "category": "//*[contains(concat( ' ', @class, ' ' ), concat( ' ', 'brad_crum', ' ' ))]//*[contains(concat( ' ', @class, ' ' ), concat( ' ', 'FL', ' ' ))]//a//text()",
+    "title": "//*[contains(concat( ' ', @class, ' ' ), concat( ' ', 'artTitle', ' ' ))]//text()",
+    "tag": "//*[contains(concat( ' ', @class, ' ' ), concat( ' ', 'tag_txt', ' ' ))]//a//text()",
+    "hyperlink_text": "none",
+    "hyperlink_url": "none"
+  },
+  "businessofcinema.com": {
+    "category": "//*[contains(concat( ' ', @class, ' ' ), concat( ' ', 'entry-category', ' ' ))]//a//text()",
+    "title": "//*[contains(concat( ' ', @class, ' ' ), concat( ' ', 'td-post-title', ' ' ))]//*[contains(concat( ' ', @class, ' ' ), concat( ' ', 'entry-title', ' ' ))]//text()",
+    "tag": "//*[contains(concat( ' ', @class, ' ' ), concat( ' ', 'clearfix', ' ' ))]//a//text()",
+    "hyperlink_text": "none",
+    "hyperlink_url": "none"
+  },
+  "www.indiatoday.in": {
+    "category": "//*[(@id = 'block-itg-layout-manager-front-end-breadcrumb')]//span//text()",
+    "title": "//h1//text()",
+    "tag": "//*[contains(concat( ' ', @class, ' ' ), concat( ' ', 'tag-follow', ' ' ))]//a//text()",
+    "hyperlink_text": "none",
+    "hyperlink_url": "none"
+  },
+  "punemirror.indiatimes.com": {
+    "category": "//*[(@id = 'breadcrumb')]//a//span//text()",
+    "title": "//h1//text()",
+    "tag": "none",
+    "hyperlink_text": "none",
+    "hyperlink_url": "none"
+  },
+  "cricket.rediff.com": {
+    "category": "//*[contains(concat( ' ', @class, ' ' ), concat( ' ', 'sm1', ' ' ))]//a//text()",
+    "title": "//h1//text()",
+    "tag": "//*[contains(concat( ' ', @class, ' ' ), concat( ' ', 'tagsdiv', ' ' ))]//a//text()",
+    "hyperlink_text": "none",
+    "hyperlink_url": "none"
+  },
+  "www.valuewalk.com": {
+    "category": "//*[contains(concat( ' ', @class, ' ' ), concat( ' ', 'cat-links', ' ' ))]//a//text()",
+    "title": "//*[contains(concat( ' ', @class, ' ' ), concat( ' ', 'entry-title', ' ' ))]//text()",
+    "tag": "none",
+    "hyperlink_text": "none",
+    "hyperlink_url": "none"
+  },
+  "www.thecarconnection.com": {
+    "category": "//*[(@id = 'simple-crumbs')]//a//text()",
+    "title": "//*[contains(concat( ' ', @class, ' ' ), concat( ' ', 'headline', ' ' ))]//text()",
+    "tag": "//*[contains(concat( ' ', @class, ' ' ), concat( ' ', 'article-tags', ' ' ))]//a//text()",
+    "hyperlink_text": "none",
+    "hyperlink_url": "none"
+  },
+  "www.brandsynario.com": {
+    "category": "//*[contains(concat( ' ', @class, ' ' ), concat( ' ', 'entry-crumb', ' ' ))]//text()",
+    "title": "//*[contains(concat( ' ', @class, ' ' ), concat( ' ', 'td-post-title', ' ' ))]//*[contains(concat( ' ', @class, ' ' ), concat( ' ', 'entry-title', ' ' ))]//text()",
+    "tag": "//*[contains(concat( ' ', @class, ' ' ), concat( ' ', 'clearfix', ' ' ))]//a//text()",
+    "hyperlink_text": "none",
+    "hyperlink_url": "none"
+  },
+  "jobs.siliconindia.com": {
+    "category": "//*[(@id = 'breadcrumb')]//a//text()",
+    "title": "//*[(@id = 'allanswer2')]//*[contains(concat( ' ', @class, ' ' ), concat( ' ', 'Georgia26', ' ' ))]//text()",
+    "tag": "none",
+    "hyperlink_text": "none",
+    "hyperlink_url": "none"
+  },
+  "scroll.in": {
+    "category": "//*[(@id = 'server-articles')]//*[contains(concat( ' ', @class, ' ' ), concat( ' ', 'orange-tag', ' ' ))]//a//text()",
+    "title": "//h1//text()",
+    "tag": "//*[contains(concat( ' ', @class, ' ' ), concat( ' ', 'tag-menu', ' ' ))]//text()",
+    "hyperlink_text": "//*[(@id = 'article-contents')]//a//text()",
+    "hyperlink_url": "//*[(@id = 'article-contents')]//a//@href"
+  },
+  "www.sport24.co.za": {
+    "category": "//*[(@id = 'titleCategory')]//text()",
+    "title": "//*[(@id = 'article')]//h1//text()",
+    "tag": "//*[(@id = 'divKeywordsListing')]//a//text()",
+    "hyperlink_text": "none",
+    "hyperlink_url": "none"
+  },
+  "www.outlookindia.com": {
+    "category": "//*[(@id = 'breadcrum')]//a//text()",
+    "title": "//h1[contains(concat( ' ', @class, ' ' ), concat( ' ', 'national_text', ' ' ))]//text()",
+    "tag": "//*[contains(concat( ' ', @class, ' ' ), concat( ' ', 'tag', ' ' ))]//a//text()",
+    "hyperlink_text": "none",
+    "hyperlink_url": "none"
+  },
+  "thecricketlounge.com": {
+    "category": "//*[contains(concat( ' ', @class, ' ' ), concat( ' ', 'entry-category', ' ' ))]//a//text()",
+    "title": "//*[contains(concat( ' ', @class, ' ' ), concat( ' ', 'td-post-title', ' ' ))]//*[contains(concat( ' ', @class, ' ' ), concat( ' ', 'entry-title', ' ' ))]//text()",
+    "tag": "//*[contains(concat( ' ', @class, ' ' ), concat( ' ', 'clearfix', ' ' ))]//a//text()",
+    "hyperlink_text": "none",
+    "hyperlink_url": "none"
+  },
+  "www.inuth.com": {
+    "category": "//*[contains(concat( ' ', @class, ' ' ), concat( ' ', 'breadcrumb', ' ' ))]//a//span//text()",
+    "title": "//*[contains(concat( ' ', @class, ' ' ), concat( ' ', 'post-title', ' ' ))]//text()",
+    "tag": "none",
+    "hyperlink_text": "//*[contains(concat( ' ', @class, ' ' ), concat( ' ', 'inuth-post-content', ' ' ))]//a//text()",
+    "hyperlink_url": "//*[contains(concat( ' ', @class, ' ' ), concat( ' ', 'inuth-post-content', ' ' ))]//a//@href"
+  },
+  "www.indiatimes.com": {
+    "category": "//*[contains(concat( ' ', @class, ' ' ), concat( ' ', 'breadcrumb', ' ' ))]//a//span//text()",
+    "title": "//h1//text()",
+    "tag": "none",
+    "hyperlink_text": "none",
+    "hyperlink_url": "none"
+  },
+  "jammulinksnews.com": {
+    "category": "//*[contains(concat( ' ', @class, ' ' ), concat( ' ', 'no-radius', ' ' ))]//a//text()",
+    "title": "//*[contains(concat( ' ', @class, ' ' ), concat( ' ', 'heading', ' ' ))]//text()",
+    "tag": "none",
+    "hyperlink_text": "none",
+    "hyperlink_url": "none"
+  },
+  "www.freepressjournal.in": {
+    "category": "none",
+    "title": "//*[contains(concat( ' ', @class, ' ' ), concat( ' ', 'entry-title', ' ' ))]//text()",
+    "tag": "//*[contains(concat( ' ', @class, ' ' ), concat( ' ', 'post-tags', ' ' ))]//a//text()",
+    "hyperlink_text": "none",
+    "hyperlink_url": "none"
+  },
+  "www.sundayguardianlive.com": {
+    "category": "//*[contains(concat( ' ', @class, ' ' ), concat( ' ', 'breadcrumb-item', ' ' )) and (((count(preceding-sibling::*) + 1) = 2) and parent::*)]//span//text()",
+    "title": "//*[(@id = 'dvContents1')]//text()",
+    "tag": "none",
+    "hyperlink_text": "none",
+    "hyperlink_url": "none"
+  },
+  "english.newstracklive.com": {
+    "category": "//*[contains(concat( ' ', @class, ' ' ), concat( ' ', 'author', ' ' ))]//a//text()",
+    "title": "//h1//text()",
+    "tag": "//*[contains(concat( ' ', @class, ' ' ), concat( ' ', 'ntdv_tags', ' ' ))]//a//text()",
+    "hyperlink_text": "none",
+    "hyperlink_url": "none"
+  },
+  "odishasuntimes.com": {
+    "category": "//*[contains(concat( ' ', @class, ' ' ), concat( ' ', 'entry-category', ' ' ))]//a//text()",
+    "title": "//*[contains(concat( ' ', @class, ' ' ), concat( ' ', 'td-pb-padding-side', ' ' ))]//*[contains(concat( ' ', @class, ' ' ), concat( ' ', 'entry-title', ' ' ))]//text()",
+    "tag": "//*[contains(concat( ' ', @class, ' ' ), concat( ' ', 'clearfix', ' ' ))]//a//text()",
+    "hyperlink_text": "none",
+    "hyperlink_url": "none"
+  },
+  "www.careerindia.com": {
+    "category": "//*[contains(concat( ' ', @class, ' ' ), concat( ' ', 'breadcrump', ' ' ))]//a//span//text()",
+    "title": "//*[contains(concat( ' ', @class, ' ' ), concat( ' ', 'heading', ' ' ))]//text()",
+    "tag": "//*[(@id = 'tag-container')]//a//text()",
+    "hyperlink_text": "none",
+    "hyperlink_url": "none"
+  },
+  "www.torquenews.com": {
+    "category": "//*[contains(concat( ' ', @class, ' ' ), concat( ' ', 'breadcrumb-inner', ' ' ))]//span//text()",
+    "title": "//*[contains(concat( ' ', @class, ' ' ), concat( ' ', 'node-content-wrapper', ' ' ))]//*[contains(concat( ' ', @class, ' ' ), concat( ' ', 'title', ' ' ))]//text()",
+    "tag": "none",
+    "hyperlink_text": "none",
+    "hyperlink_url": "none"
+  },
+  "gamingcentral.in": {
+    "category": "//*[contains(concat( ' ', @class, ' ' ), concat( ' ', 'gp-entry-cats', ' ' ))]//a//text()",
+    "title": "//*[contains(concat( ' ', @class, ' ' ), concat( ' ', 'gp-entry-title', ' ' ))]//text()",
+    "tag": "//*[contains(concat( ' ', @class, ' ' ), concat( ' ', 'gp-entry-tags', ' ' ))]//a//text()",
+    "hyperlink_text": "//p//a//span//text()",
+    "hyperlink_url": "none"
+  },
+  "www.91mobiles.com": {
+    "category": "//*[contains(concat( ' ', @class, ' ' ), concat( ' ', 'entry-crumb', ' ' ))]//span//text()",
+    "title": "//*[contains(concat( ' ', @class, ' ' ), concat( ' ', 'td-post-title', ' ' ))]//*[contains(concat( ' ', @class, ' ' ), concat( ' ', 'entry-title', ' ' ))]//text()",
+    "tag": "//*[contains(concat( ' ', @class, ' ' ), concat( ' ', 'clearfix', ' ' ))]//a//text()",
+    "hyperlink_text": "//p//a//text()",
+    "hyperlink_url": "//p//a//@href"
+  },
+  "telecom.economictimes.indiatimes.com": {
+    "category": "//*[contains(concat( ' ', @class, ' ' ), concat( ' ', 'breadcrumbs', ' ' ))]//a//text()",
+    "title": "//h1//text()",
+    "tag": "//*[contains(concat( ' ', @class, ' ' ), concat( ' ', 'taglist', ' ' ))]//a//text()",
+    "hyperlink_text": "none",
+    "hyperlink_url": "none"
+  },
+  "www.motorauthority.com": {
+    "category": "//*[(@id = 'breadcrumbs')]//a//text()",
+    "title": "//*[(@id = 'article-tags')]//a//text()",
+    "tag": "none",
+    "hyperlink_text": "//*[contains(concat( ' ', @class, ' ' ), concat( ' ', 'article-body', ' ' ))]//a//text()",
+    "hyperlink_url": "//*[contains(concat( ' ', @class, ' ' ), concat( ' ', 'article-body', ' ' ))]//a//@href"
+  },
+  "www.mlive.com": {
+    "category": "//*[(@id = 'articleLabel__link')]//text()",
+    "title": "//*[(@id = 'articleHeadline')]//text()",
+    "tag": "none",
+    "hyperlink_text": "//*[contains(concat( ' ', @class, ' ' ), concat( ' ', 'paragraph', ' ' ))]//a//text()",
+    "hyperlink_url": "//*[contains(concat( ' ', @class, ' ' ), concat( ' ', 'paragraph', ' ' ))]//a//@href"
+  },
+  "mumbaimirror.indiatimes.com": {
+    "category": "//*[(@id = 'breadcrumb')]//a//span//text()",
+    "title": "//h1//text()",
+    "tag": "none",
+    "hyperlink_text": "none",
+    "hyperlink_url": "none"
+  },
+  "www.topgear.com": {
+    "category": "//*[contains(concat( ' ', @class, ' ' ), concat( ' ', 'pathway', ' ' ))]//text()",
+    "title": "//h2//a//text()",
+    "tag": "none",
+    "hyperlink_text": "none",
+    "hyperlink_url": "none"
+  },
+  "appinformers.com": {
+    "category": "//*[contains(concat( ' ', @class, ' ' ), concat( ' ', 'entry-crumb', ' ' ))]//span//text()",
+    "title": "//*[contains(concat( ' ', @class, ' ' ), concat( ' ', 'td-pb-padding-side', ' ' ))]//*[contains(concat( ' ', @class, ' ' ), concat( ' ', 'entry-title', ' ' ))]//text()",
+    "tag": "none",
+    "hyperlink_text": "none",
+    "hyperlink_url": "none"
+  },
+  "beebom.com": {
+    "category": "//*[contains(concat( ' ', @class, ' ' ), concat( ' ', 'entry-crumb', ' ' ))]//span//text()",
+    "title": "//*[contains(concat( ' ', @class, ' ' ), concat( ' ', 'td-post-title', ' ' ))]//*[contains(concat( ' ', @class, ' ' ), concat( ' ', 'entry-title', ' ' ))]//text()",
+    "tag": "//*[contains(concat( ' ', @class, ' ' ), concat( ' ', 'clearfix', ' ' ))]//a//text()",
+    "hyperlink_text": "none",
+    "hyperlink_url": "none"
+  },
+  "www.livescience.com": {
+    "category": "//*[contains(concat( ' ', @class, ' ' ), concat( ' ', 'breadcrumb-item', ' ' ))]//span//text()",
+    "title": "//*[contains(concat( ' ', @class, ' ' ), concat( ' ', 'h1', ' ' ))]//text()",
+    "tag": "none",
+    "hyperlink_text": "none",
+    "hyperlink_url": "none"
+  },
+  "mashable.com": {
+    "category": "none",
+    "title": "//*[(@id = 'id_title')]//text()",
+    "tag": "//*[contains(concat( ' ', @class, ' ' ), concat( ' ', 'topics', ' ' ))]//a//text()",
+    "hyperlink_text": "none",
+    "hyperlink_url": "none"
+  },
+  "carindia.in": {
+    "category": "//*[contains(concat( ' ', @class, ' ' ), concat( ' ', 'crumbs', ' ' ))]//a//text()",
+    "title": "//*[contains(concat( ' ', @class, ' ' ), concat( ' ', 'title-post-single', ' ' ))]//text()",
+    "tag": "//*[contains(concat( ' ', @class, ' ' ), concat( ' ', 'post-single', ' ' ))]//*[contains(concat( ' ', @class, ' ' ), concat( ' ', 'post-meta', ' ' ))]//a//text()",
+    "hyperlink_text": "none",
+    "hyperlink_url": "none"
+  }
+}

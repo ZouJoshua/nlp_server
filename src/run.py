@@ -11,22 +11,42 @@ import subprocess
 import os
 import sys
 import time
+from .config import *
 from utils.daemonize import daemonize
 
 
 HOME = os.getcwd()
 SCRPET = os.path.basename(sys.argv[0])
 if len(sys.argv) != 4 or sys.argv[1] == '-h':
-    sys.exit("Usage:sudo %s {ServerName} {start, stop, restart}" % SCRPET)
+    sys.exit("Usage:sudo %s {category, regional, parser} {start, stop, restart}" % SCRPET)
 
 RUN = "python3"
 SERVER_NAME = sys.argv[1]
 NAME = sys.argv[2]
 OP = sys.argv[3]
 
-# server ip
-SERVER_HOSTS = os.environ.get('SERVER_HOSTS', '127.0.0.1')
-SERVER_PORT = os.environ.get('PORT', 10901)
+
+def set_environ(server_name):
+    BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+    config_file = "{}_conf".format(server_name)
+    if os.path.exists(os.path.join(BASE_DIR, 'config', config_file+'.py')):
+        os.environ.setdefault("DJANGO_SETTINGS_MODULE", "config.{}".format(config_file))
+    else:
+        os.environ.setdefault("DJANGO_SETTINGS_MODULE", "config.base_conf")
+    server_hosts = os.environ.get('SERVER_HOSTS', '127.0.0.1')
+    if server_name =='category':
+        # server ip
+        server_port = os.environ.get('PORT', 19901)
+    elif server_name == 'regional':
+        server_port = os.environ.get('PORT', 18801)
+    elif server_name == 'parser':
+        server_port = os.environ.get('PORT', 8020)
+    else:
+        server_port = os.environ.get('PORT', 10901)
+    return server_hosts, server_port
+
+
+SERVER_HOSTS, SERVER_PORT = set_environ(SERVER_NAME)
 
 SERVER_NAME_PIDFILE = '.{}_pidfile'.format(SERVER_NAME)
 PIDFILE = "{}/{}".format(HOME, SERVER_NAME_PIDFILE)
