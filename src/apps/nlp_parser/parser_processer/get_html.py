@@ -16,7 +16,7 @@ import logging
 class HtmlDownloader(object):
 
     def __init__(self, logger=None):
-        self.TIMEOUT = 3
+        self.TIMEOUT = 5
         self.RETRY_TIME = 1
         if logger:
             self.log = logger
