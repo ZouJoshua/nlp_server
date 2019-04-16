@@ -35,7 +35,7 @@ def write_url_random():
         lines = f.readlines()
         random.shuffle(lines)
         for i in lines:
-            nf.write(json.dumps(i) + "\n")
+            nf.write(json.dumps(i.strip()) + "\n")
     nf.close()
 
 

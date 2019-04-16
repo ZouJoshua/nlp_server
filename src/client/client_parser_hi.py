@@ -25,7 +25,7 @@ with open(NLP_EN_PARSER_FILE_PATH, 'r', encoding='utf-8') as jf:
 
 _of = open("/data/zoushuai/result20190416", "w")
 
-with open("/data/zoushuai/news_content/html/dt=2019-04-11/part-00000-674b9c2b-4ee2-435d-beb8-55d25d781687-c000.json", 'r') as f:
+with open("/data/zoushuai/news_content/html/dt=2019-04-11/url_random", 'r') as f:
     i = 0
     while True:
         i += 1
