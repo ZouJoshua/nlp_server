@@ -3,7 +3,7 @@
 """
 @Author  : Joshua
 @Time    : 2019/2/28 18:41
-@File    : client.py
+@File    : client_parser_en_test.py
 @Desc    : 客户端
 """
 
@@ -13,13 +13,14 @@ import json
 url = 'http://127.0.0.1:8020/nlp_parser/parser'
 
 # spider parser test
-with open("/home/zoushuai/algoproject/nlp_parser_server/src/data/url_test.txt", "r") as f:
+with open("/home/zoushuai/algoproject/nlp_parser_server/src/data/test/en_news_test.txt", "r") as f:
     lines = f.readlines()
     for line in lines:
         parms = dict()
         lj = json.loads(line)
         parms['id'] = lj['id']
         parms['website'] = lj['url']
+        parms['lang'] = 'en'
         resp = requests.post(url, data=parms)  # 发送请求
         print(resp.text)
 

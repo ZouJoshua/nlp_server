@@ -1359,6 +1359,6 @@
         "tag": "//div[@class='tag-container']/a/text()",
         "hyperlink_text": "//div[@class='oi-article-lt']/p/strong/a/text()",
         "hyperlink_url": "//div[@class='oi-article-lt']/p/strong/a/@href"
-    },
+    }
   }
 }

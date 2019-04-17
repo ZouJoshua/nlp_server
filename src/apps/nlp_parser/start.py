@@ -23,8 +23,8 @@ def init_start():
     logger = Logger('nlp_parser', log2console=False, log2file=True, logfile=PROJECT_LOG_FILE).get_logger()
     logger.info("Initialization start...")
     logger.info("Loading xpath rule file...")
-    NLP_EN_PARSER_FILE_PATH = os.path.join(PROJECT_DATA_PATH, 'rules.json')
-    with open(NLP_EN_PARSER_FILE_PATH, 'r', encoding='utf-8') as jf:
+    NLP_PARSER_FILE_PATH = os.path.join(PROJECT_DATA_PATH, 'rules.json')
+    with open(NLP_PARSER_FILE_PATH, 'r', encoding='utf-8') as jf:
         rules_xpath = json.load(jf)
     # manager = Manager()
     # # 父进程创建Queue，并传给各个子进程：

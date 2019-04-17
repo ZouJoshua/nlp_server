@@ -12,7 +12,7 @@ import json
 import random
 
 def write_url_test_file():
-    nf = open("/data/url_test.txt", "w")
+    nf = open("/data/en_news_test.txt", "w")
     with open("/data/content.json", 'r') as f:
         i = 0
         while True:

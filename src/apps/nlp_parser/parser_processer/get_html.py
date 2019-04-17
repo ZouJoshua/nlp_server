@@ -36,11 +36,11 @@ class HtmlDownloader(object):
         except Exception:
             count = 0  # 重试次数
             while count < self.RETRY_TIME:
+                count += 1
                 try:
                     self.log.info("Retry requests {} the {} time".format(url, count))
                     response = requests.get(url=url, headers=header, timeout=self.TIMEOUT)
                     html = response.text
                 except Exception as _e:
                     self.log.error("Retry download html {} error {}".format(url, _e))
-                    count += 1
         return html

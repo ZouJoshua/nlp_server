@@ -3,7 +3,7 @@
 """
 @Author  : Joshua
 @Time    : 2019/2/28 18:41
-@File    : client.py
+@File    : client_demo.py
 @Desc    : 客户端
 """
 
