@@ -118,6 +118,10 @@ class Predict(object):
                         predict_res['id'] = int(auto_science_label[0][i][0].replace('__label__', ''))
                         predict_res['category'] = idx2label['topcategory'][auto_science_label[0][i][0].replace('_label__', '')]
                         predict_res['proba'] = auto_science_label[0][i][1]
+                if i == 0:
+                    predict_res['proba'] += 0.000001
+                    if predict_res['proba'] >= 1.0:
+                        predict_res['proba'] = 1.0
                 if predict_res['proba'] < proba_threshold and i != 0:
                     # predict_res_less_than_theashold = {'id': -1, 'category': '', 'proba': 0.0}
                     continue
@@ -146,6 +150,10 @@ class Predict(object):
                 subcategory = idx2label['subcategory'][label[0][i][0].replace('__label__', '')]
                 predict_res['category'] = subcategory
                 predict_res['proba'] = label[0][i][1]
+                if i == 0:
+                    predict_res['proba'] += 0.000001
+                    if predict_res['proba'] >= 1.0:
+                        predict_res['proba'] = 1.0
                 if i != 0 and predict_res['proba'] < proba_threshold:
                     # predict_sub_res_less_than_threshold = {'id': -1, 'category': '', 'proba': 0.0}
                     continue
