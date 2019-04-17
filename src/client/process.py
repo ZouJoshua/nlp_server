@@ -27,7 +27,8 @@ from web.settings import PROJECT_LOG_FILE, PROJECT_DATA_PATH
 
 url = 'http://127.0.0.1:8020/nlp_parser/parser'
 
-data_file = "/data/in_hi_html_random.json"
+data_file = '/data/zoushuai/news_content/html/dt=2019-04-11/url_random'
+# data_file = "/data/in_hi_html_random.json"
 
 NLP_PARSER_FILE_PATH = os.path.join(PROJECT_DATA_PATH, 'rules.json')
 
@@ -133,8 +134,11 @@ def start():
     result_q = Queue.Queue()
     task_q, new_task_q = produce_task_queue(data_file, 0, 200)
     time.sleep(5)
-    task_result_file = '/home/zoushuai/algoproject/nlp_parser_server/src/data/test/result20190417'
-    new_task_result_file = '/home/zoushuai/algoproject/nlp_parser_server/src/data/test/new_domain_task'
+    task_result_file = '/data/zoushuai/hi_news_parser_20190417'
+    new_task_result_file = '/data/zoushuai/hi_news_new_domain_20190417'
+
+    # task_result_file = '/home/zoushuai/algoproject/nlp_parser_server/src/data/test/result20190417'
+    # new_task_result_file = '/home/zoushuai/algoproject/nlp_parser_server/src/data/test/new_domain_task'
 
     for i in range(_WORKER_THREAD_NUM):
         thread = SpiderParserHandler(task_q, result_q)
