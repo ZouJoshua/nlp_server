@@ -153,14 +153,14 @@ def start():
     global existFlag, lock, filelock
 
     # >>>>>>>>>> test <<<<<<<<<<#
-    data_file = "/data/in_hi_html_random.json"
-    task_result_file = '/home/zoushuai/algoproject/nlp_parser_server/src/data/test/result20190418'
-    new_task_result_file = '/home/zoushuai/algoproject/nlp_parser_server/src/data/test/new_domain_task'
+    # data_file = "/data/in_hi_html_random.json"
+    # task_result_file = '/home/zoushuai/algoproject/nlp_parser_server/src/data/test/result20190418'
+    # new_task_result_file = '/home/zoushuai/algoproject/nlp_parser_server/src/data/test/new_domain_task'
 
     # >>>>>>>>>> prod <<<<<<<<<<#
-    # data_file = '/data/zoushuai/news_content/html/dt=2019-04-11/url_random'
-    # task_result_file = '/data/zoushuai/hi_news_parser/hi_news_parser_20190418'
-    # new_task_result_file = '/data/zoushuai/hi_news_parser/hi_news_new_domain_20190418'
+    data_file = '/data/zoushuai/news_content/html/dt=2019-04-11/url_random'
+    task_result_file = '/data/zoushuai/hi_news_parser/hi_news_parser_20190418'
+    new_task_result_file = '/data/zoushuai/hi_news_parser/hi_news_new_domain_20190418'
 
     lock = threading.Lock()
     filelock = threading.Lock()

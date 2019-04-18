@@ -111,7 +111,7 @@ class ResultHandler(threading.Thread):
 
     def run(self):
         global existFlag, filelock
-        _of = open(self.localfile, "a")
+        _of = open(self.localfile, "w")
         while not existFlag:
             data = self.data_queue.get()
             # self.data_queue.task_done()
