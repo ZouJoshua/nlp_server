@@ -26,12 +26,7 @@ sys.path.append(os.path.join(base_path, 'web'))
 from web.settings import PROJECT_LOG_FILE, PROJECT_DATA_PATH
 
 url = 'http://127.0.0.1:8020/nlp_parser/parser'
-
-data_file = '/data/zoushuai/news_content/html/dt=2019-04-11/url_random'
-# data_file = "/data/in_hi_html_random.json"
-
 NLP_PARSER_FILE_PATH = os.path.join(PROJECT_DATA_PATH, 'rules.json')
-
 
 
 def produce_task_queue(data_file, left, right):
@@ -115,7 +110,7 @@ class ResultHandler(threading.Thread):
 
     def run(self):
         global existFlag, filelock
-        _of = open(self.localfile, "a")
+        _of = open(self.localfile, "w")
         while not existFlag:
             data = self.data_queue.get()
             # self.data_queue.task_done()
@@ -156,17 +151,25 @@ def write_file_from_queue(localfile, data_queue):
 
 def start():
     global existFlag, lock, filelock
+
+    # >>>>>>>>>> test <<<<<<<<<<#
+    data_file = "/data/in_hi_html_random.json"
+    task_result_file = '/home/zoushuai/algoproject/nlp_parser_server/src/data/test/result20190418'
+    new_task_result_file = '/home/zoushuai/algoproject/nlp_parser_server/src/data/test/new_domain_task'
+
+    # >>>>>>>>>> prod <<<<<<<<<<#
+    # data_file = '/data/zoushuai/news_content/html/dt=2019-04-11/url_random'
+    # task_result_file = '/data/zoushuai/hi_news_parser/hi_news_parser_20190418'
+    # new_task_result_file = '/data/zoushuai/hi_news_parser/hi_news_new_domain_20190418'
+
+    lock = threading.Lock()
+    filelock = threading.Lock()
     existFlag = 0
     _WORKER_THREAD_NUM = 10
     threads = []
     result_q = Queue.Queue()
-    task_q, new_task_q = produce_task_queue(data_file, 400000, 1000000)
+    task_q, new_task_q = produce_task_queue(data_file, 0, 5000)
     time.sleep(3)
-    task_result_file = '/data/zoushuai/hi_news_parser/hi_news_parser_20190418'
-    new_task_result_file = '/data/zoushuai/hi_news_parser/hi_news_new_domain_20190418'
-
-    # task_result_file = '/home/zoushuai/algoproject/nlp_parser_server/src/data/test/result20190418'
-    # new_task_result_file = '/home/zoushuai/algoproject/nlp_parser_server/src/data/test/new_domain_task'
 
     write_file_from_queue(new_task_result_file, new_task_q)
 
@@ -187,6 +190,4 @@ def start():
 
 
 if __name__ =='__main__':
-    lock = threading.Lock()
-    filelock = threading.Lock()
     start()

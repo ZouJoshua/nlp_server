@@ -26,10 +26,6 @@ sys.path.append(os.path.join(base_path, 'web'))
 from web.settings import PROJECT_LOG_FILE, PROJECT_DATA_PATH
 
 url = 'http://127.0.0.1:8020/nlp_parser/parser'
-
-data_file = '/data/zoushuai/news_content/html/dt=2019-04-11/url_random'
-# data_file = "/data/in_hi_html_random.json"
-
 NLP_PARSER_FILE_PATH = os.path.join(PROJECT_DATA_PATH, 'rules.json')
 
 
@@ -155,44 +151,42 @@ def write_file_from_queue(localfile, data_queue):
 
 def start():
     global existFlag, lock, filelock
+
+    # >>>>>>>>>> test <<<<<<<<<<#
+    # data_file = "/data/in_hi_html_random.json"
+    # task_result_file = '/home/zoushuai/algoproject/nlp_parser_server/src/data/test/result20190419'
+    # new_task_result_file = '/home/zoushuai/algoproject/nlp_parser_server/src/data/test/new_domain_task_'
+
+    # >>>>>>>>>> prod <<<<<<<<<<#
+    data_file = '/data/zoushuai/news_content/html/dt=2019-04-11/url_random'
+    task_result_file = '/data/zoushuai/hi_news_parser/hi_news_parser_20190419'
+    new_task_result_file = '/data/zoushuai/hi_news_parser/hi_news_new_domain_20190419'
+
+    lock = threading.Lock()
+    filelock = threading.Lock()
     existFlag = 0
     _WORKER_THREAD_NUM = 10
     threads = []
     result_q = Queue.Queue()
     task_q, new_task_q = produce_task_queue(data_file, 1000000, 1500000)
     time.sleep(3)
-    task_result_file = '/data/zoushuai/hi_news_parser/hi_news_parser_20190419'
-    new_task_result_file = '/data/zoushuai/hi_news_parser/hi_news_new_domain_20190419'
-
-    # task_result_file = '/home/zoushuai/algoproject/nlp_parser_server/src/data/test/result20190419'
-    # new_task_result_file = '/home/zoushuai/algoproject/nlp_parser_server/src/data/test/new_domain_task_'
 
     write_file_from_queue(new_task_result_file, new_task_q)
 
-
     for i in range(_WORKER_THREAD_NUM):
         thread = SpiderParserHandler(task_q, result_q)
-        # thread.setDaemon(False)
         thread.start()
         threads.append(thread)
     time.sleep(3)
     write_task_thread = ResultHandler(result_q, task_result_file)
-    # write_task_thread.setDaemon(False)
+
     write_task_thread.start()
     threads.append(write_task_thread)
     time.sleep(1)
-    # write_new_task_thread = ResultHandler(new_task_q, new_task_result_file, task_type='new')
-    # threads.append(write_new_task_thread)
-    # # write_new_task_thread.setDaemon(False)
-    # write_new_task_thread.start()
 
     for thread in threads:
         thread.join()
 
-    # write_task_thread.join()
-    # write_new_task_thread.join()
 
 if __name__ =='__main__':
-    lock = threading.Lock()
-    filelock = threading.Lock()
     start()
