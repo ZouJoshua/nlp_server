@@ -47,7 +47,7 @@ def produce_task_queue(data_file, left, right):
         _id = line['id']
         domain = urlparse(_url).netloc
         if domain in rules_xpath['hi'].keys():
-            print(_id)
+            # print(_id)
             task_queue.put(line)
         else:
             new_task_queue.put(line)
@@ -112,7 +112,7 @@ class ResultHandler(threading.Thread):
 
     def run(self):
         global existFlag, filelock
-        _of = open(self.localfile, "w")
+        _of = open(self.localfile, "a")
         while not existFlag:
             data = self.data_queue.get()
             # self.data_queue.task_done()
@@ -159,8 +159,8 @@ def start():
     result_q = Queue.Queue()
     task_q, new_task_q = produce_task_queue(data_file, 400000, 1000000)
     time.sleep(3)
-    task_result_file = '/data/zoushuai/hi_news_parser_20190418'
-    new_task_result_file = '/data/zoushuai/hi_news_new_domain_20190418'
+    task_result_file = '/data/zoushuai/hi_news_parser/hi_news_parser_20190418'
+    new_task_result_file = '/data/zoushuai/hi_news_parser/hi_news_new_domain_20190418'
 
     # task_result_file = '/home/zoushuai/algoproject/nlp_parser_server/src/data/test/result20190418'
     # new_task_result_file = '/home/zoushuai/algoproject/nlp_parser_server/src/data/test/new_domain_task'
