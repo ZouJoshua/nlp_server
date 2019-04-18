@@ -43,14 +43,17 @@ def produce_task_queue(data_file, left, right):
     lines = _of.readlines()[left:right]
     for _line in lines:
         line = json.loads(_line.strip())
-        _url = line['url']
-        _id = line['id']
-        domain = urlparse(_url).netloc
-        if domain in rules_xpath['hi'].keys():
-            # print(_id)
-            task_queue.put(line)
+        if 'id' and 'url' in line.keys():
+            _url = line['url']
+            _id = line['id']
+            domain = urlparse(_url).netloc
+            if domain in rules_xpath['hi'].keys():
+                # print(_id)
+                task_queue.put(line)
+            else:
+                new_task_queue.put(line)
         else:
-            new_task_queue.put(line)
+            continue
     task_queue.put('None')
     new_task_queue.put('None')
     _of.close()
