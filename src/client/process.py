@@ -39,22 +39,21 @@ def produce_task_queue(data_file, left, right):
     new_task_queue = Queue.Queue()
     with open(NLP_PARSER_FILE_PATH, 'r', encoding='utf-8') as jf:
         rules_xpath = json.load(jf)
-    i = 0
     _of = open(data_file, 'r')
-    while True:
-        i += 1
-        if i in range(left, right):
-            line = json.loads(_of.readline().strip())
-            _url = line['url']
-            _id = line['id']
-            domain = urlparse(_url).netloc
-            if domain in rules_xpath['hi'].keys():
-                task_queue.put(line)
-            else:
-                new_task_queue.put(line)
+    lines = _of.readlines()[left:right]
+    for _line in lines:
+        line = json.loads(_line.strip())
+        _url = line['url']
+        _id = line['id']
+        domain = urlparse(_url).netloc
+        if domain in rules_xpath['hi'].keys():
+            print(_id)
+            task_queue.put(line)
         else:
-            _of.close()
-            break
+            new_task_queue.put(line)
+    task_queue.put('None')
+    new_task_queue.put('None')
+    _of.close()
     print(task_queue.qsize())
     print(new_task_queue.qsize())
     return task_queue, new_task_queue
@@ -69,10 +68,13 @@ class SpiderParserHandler(threading.Thread):
     def run(self):
         global existFlag, lock
         while not existFlag:
-            if not self._tq.empty():
-                lock.acquire()
-                data = self._tq.get()
-                lock.release()
+            if self._tq.empty():
+                break
+            lock.acquire()
+            data = self._tq.get()
+            # self._tq.task_done()
+            lock.release()
+            if data != 'None':
                 _url = data['url']
                 _id = data['id']
                 parms = {'id': _id, 'website': _url, "lang": "hi"}
@@ -80,8 +82,8 @@ class SpiderParserHandler(threading.Thread):
                 result = {'id': _id, 'url': _url, 'result': resp}
                 self._rq.put(result)
             else:
-                self._rq.put(None)
-                self._tq.task_done()
+                time.sleep(1)
+                self._rq.put('None')
                 break
 
 
@@ -101,7 +103,7 @@ class ResultHandler(threading.Thread):
         if not self.tt:
             resp = data['result']
             if resp.status_code != 408:
-                out = {str(_id): resp.text, "url": _url}
+                out = {str(_id): json.loads(resp.text), "url": _url}
             else:
                 out = {str(_id): self.nu, "url": _url}
         else:
@@ -109,53 +111,79 @@ class ResultHandler(threading.Thread):
         return out
 
     def run(self):
-        global existFlag
+        global existFlag, filelock
         _of = open(self.localfile, "w")
         while not existFlag:
             data = self.data_queue.get()
-            if data != None:
+            # self.data_queue.task_done()
+            if data != 'None':
                 # print(data)
                 out = self._dataprocess(data)
                 _of.write(json.dumps(out) + '\n')
                 sys.stdout.flush()
                 _of.flush()
-            elif not self.data_queue.qsize():
-                print("任务结束")
+                # filelock.release()
+            else:
+                if self.data_queue.empty():
+                    print("任务结束")
+                    # filelock.release()
+                    _of.close()
+                    # self.data_queue.task_done()
+                    break
+
+
+def write_file_from_queue(localfile, data_queue):
+    _of = open(localfile, "w")
+    while not existFlag:
+        data = data_queue.get()
+        if data != 'None':
+            _url = data['url']
+            _id = data['id']
+            out = {str(_id): _url}
+            _of.write(json.dumps(out) + '\n')
+            sys.stdout.flush()
+            _of.flush()
+        else:
+            if data_queue.empty():
+                print("新域名写入文件已完成")
                 _of.close()
-                self.data_queue.task_done()
                 break
 
 
+
 def start():
-    global existFlag, lock
+    global existFlag, lock, filelock
     existFlag = 0
     _WORKER_THREAD_NUM = 10
     threads = []
     result_q = Queue.Queue()
-    task_q, new_task_q = produce_task_queue(data_file, 0, 200)
-    time.sleep(5)
-    task_result_file = '/data/zoushuai/hi_news_parser_20190417'
-    new_task_result_file = '/data/zoushuai/hi_news_new_domain_20190417'
+    task_q, new_task_q = produce_task_queue(data_file, 400000, 1000000)
+    time.sleep(3)
+    task_result_file = '/data/zoushuai/hi_news_parser_20190418'
+    new_task_result_file = '/data/zoushuai/hi_news_new_domain_20190418'
 
-    # task_result_file = '/home/zoushuai/algoproject/nlp_parser_server/src/data/test/result20190417'
+    # task_result_file = '/home/zoushuai/algoproject/nlp_parser_server/src/data/test/result20190418'
     # new_task_result_file = '/home/zoushuai/algoproject/nlp_parser_server/src/data/test/new_domain_task'
+
+    write_file_from_queue(new_task_result_file, new_task_q)
 
     for i in range(_WORKER_THREAD_NUM):
         thread = SpiderParserHandler(task_q, result_q)
         thread.start()
         threads.append(thread)
-    time.sleep(5)
+    time.sleep(3)
     write_task_thread = ResultHandler(result_q, task_result_file)
+
     write_task_thread.start()
     threads.append(write_task_thread)
     time.sleep(1)
-    write_new_task_thread = ResultHandler(new_task_q, new_task_result_file, task_type='new')
-    threads.append(write_new_task_thread)
-    write_new_task_thread.start()
 
     for thread in threads:
         thread.join()
 
+
+
 if __name__ =='__main__':
     lock = threading.Lock()
+    filelock = threading.Lock()
     start()

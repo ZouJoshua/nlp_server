@@ -976,18 +976,18 @@
         "hyperlink_url": "//div[@class='iw_component']/article/div[@class='articleBody']//a/@href"
     },
     "news.raftaar.in": {
-        "category": "none",
-        "title": "//div[@class='col-md-12 col-sm-12']//div[@class='news_text']/h3/text()",
-        "tag": "//div[@class='col-md-12 col-sm-12']//div[@class='news_text']/div[@class='red_more_details']/ul//a/text()",
+        "category": "//h3[@class='r_heading']/text()",
+        "title": "//h3[@class='detail_heading']/text()",
+        "tag": "//div[@class='red_more_details']/ul//a/text()",
         "hyperlink_text": "none",
         "hyperlink_url": "none"
     },
     "www.amarujala.com": {
-        "category": "//div[@class='col-xs-12 col-md-12']//div[@class='bredcrums']/a/text()",
-        "title": "//div[contains(@class, 'col-xs-12 col-md-8 full-column white-wrapper shadow mrgb8') or contains(@class,'col-xs-12 col-md-8 innerwrap detail')]//h1/text()",
-        "tag": "//div[contains(@class, 'col-xs-12 col-md-8 full-column white-wrapper shadow mrgb8') or contains(@class,'col-xs-12 col-md-8 innerwrap detail')]//div[@class='tagsDv']/a/span/text()",
-        "hyperlink_text": "//div[@class='col-xs-12 col-md-8 full-column white-wrapper shadow mrgb8']/section[@class='article-detail']/div[@class='article-desc']//a/text()",
-        "hyperlink_url": "//div[@class='col-xs-12 col-md-8 full-column white-wrapper shadow mrgb8']/section[@class='article-detail']/div[@class='article-desc']//a/@href"
+        "category": "//div[@class='bredcrums']/a/text()",
+        "title": "//h1/text()",
+        "tag": "//div[@class='tagsDv']/a/span/text() | //article[@class='detailBox']/ul/li/a/text()",
+        "hyperlink_text": "//section[@class='article-detail']/div[@class='article-desc']//a/text()",
+        "hyperlink_url": "//section[@class='article-detail']/div[@class='article-desc']//a/@href"
     },
     "www.patrika.com": {
         "category": "//div[@class='breadcrumb-list']/ul/li/a/text()",
