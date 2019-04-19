@@ -62,7 +62,9 @@ class SpiderParserHandler(threading.Thread):
     def __init__(self, task_queue, result_queue):
         self._tq = task_queue
         self._rq = result_queue
-        super(SpiderParserHandler, self).__init__()
+        super().__init__()
+        # python2
+        # super(SpiderParserHandler, self).__init__()
 
     def run(self):
         global existFlag, lock

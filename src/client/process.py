@@ -61,7 +61,9 @@ class SpiderParserHandler(threading.Thread):
     def __init__(self, task_queue, result_queue):
         self._tq = task_queue
         self._rq = result_queue
-        super(SpiderParserHandler, self).__init__()
+        super().__init__()
+        # python2
+        # super(SpiderParserHandler, self).__init__()
 
     def run(self):
         global existFlag, lock
@@ -92,7 +94,9 @@ class ResultHandler(threading.Thread):
         self.localfile = localfile
         self.tt = task_type
         self.nu = {"category": [], "title": [], "tag": [], "hyperlink_text": [], "hyperlink_url": []}
-        super(ResultHandler, self).__init__()
+        super().__init__()
+        # python2
+        # super(ResultHandler, self).__init__()
 
     def _dataprocess(self, data):
         '''Get data from queue'''
