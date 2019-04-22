@@ -52,8 +52,6 @@ def produce_task_queue(data_file, left, right):
     task_queue.put('None')
     new_task_queue.put('None')
     _of.close()
-    print(task_queue.qsize())
-    print(new_task_queue.qsize())
     return task_queue, new_task_queue
 
 class SpiderParserHandler(threading.Thread):
@@ -66,12 +64,15 @@ class SpiderParserHandler(threading.Thread):
         # super(SpiderParserHandler, self).__init__()
 
     def run(self):
-        global existFlag, lock
+        global existFlag, lock, completion
         while not existFlag:
             if self._tq.empty():
                 break
             lock.acquire()
             data = self._tq.get()
+            completion += 1
+            if completion % 10000 == 0:
+                print("剩余任务量{}个".format(self._tq.qsize()))
             # self._tq.task_done()
             lock.release()
             if data != 'None':
@@ -82,7 +83,7 @@ class SpiderParserHandler(threading.Thread):
                 result = {'id': _id, 'url': _url, 'result': resp}
                 self._rq.put(result)
             else:
-                time.sleep(1)
+                time.sleep(10)
                 self._rq.put('None')
                 break
 
@@ -116,7 +117,53 @@ class ResultHandler(threading.Thread):
         global existFlag, filelock
         _of = open(self.localfile, "w")
         while not existFlag:
+            print(self.data_queue.qsize())
             data = self.data_queue.get()
+            # filelock.acquire()
+            if data != 'None':
+                # print(data)
+                out = self._dataprocess(data)
+                _of.write(json.dumps(out) + '\n')
+                sys.stdout.flush()
+                _of.flush()
+                # self.data_queue.task_done()
+                # filelock.release()
+            else:
+                print("结束前队列数{}".format(self.data_queue.qsize()))
+                if self.data_queue.empty():
+                    print("任务结束")
+                    # filelock.release()
+                    _of.close()
+                    # self.data_queue.task_done()
+                    break
+
+
+class WriteFile(object):
+    @staticmethod
+    def write_file_from_queue(localfile, data_queue):
+        _of = open(localfile, "w")
+        while not existFlag:
+            data = data_queue.get()
+            if data != 'None':
+                _url = data['url']
+                _id = data['id']
+                out = {str(_id): _url}
+                _of.write(json.dumps(out) + '\n')
+                sys.stdout.flush()
+                _of.flush()
+            else:
+                if data_queue.empty():
+                    print("新域名写入文件已完成")
+                    _of.close()
+                    break
+
+    def process_result_from_queue(self, localfile, data_queue):
+        _of = open(localfile, "w")
+        while not existFlag:
+            if data_queue.empty():
+                _of.close()
+                break
+            data = data_queue.get()
             # self.data_queue.task_done()
             if data != 'None':
                 # print(data)
@@ -126,35 +173,31 @@ class ResultHandler(threading.Thread):
                 _of.flush()
                 # filelock.release()
             else:
-                if self.data_queue.empty():
+                print(data_queue.qsize())
+                if not data_queue.empty():
                     print("任务结束")
                     # filelock.release()
                     _of.close()
                     # self.data_queue.task_done()
                     break
 
-
-def write_file_from_queue(localfile, data_queue):
-    _of = open(localfile, "w")
-    while not existFlag:
-        data = data_queue.get()
-        if data != 'None':
-            _url = data['url']
-            _id = data['id']
-            out = {str(_id): _url}
-            _of.write(json.dumps(out) + '\n')
-            sys.stdout.flush()
-            _of.flush()
+    def _dataprocess(self, data, tt=None):
+        nu = {"category": [], "title": [], "tag": [], "hyperlink_text": [], "hyperlink_url": []}
+        _url = data['url']
+        _id = data['id']
+        if not tt:
+            resp = data['result']
+            if resp.status_code != 408:
+                out = {str(_id): json.loads(resp.text), "url": _url}
+            else:
+                out = {str(_id): nu, "url": _url}
         else:
-            if data_queue.empty():
-                print("新域名写入文件已完成")
-                _of.close()
-                break
-
+            out = {str(_id): _url}
+        return out
 
 
 def start():
-    global existFlag, lock, filelock
+    global existFlag, lock, filelock, completion
 
     # >>>>>>>>>> test <<<<<<<<<<#
     # data_file = "/data/in_hi_html_random.json"
@@ -163,35 +206,43 @@ def start():
 
     # >>>>>>>>>> prod <<<<<<<<<<#
     data_file = '/data/zoushuai/news_content/html/dt=2019-04-11/url_random'
-    task_result_file = '/data/zoushuai/hi_news_parser/hi_news_parser_20190418'
-    new_task_result_file = '/data/zoushuai/hi_news_parser/hi_news_new_domain_20190418'
+    task_result_file = '/data/zoushuai/hi_news_parser/hi_news_parser_20190421'
+    new_task_result_file = '/data/zoushuai/hi_news_parser/hi_news_new_domain_20190421'
 
     lock = threading.Lock()
     filelock = threading.Lock()
+    completion = 0
     existFlag = 0
     _WORKER_THREAD_NUM = 10
     threads = []
     result_q = Queue.Queue()
-    task_q, new_task_q = produce_task_queue(data_file, 0, 5000)
+    task_q, new_task_q = produce_task_queue(data_file, 3000000, 3500000)
     time.sleep(3)
+    print(task_q.qsize())
+    print(new_task_q.qsize())
 
-    write_file_from_queue(new_task_result_file, new_task_q)
+    wf = WriteFile()
+    wf.write_file_from_queue(new_task_result_file, new_task_q)
 
+    s = time.time()
     for i in range(_WORKER_THREAD_NUM):
         thread = SpiderParserHandler(task_q, result_q)
+        # thread.setDaemon(True)
         thread.start()
         threads.append(thread)
     time.sleep(3)
-    write_task_thread = ResultHandler(result_q, task_result_file)
+    # write_task_thread = ResultHandler(result_q, task_result_file)
 
-    write_task_thread.start()
-    threads.append(write_task_thread)
-    time.sleep(1)
+    # write_task_thread.start()
+    # threads.append(write_task_thread)
+    # time.sleep(1)
 
     for thread in threads:
         thread.join()
-
-
+    e = time.time()
+    print("请求任务时间{}s".format(e-s))
+    print("结果队列长度：{}".format(result_q.qsize()))
+    wf.process_result_from_queue(task_result_file, result_q)
 
 if __name__ =='__main__':
     start()
