@@ -74,7 +74,7 @@ class SpiderParserHandler(threading.Thread):
             if completion % 10000 == 0:
                 print("剩余任务量{}个".format(self._tq.qsize()))
             # self._tq.task_done()
-            lock.release()
+            # lock.release()
             if data != 'None':
                 _url = data['url']
                 _id = data['id']
@@ -86,6 +86,7 @@ class SpiderParserHandler(threading.Thread):
                 time.sleep(10)
                 self._rq.put('None')
                 break
+            lock.release()
 
 
 class ResultHandler(threading.Thread):
@@ -206,8 +207,8 @@ def start():
 
     # >>>>>>>>>> prod <<<<<<<<<<#
     data_file = '/data/zoushuai/news_content/html/dt=2019-04-11/url_random'
-    task_result_file = '/data/zoushuai/hi_news_parser/hi_news_parser_20190421'
-    new_task_result_file = '/data/zoushuai/hi_news_parser/hi_news_new_domain_20190421'
+    task_result_file = '/data/zoushuai/hi_news_parser/hi_news_parser_20190422'
+    new_task_result_file = '/data/zoushuai/hi_news_parser/hi_news_new_domain_20190422'
 
     lock = threading.Lock()
     filelock = threading.Lock()
@@ -216,7 +217,7 @@ def start():
     _WORKER_THREAD_NUM = 10
     threads = []
     result_q = Queue.Queue()
-    task_q, new_task_q = produce_task_queue(data_file, 3000000, 3500000)
+    task_q, new_task_q = produce_task_queue(data_file, 3500000, 4200000)
     time.sleep(3)
     print(task_q.qsize())
     print(new_task_q.qsize())
@@ -231,18 +232,18 @@ def start():
         thread.start()
         threads.append(thread)
     time.sleep(3)
-    # write_task_thread = ResultHandler(result_q, task_result_file)
+    write_task_thread = ResultHandler(result_q, task_result_file)
 
-    # write_task_thread.start()
-    # threads.append(write_task_thread)
-    # time.sleep(1)
+    write_task_thread.start()
+    threads.append(write_task_thread)
+    time.sleep(1)
 
     for thread in threads:
         thread.join()
     e = time.time()
     print("请求任务时间{}s".format(e-s))
-    print("结果队列长度：{}".format(result_q.qsize()))
-    wf.process_result_from_queue(task_result_file, result_q)
+    # print("结果队列长度：{}".format(result_q.qsize()))
+    # wf.process_result_from_queue(task_result_file, result_q)
 
 if __name__ =='__main__':
     start()

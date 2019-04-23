@@ -9,7 +9,7 @@
 
 import re
 import json
-log_file = "/data/parser_server.log.1720"
+log_file = "/data/in_hi_news_parser_result/parser_server.log.2019-04-20"
 result_file = "/data/parser_server_log_result"
 
 
@@ -36,11 +36,12 @@ def ger_result_from_log():
     _of.close()
 
 
+ger_result_from_log()
 
 ori_file = "/data/in_hi_html_random.json"
 
 f = open(ori_file, 'r')
-lines = f.readlines()[400000:1500000]
+lines = f.readlines()[400000:3000000]
 f.close()
 ori_dict = dict()
 
@@ -51,9 +52,9 @@ for _line in lines:
 
 res_ = open(result_file, 'r')
 
-final_result_file = "/data/hi_news_parser_20190418_log_result"
+final_result_file = "/data/in_hi_news_parser_result/hi_news_parser_20190420_log_result"
 
-out_ = open(final_result_file,'w')
+out_ = open(final_result_file, 'w')
 while True:
     r_dict = dict()
     line_ = res_.readline().strip()
