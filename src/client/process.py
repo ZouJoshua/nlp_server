@@ -70,11 +70,13 @@ class SpiderParserHandler(threading.Thread):
                 break
             lock.acquire()
             data = self._tq.get()
+            if self._tq.qsize() < 10000:
+                time.sleep(1)
             completion += 1
             if completion % 10000 == 0:
                 print("剩余任务量{}个".format(self._tq.qsize()))
             # self._tq.task_done()
-            # lock.release()
+            lock.release()
             if data != 'None':
                 _url = data['url']
                 _id = data['id']
@@ -86,7 +88,7 @@ class SpiderParserHandler(threading.Thread):
                 time.sleep(10)
                 self._rq.put('None')
                 break
-            lock.release()
+            # lock.release()
 
 
 class ResultHandler(threading.Thread):
