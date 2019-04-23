@@ -235,11 +235,13 @@ def start():
     write_task_thread = ResultHandler(result_q, task_result_file)
 
     write_task_thread.start()
-    threads.append(write_task_thread)
+
+    # threads.append(write_task_thread)
     time.sleep(1)
 
     for thread in threads:
         thread.join()
+    write_task_thread.join()
     e = time.time()
     print("请求任务时间{}s".format(e-s))
     # print("结果队列长度：{}".format(result_q.qsize()))
