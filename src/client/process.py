@@ -64,14 +64,14 @@ class SpiderParserHandler(threading.Thread):
         # super(SpiderParserHandler, self).__init__()
 
     def run(self):
-        global existFlag, lock, completion
+        global existFlag, lock,filelock, completion
         while not existFlag:
             if self._tq.empty():
                 break
             lock.acquire()
             data = self._tq.get()
-            if self._tq.qsize() < 10000:
-                time.sleep(1)
+            # if self._tq.qsize() < 10000:
+            #     time.sleep(1)
             completion += 1
             if completion % 10000 == 0:
                 print("剩余任务量{}个".format(self._tq.qsize()))
@@ -83,7 +83,9 @@ class SpiderParserHandler(threading.Thread):
                 parms = {'id': _id, 'website': _url, "lang": "hi"}
                 resp = requests.post(url, data=parms)
                 result = {'id': _id, 'url': _url, 'result': resp}
+                filelock.acquire()
                 self._rq.put(result)
+                filelock.release()
             else:
                 time.sleep(10)
                 self._rq.put('None')
@@ -117,7 +119,7 @@ class ResultHandler(threading.Thread):
         return out
 
     def run(self):
-        global existFlag, filelock
+        global existFlag
         _of = open(self.localfile, "w")
         while not existFlag:
             print(self.data_queue.qsize())
