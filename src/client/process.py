@@ -122,7 +122,7 @@ class ResultHandler(threading.Thread):
         global existFlag
         _of = open(self.localfile, "w")
         while not existFlag:
-            print(self.data_queue.qsize())
+            # print(self.data_queue.qsize())
             data = self.data_queue.get()
             # filelock.acquire()
             if data != 'None':
