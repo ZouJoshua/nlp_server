@@ -31,6 +31,7 @@ class Regional(View):
         返回新闻地域分类
         :param request:
         :return: {"status": "Successful", "result":{"Odisha":1.0}}
+        {"status": "Successful", result:{"name":"Odisha", "prob":1.0}}
                 {"status": "Successful", "result":{"unknown":1.0}}
                 {"status": "Error", "result":{"unknown":1.0}}
         """
@@ -40,14 +41,14 @@ class Regional(View):
         request_data = request.POST  # 查看客户端发来的请求内容
         text = request_data.get("content", default='')
         title = request_data.get("title", default='')
-        task_id = request_data.get("id", default='NoID')
+        task_id = request_data.get("newsid", default='NoID')
         logger.info('Successfully received the task_id {} sent by the client {}'.format(task_id, client_host))
         if text or title:
             res = pred.get_regional_multithread(content=text, title=title)
             # res = pred.get_regional(content=text, title=title)
             result["status"] = 'Successful'
         else:
-            res = {"unknown": 1.0}
+            res = {"name": "unknown","prob": 1.0}
             result["status"] = 'Error'
             logger.warming('User-delivered content and title fields were not found.')
         result["result"] = res
