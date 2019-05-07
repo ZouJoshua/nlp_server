@@ -13,12 +13,12 @@ import json
 import requests
 import logging
 import os
+import sys
+apps_dir = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+sys.path.insert(0, os.path.dirname(apps_dir))
 from src.web.settings import NLP_MODEL_PATH
 
 
-# apps_dir = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-# sys.path.insert(0, os.path.join(os.path.dirname(apps_dir), 'web'))
-# print(sys.path)
 
 logger = logging.getLogger("nlp_v_category_predict")
 # NLP_MODEL_PATH = '/home/zoushuai/algoproject/nlp_v_category_server/src/data'
