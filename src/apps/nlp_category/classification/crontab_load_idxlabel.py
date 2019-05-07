@@ -31,7 +31,8 @@ def crontab_load(r_type="1", b_type="0"):
     file = os.path.join(NLP_MODEL_PATH, 'idx2label.json')
     lim = LoadIdxMap(logger=logger)
     idx = lim.load_update_idx2label(file, r_type, b_type)
-    cache.set("IDX2LABEL_MAP", idx)
+    # cache.set("IDX2LABEL_MAP", idx)
+    return idx
 
 
 class LoadIdxMap(object):
