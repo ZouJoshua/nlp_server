@@ -13,10 +13,15 @@ import json
 import requests
 import logging
 import os
+from src.web.settings import NLP_MODEL_PATH
 
-# from web.settings import NLP_MODEL_PATH
+
+# apps_dir = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+# sys.path.insert(0, os.path.join(os.path.dirname(apps_dir), 'web'))
+# print(sys.path)
+
 logger = logging.getLogger("nlp_v_category_predict")
-NLP_MODEL_PATH = '/home/zoushuai/algoproject/nlp_v_category_server/src/data'
+# NLP_MODEL_PATH = '/home/zoushuai/algoproject/nlp_v_category_server/src/data'
 
 def crontab_load(r_type="1", b_type="0"):
 
@@ -46,11 +51,13 @@ class LoadIdxMap(object):
         else:
             new_file = os.path.join(NLP_MODEL_PATH, 'idx2label_new.json')
             with open(new_file, 'w') as nf:
-                nf.writelines(json.dumps(idx2label_requests), indent=4)
+                nf.writelines(json.dumps(idx2label_requests, indent=4))
             return idx2label_requests
 
     def load_idx2label_from_file(self, file):
         # idx2label = self.get_category_dict_from_requests(r_type="1", b_type="0")
+        # with open(file, 'w') as nf:
+        #     nf.writelines(json.dumps(idx2label, indent=4))
         with open(file, 'r') as f:
             idx = json.load(f)
         return idx
@@ -73,18 +80,18 @@ class LoadIdxMap(object):
         r_data = json.loads(requests_data)
         idx2label = dict()
         for i in r_data['data']:
-            if i["bizType"] == int(b_type):
-                idx2label[i['classifyId']] = {
-                    "top_category": [{"id": i["classifyId"], "category": i["classifyName"], "proba": 1.0}],
-                    "sub_category": [{"id": -1, "category": "", "proba": 0.0}]}
-                if i["children"]:
-                    for j in i["children"]:
-                        if j["bizType"] == int(b_type):
-                            idx2label[j["classifyId"]] = {"top_category": [
-                                {"id": i["classifyId"], "category": i["classifyName"], "proba": 1.0}],
-                                                          "sub_category": [
-                                                              {"id": j["classifyId"], "category": j["classifyName"],
-                                                               "proba": 1.0}]}
-            else:
-                self.log.warning("Discover other classification business types: {}".format(i["bizType"]))
+            # if i["bizType"] == int(b_type):
+            idx2label[i['classifyId']] = {
+                "top_category": [{"id": i["classifyId"], "category": i["classifyName"], "proba": 1.0}],
+                "sub_category": [{"id": -1, "category": "", "proba": 0.0}]}
+            if i["children"]:
+                for j in i["children"]:
+                    # if j["bizType"] == int(b_type):
+                    idx2label[j["classifyId"]] = {"top_category": [
+                        {"id": i["classifyId"], "category": i["classifyName"], "proba": 1.0}],
+                                                  "sub_category": [
+                                                      {"id": j["classifyId"], "category": j["classifyName"],
+                                                       "proba": 1.0}]}
+            # else:
+            #     self.log.warning("Discover other classification business types: {}".format(i["bizType"]))
         return idx2label

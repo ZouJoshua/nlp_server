@@ -229,11 +229,17 @@ PROJECT_LOG_FILE = ""  # 日志文件
 
 ```bash
 python3 run.py nlp_category_server manage.py start
+# 添加定时加载映射文件
+python3 manage.py crontab add
 ```
+
+
 
 #### 停止
 
 ```bash
+# 停止定时任务
+python3 manage.py crontab remove
 python3 run.py nlp_category_server manage.py stop
 ```
 
@@ -247,12 +253,20 @@ python3 run.py nlp_category_server manage.py restart
 
 ```python
 # url
-url1 = 'http://127.0.0.1:19901/nlp_category/category'
-url2 = 'http://127.0.0.1:19901/nlp_category/top'
-url3 = 'http://127.0.0.1:19901/nlp_category/sub'
+url1 = 'http://127.0.0.1:17701/nlp_category/v_category'
 
-# post data format(请求二级分类必须传一级分类，其他可不传) 
-parms = {"title": title, "content": content, "top_category": top_category}
+"""
+传入参数：
+    newsid: string(必传)
+    title: string（必传）
+    content: string（必传）
+    category: string()
+    sub_category: string()
+    resource_type: string(0：文章 1：视频)
+    business_type: string(0:浏览器 1:游戏)
+    
+"""
+parms = {"newsid": _id, "title": title, "content": content, "category": top_category, "sub_category":sub_category, "business_type":business_type,"resource_type":resource_type}
 
 # 发送请求
 resp1 = requests.post(url1, data=parms)
@@ -261,11 +275,5 @@ resp1 = requests.post(url1, data=parms)
 result = resp1.text
 ```
 
-### 目前情况
-* 一级分类达到9个类别（1个独立模型），准确率达到95%+，
-* 二级分类达到88个类别（8个独立模型），整体准确率达到85%
 
-
-### 后续优化
-* 优化线上模型大小，解决多个模型占内存的问题
 
