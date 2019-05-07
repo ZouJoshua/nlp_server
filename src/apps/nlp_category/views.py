@@ -49,7 +49,6 @@ class Category(View):
         res = pred.get_category(top_c=top, sub_c=sub, idx2label=idx2label_map)
         if res == {"top_category": [{"id": top, "category": "", "proba": 0.0}],
                                 "sub_category": [{"id": sub, "category": "", "proba": 0.0}]}:
-            res = dict()
             result["status"] = 'Error'
             result["result"] = res
             logger.error("No classification found in the mapping table")
