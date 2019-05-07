@@ -16,7 +16,7 @@ import os
 import sys
 apps_dir = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 sys.path.insert(0, os.path.join(os.path.dirname(apps_dir),'web'))
-from src.web.settings import NLP_MODEL_PATH
+from web.settings import NLP_MODEL_PATH
 
 
 
