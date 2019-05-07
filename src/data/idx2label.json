@@ -2255,6 +2255,22 @@
             }
         ]
     },
+    "700(-1)": {
+        "top_category": [
+            {
+                "id": "700",
+                "category": "Casual puzzle",
+                "proba": 1.0
+            }
+        ],
+        "sub_category": [
+            {
+                "id": "70011",
+                "category": "Casual puzzle others",
+                "proba": 1.0
+            }
+        ]
+    },
     "701": {
         "top_category": [
             {
@@ -2304,6 +2320,22 @@
         ]
     },
     "70014": {
+        "top_category": [
+            {
+                "id": "701",
+                "category": "Real-Time Strategy",
+                "proba": 1.0
+            }
+        ],
+        "sub_category": [
+            {
+                "id": "70014",
+                "category": "RTS others",
+                "proba": 1.0
+            }
+        ]
+    },
+    "701(-1)": {
         "top_category": [
             {
                 "id": "701",
@@ -2399,6 +2431,22 @@
             }
         ]
     },
+    "702(-1)": {
+        "top_category": [
+            {
+                "id": "702",
+                "category": "Chess & Card games",
+                "proba": 1.0
+            }
+        ],
+        "sub_category": [
+            {
+                "id": "70018",
+                "category": "chess & card others",
+                "proba": 1.0
+            }
+        ]
+    },
     "703": {
         "top_category": [
             {
@@ -2448,6 +2496,22 @@
         ]
     },
     "70021": {
+        "top_category": [
+            {
+                "id": "703",
+                "category": "Sports games",
+                "proba": 1.0
+            }
+        ],
+        "sub_category": [
+            {
+                "id": "70021",
+                "category": "sports games others",
+                "proba": 1.0
+            }
+        ]
+    },
+    "703(-1)": {
         "top_category": [
             {
                 "id": "703",
@@ -2544,6 +2608,22 @@
         ]
     },
     "70026": {
+        "top_category": [
+            {
+                "id": "704",
+                "category": "Simulation Game",
+                "proba": 1.0
+            }
+        ],
+        "sub_category": [
+            {
+                "id": "70026",
+                "category": "SLG others",
+                "proba": 1.0
+            }
+        ]
+    },
+    "704(-1)": {
         "top_category": [
             {
                 "id": "704",
@@ -2671,6 +2751,22 @@
             }
         ]
     },
+    "705(-1)": {
+        "top_category": [
+            {
+                "id": "705",
+                "category": "Action Game",
+                "proba": 1.0
+            }
+        ],
+        "sub_category": [
+            {
+                "id": "70032",
+                "category": "ACT others",
+                "proba": 1.0
+            }
+        ]
+    },
     "706": {
         "top_category": [
             {
@@ -2736,6 +2832,22 @@
         ]
     },
     "70037": {
+        "top_category": [
+            {
+                "id": "706",
+                "category": "Role-playing Game",
+                "proba": 1.0
+            }
+        ],
+        "sub_category": [
+            {
+                "id": "70037",
+                "category": "RPG others",
+                "proba": 1.0
+            }
+        ]
+    },
+    "706(-1)": {
         "top_category": [
             {
                 "id": "706",

@@ -92,7 +92,7 @@ class LoadIdxMap(object):
                         "sub_category": [
                             {"id": j["classifyId"], "category": j["classifyName"],
                              "proba": 1.0}]}
-                    if j["classifyName"].lower().startswith("other "):
+                    if "other" in j["classifyName"].lower():
                         key = "{}({})".format(i["classifyId"], "-1")
                         idx2label[j["classifyId"]] = value
                         idx2label[key] = value
