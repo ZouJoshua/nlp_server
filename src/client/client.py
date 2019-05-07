@@ -11,54 +11,33 @@ import requests
 import json
 
 
-url1 = 'http://10.65.0.76:19901/nlp_category/category'
-url2 = 'http://10.65.0.76:19901/nlp_category/top'
-url3 = 'http://10.65.0.76:19901/nlp_category/sub'
+url1 = 'http://127.0.0.1:17701/nlp_category/v_category'
 
 
 title = "Messenger App Gets New Powerful Camera"
 content = """To help make conversations better, Facebook on Friday launched a new, faster and easier-to-use camera with art and special effects in its Messenger app that will be rolled out globally over the coming days. “We have seen that the way people are messaging is becoming much more visual. In fact, over 2.5 billion emojis, photos, stickers and videos are sent every day on Messenger,” the company said in a blog. “In some ways the camera is now replacing the keyboard. As more people use Messenger in their everyday lives, we wanted to make it faster, simpler and more fun to send photos and videos. So we built the new Messenger camera,” Facebook said. The new camera is quicker than previous versions which makes it easier for users to capture and share moments as they happen. Whether you are already in a conversation or have just opened up the app, you will see the shutter button centre in the screen. A tap takes photo and a long press records a video. The social media giant also introduced new art and special effects. “We are especially excited to debut 3D masks and special effects, which make it super easy to apply an artistic filter to your full screen photo and to turn your world into a work of art,” the company said. Facebook has also incorporated thousands of stickers, frames, masks and effects in the app. A user can also create text, add art and stickers to the text. """
-top_category = "technology"
+_id = "1000"
+top_category = "214"
+sub_category = "10001"
+resource_type = "1"
+business_type = "0"
 
-# 请求一级和二级类参数
+# 请求
 """
 传入参数：
+    newsid: string(必传)
     title: string（必传）
     content: string（必传）
-    thresholds: （float，float）（可不传，默认参数（0.3,0.2））
+    category: string()
+    sub_category: string()
+    resource_type: string(0：文章 1：视频)
+    business_type: string(0:浏览器 1:游戏)
+    
 """
-parms = {"title": title, "content": content, "top_category": top_category}
-
-# 单独请求一级类参数
-"""
-传入参数：
-    title: string（必传）
-    content: string（必传）
-    thresholds: float（可不传，默认参数0.3）
-"""
-# parms = {"title": title, "content": content, "thresholds": 0.3}
-# 单独请求二级类参数
-"""
-传入参数：
-    title: string（必传）
-    content: string（必传）
-    top_category: string（必传）
-    thresholds: float（可不传，默认参数0.2）
-"""
-# parms = {"title": title, "content": content, "top_category": top_category, "thresholds": 0.2}
+parms = {"newsid": _id, "title": title, "content": content, "category": top_category, "sub_category":sub_category, "business_type":business_type,"resource_type":resource_type}
 
 # category test
 resp1 = requests.post(url1, data=parms)  # 发送请求
 # Decoded text returned by the request
 print(resp1.text)
-
-# top_category test
-resp2 = requests.post(url2, data=parms)  # 发送请求
-# Decoded text returned by the request
-print(resp2.text)
-
-# sub_category test
-resp3 = requests.post(url3, data=parms)  # 发送请求
-# Decoded text returned by the request
-print(resp3.text)
 

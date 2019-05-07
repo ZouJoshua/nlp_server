@@ -40,6 +40,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    # 添加定时任务app
+    'django_crontab',
     # 添加nlp分类app
     'apps.nlp_category',
 ]
@@ -73,6 +75,16 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'web.wsgi.application'
+
+
+# CACHESps -ef | g
+CACHES = {
+    'default': {
+        'BACKEND': 'django.core.cache.backends.locmem.LocMemCache',
+        'LOCATION': 'unique-snowflake'
+    }
+}
+
 
 
 # Database
@@ -138,8 +150,13 @@ LOG_PATH = os.path.join(BASE_DIR, 'logs')
 if not os.path.exists(LOG_PATH):
     os.mkdir(LOG_PATH)
 
-PROJECT_LOG_FILE = os.path.join(LOG_PATH, 'category_server.log')
+PROJECT_LOG_FILE = os.path.join(LOG_PATH, 'v_category_server.log')
+CRONJOBS_LOG_FILE = os.path.join(LOG_PATH, 'crontab.log')
 
+# 运行定时函数
+CRONJOBS = [
+    ('*/1 * * * *', 'apps.nlp_category.classification.crontab_load_idxlabel.crontab_load', '>>{}'.format(CRONJOBS_LOG_FILE))
+]
 # nlp模型
-NLP_MODEL_PATH = os.path.join(BASE_DIR, 'data', 'model')
+NLP_MODEL_PATH = os.path.join(BASE_DIR, 'data')
 # NLP_MODEL_PATH = '/data/zoushuai/news_content/sub_classification_model/model'

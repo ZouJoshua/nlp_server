@@ -14,19 +14,20 @@ import time
 from utils.daemonize import daemonize
 
 
+
 HOME = os.getcwd()
 SCRPET = os.path.basename(sys.argv[0])
 if len(sys.argv) != 4 or sys.argv[1] == '-h':
-    sys.exit("Usage:sudo %s ServerName {Port} {start, stop, restart}" % SCRPET)
+    sys.exit("Usage:sudo %s {ServerName} {start, stop, restart}" % SCRPET)
 
 RUN = "python3"
-SERVER_NAME = 'nlp_category_server'
-NAME = sys.argv[1]
-PORT = sys.argv[2]
+SERVER_NAME = sys.argv[1]
+NAME = sys.argv[2]
 OP = sys.argv[3]
 
 # server ip
-SERVER_HOSTS = os.environ.get('SERVER_HOSTS', '10.65.0.76')
+SERVER_HOSTS = os.environ.get('SERVER_HOSTS', '127.0.0.1')
+SERVER_PORT = os.environ.get('PORT', 17701)
 
 SERVER_NAME_PIDFILE = '.{}_pidfile'.format(SERVER_NAME)
 PIDFILE = "{}/{}".format(HOME, SERVER_NAME_PIDFILE)
@@ -42,22 +43,37 @@ def start():
         if not k in ("Y", "y"):
             sys.exit(1)
     try:
-        # p = subprocess.Popen([RUN, NAME, 'runserver', PORT])  # , stdout=subprocess.PIPE)
+        # p = subprocess.Popen([RUN, NAME, 'runserver', SERVER_PORT])  # , stdout=subprocess.PIPE)
         # 生产环境 fork一个子进程保证线上安全
-        p = subprocess.Popen('nohup {} {} runserver {}:{} &'.format(RUN, NAME, SERVER_HOSTS, PORT), shell=True, preexec_fn=os.setsid)  # , stdout=subprocess.PIPE)
+        p = subprocess.Popen('nohup {} {} runserver {}:{} &'.format(RUN, NAME, SERVER_HOSTS, SERVER_PORT), shell=True, preexec_fn=os.setsid)  # , stdout=subprocess.PIPE)
         # 生产环境
-        # p = subprocess.Popen('nohup {} {} runserver {}:{} --noreload &'.format(RUN, NAME, SERVER_HOSTS, PORT), shell=True, preexec_fn=os.setsid)#, stdout=subprocess.PIPE)
+        # p = subprocess.Popen('nohup {} {} runserver {}:{} --noreload &'.format(RUN, NAME, SERVER_HOSTS, SERVER_PORT), shell=True, preexec_fn=os.setsid)#, stdout=subprocess.PIPE)
         p.wait()
+        time.sleep(1)
+        ppid = None
+        pid = None
         cmd = 'ps -ef | grep %s |grep -v "grep --color=auto" | ' \
-              'grep %s | awk \'{print $2}\'' % (PORT, cmd_server_name)
+              'grep %s | awk \'{print $2}\'' % (SERVER_PORT, cmd_server_name)
         ps_pid = os.popen(cmd).read().strip()
         if len(ps_pid.split("\n")) == 2:
+            ppid = ps_pid.split("\n")[0]
             pid = ps_pid.split("\n")[1]
+        elif len(ps_pid.split("\n")) == 1:
+            pid = ps_pid.split("\n")[0]
         else:
-            pid = "error"
-        print(" | ".join(["Start OK", "PID:%s" % pid]))
-        # daemonize(pidfile=SERVER_NAME_PIDFILE)
-        open(PIDFILE, 'w+').write('%s\n' % pid)
+            raise Exception('PID Process error, please check')
+            # sys.exit(1)
+        if ppid and pid:
+            print(" | ".join(["Start OK", "PID:%s" % pid]))
+            print(" | ".join(["Start OK", "PPID:%s" % ppid]))
+            # daemonize(pidfile=SERVER_NAME_PIDFILE)
+            open(PIDFILE, 'w+').write('{}\n{}\n'.format(pid, ppid))
+        elif pid:
+            print(" | ".join(["Start OK", "PID:%s" % pid]))
+            # daemonize(pidfile=SERVER_NAME_PIDFILE)
+            open(PIDFILE, 'w+').write('{}\n'.format(pid))
+        else:
+            raise Exception('Start error...')
     except Exception as e:
         print(e)
     else:
@@ -69,42 +85,42 @@ def stop():
         return
     pid_list = open(PIDFILE).readlines()
     pid = None
-    monitor_pid = None
+    ppid = None
     if len(pid_list) == 1:
         pid = pid_list[0].strip()
     elif len(pid_list) == 2:
         pid = pid_list[0].strip()
-        monitor_pid = pid_list[1].strip()
+        ppid = pid_list[1].strip()
     else:
-        print(SERVER_NAME, " Stop error")
+        print(SERVER_NAME, " Stop error...")
         return
 
     print("Stopping", SERVER_NAME, '...')
-    if monitor_pid:
-        if subprocess.call(["kill -9 " + monitor_pid], shell=True) == 0:
-            time.sleep(0.2)
-            pass
+    if ppid and pid:
+        if subprocess.call(["kill -9 " + pid], shell=True) == 0:
+            print(" | ".join(["Stop main process OK", "PID:%s" % pid]))
+        if subprocess.call(["kill -9 " + ppid], shell=True) == 0:
+            print(" | ".join(["Stop parent process OK", "PID:%s" % ppid]))
+        if subprocess.call(["rm " + PIDFILE], shell=True) != 0:
+            print("Delete Permission Denied")
         else:
-            print(SERVER_NAME, "monitor stop error")
-    else:
-        pass
-
-    if pid:
+            print(SERVER_NAME, "pid file delete...")
+    elif pid:
         if subprocess.call(["kill -9  " + pid], shell=True) == 0:
             print(" | ".join(["Stop main process OK", "PID:%s" % pid]))
         if subprocess.call(["rm " + PIDFILE], shell=True) != 0:
             print("Delete Permission Denied")
         cmd = 'ps -ef | grep %s |grep -v "grep --color=auto" | ' \
-              'grep %s | awk \'{print $2}\'' % (PORT, cmd_server_name)
+              'grep %s | awk \'{print $2}\'' % (SERVER_PORT, cmd_server_name)
         ps_pid = os.popen(cmd).read().strip()
         if len(ps_pid.split("\n")) == 2:
             fork_pid = ps_pid.split("\n")[0]
             if subprocess.call(["kill -9  " + fork_pid], shell=True) == 0:
-                print(" | ".join(["Stop fork process OK", "PID:%s" % fork_pid]))
+                print(" | ".join(["Stop parent process OK", "PID:%s" % fork_pid]))
         else:
             pass
     else:
-        print("Stop Error")
+        print("Stop Error..")
 
 
 def restart():
@@ -113,23 +129,8 @@ def restart():
     return start()
 
 
+
 ops = {"start": start, "stop": stop, "restart": restart}
 
 if __name__ == "__main__":
     pid = ops[OP]()
-    # print(pid)
-    # if OP == 'start' \
-    #         or OP == 'restart':
-    #
-    #     cmd = 'ps -ef | grep %s | grep -v "grep" | ' \
-    #           'grep %s | awk \'{print $2}\'' % (pid, cmd_server_name)
-    #     ps_pid = os.popen(cmd).read().strip()
-    #     print('ps_pid,pid', ps_pid, pid)
-    #
-    #     if ps_pid != pid:
-    #         # pass
-    #         subprocess.call(["rm " + PIDFILE], shell=True)
-    #         pid = ops['start']()
-    #     else:
-    #         pass
-    #     time.sleep(1)
