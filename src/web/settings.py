@@ -155,7 +155,7 @@ CRONJOBS_LOG_FILE = os.path.join(LOG_PATH, 'crontab.log')
 
 # 运行定时函数
 CRONJOBS = [
-    ('0 */2 * * *', 'apps.nlp_category.classification.crontab_load_idxlabel.crontab_load', '>>{}'.format(CRONJOBS_LOG_FILE))
+    ('0 */2 * * *', 'apps.nlp_category.classification.crontab_load_idxlabel.crontab_load', '>> {}'.format(CRONJOBS_LOG_FILE))
 ]
 # nlp模型
 NLP_MODEL_PATH = os.path.join(BASE_DIR, 'data')

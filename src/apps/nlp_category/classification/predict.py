@@ -53,18 +53,32 @@ class Predict(object):
         :param b_type: 分类业务类型（0:浏览器 1:游戏）
         :return: 分类结果（一级类、二级类）
         """
-        if sub_c in idx2label.keys():
-            predict_res = idx2label[sub_c]
-            self.log.info("Successfully predicting the sub_category\n{}".format(predict_res))
-            return predict_res
-        else:
-            self.log.warning("Secondary classification id does not exist")
-            if top_c in idx2label.keys():
-                predict_res = idx2label[top_c]
-                self.log.info("Successfully predicting the top_category\n{}".format(predict_res))
+        if int(sub_c) == -1:
+            key = "{}({})".format(top_c, "-1")
+            if key in idx2label.keys():
+                predict_res = idx2label[key]
+                self.log.warning("Successfully predicting the sub_category of other {}".format(predict_res))
                 return predict_res
             else:
-                predict_res = {"top_category": [{"id": top_c, "category": "", "proba": 0.0}],
-                                "sub_category": [{"id": sub_c, "category": "", "proba": 0.0}]}
-                self.log.error("Primary classification id does not exist")
+                self.log.warning("Secondary classification id does not exist")
+                predict_res = self._check_top_c(top_c, sub_c, idx2label)
                 return predict_res
+        else:
+            if sub_c in idx2label.keys():
+                predict_res = idx2label[sub_c]
+                self.log.info("Successfully predicting the sub_category\n{}".format(predict_res))
+                return predict_res
+            else:
+                self.log.warning("Secondary classification id does not exist")
+                predict_res = self._check_top_c(top_c, sub_c, idx2label)
+                return predict_res
+
+    def _check_top_c(self, top_c, sub_c, idx2label):
+        if top_c in idx2label.keys():
+            predict_res = idx2label[top_c]
+            self.log.info("Successfully predicting the top_category\n{}".format(predict_res))
+        else:
+            predict_res = {"top_category": [{"id": top_c, "category": "", "proba": 0.0}],
+                           "sub_category": [{"id": sub_c, "category": "", "proba": 0.0}]}
+            self.log.error("Primary classification id does not exist")
+        return predict_res

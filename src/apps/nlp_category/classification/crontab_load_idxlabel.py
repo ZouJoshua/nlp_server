@@ -15,7 +15,7 @@ import logging
 import os
 import sys
 apps_dir = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-sys.path.insert(0, os.path.join(os.path.dirname(apps_dir),'web'))
+sys.path.insert(0, os.path.join(os.path.dirname(apps_dir), 'web'))
 from web.settings import NLP_MODEL_PATH
 
 
@@ -87,12 +87,23 @@ class LoadIdxMap(object):
                 "sub_category": [{"id": -1, "category": "", "proba": 0.0}]}
             if i["children"]:
                 for j in i["children"]:
-                    # if j["bizType"] == int(b_type):
-                    idx2label[j["classifyId"]] = {"top_category": [
+                    value = {"top_category": [
                         {"id": i["classifyId"], "category": i["classifyName"], "proba": 1.0}],
-                                                  "sub_category": [
-                                                      {"id": j["classifyId"], "category": j["classifyName"],
-                                                       "proba": 1.0}]}
+                        "sub_category": [
+                            {"id": j["classifyId"], "category": j["classifyName"],
+                             "proba": 1.0}]}
+                    if j["classifyName"].lower().startswith("other "):
+                        key = "{}({})".format(i["classifyId"], "-1")
+                        idx2label[j["classifyId"]] = value
+                        idx2label[key] = value
+                    else:
+                        key = j["classifyId"]
+                        idx2label[key] = value
             # else:
             #     self.log.warning("Discover other classification business types: {}".format(i["bizType"]))
         return idx2label
+
+
+# file = "/home/zoushuai/algoproject/nlp_v_category_server/src/data/idx2label.json"
+# s = LoadIdxMap()
+# s.load_idx2label_from_file(file)
