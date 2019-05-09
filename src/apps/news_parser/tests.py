@@ -12,7 +12,7 @@ import sys
 sys.path.append("/home/zoushuai/algoproject/nlp_parser_server/src")
 sys.path.append("/home/zoushuai/algoproject/nlp_parser_server/src/web")
 
-from web.settings import PROJECT_LOG_FILE, PROJECT_DATA_PATH
+from config.n_parser_conf import PARSER_DATA_PATH
 
 import random
 import time
@@ -59,11 +59,11 @@ class TestPredict(TestCase):
         print(">>>>>>>>>>解析网页耗时： {}".format(s2 - s1))
 
     def get_file(self):
-        NLP_PARSER_FILE_PATH = os.path.join(PROJECT_DATA_PATH, 'rule.json')
+        NLP_PARSER_FILE_PATH = os.path.join(PARSER_DATA_PATH, 'rule.json')
         with open(NLP_PARSER_FILE_PATH, 'r', encoding='utf-8') as jf:
             rules_xpath = json.load(jf)
-        NEW_DOMAINS_FILE = os.path.join(PROJECT_DATA_PATH, 'new_domain.txt')
-        XPATH_ERROR_FILE = os.path.join(PROJECT_DATA_PATH, 'xpath_error.txt')
+        NEW_DOMAINS_FILE = os.path.join(PARSER_DATA_PATH, 'new_domain.txt')
+        XPATH_ERROR_FILE = os.path.join(PARSER_DATA_PATH, 'xpath_error.txt')
         new_domains_file = open(NEW_DOMAINS_FILE, "a+")
         xpath_error_file = open(XPATH_ERROR_FILE, "a+")
         return rules_xpath, new_domains_file, xpath_error_file

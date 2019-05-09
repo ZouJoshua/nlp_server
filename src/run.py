@@ -11,51 +11,54 @@ import subprocess
 import os
 import sys
 import time
-from .config import *
 from utils.daemonize import daemonize
 
 
 HOME = os.getcwd()
 SCRPET = os.path.basename(sys.argv[0])
 if len(sys.argv) != 4 or sys.argv[1] == '-h':
-    sys.exit("Usage:sudo %s {category, regional, parser} {start, stop, restart}" % SCRPET)
+    sys.exit("Usage:sudo %s {news_category, news_regional, news_parser} {start, stop, restart}" % SCRPET)
 
 RUN = "python3"
 SERVER_NAME = sys.argv[1]
 NAME = sys.argv[2]
 OP = sys.argv[3]
 
-
+# 服务环境设置
 def set_environ(server_name):
     BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+    os.environ.setdefault("NLP_SERVER_NAME", server_name)
     config_file = "{}_conf".format(server_name)
     if os.path.exists(os.path.join(BASE_DIR, 'config', config_file+'.py')):
         os.environ.setdefault("DJANGO_SETTINGS_MODULE", "config.{}".format(config_file))
     else:
-        os.environ.setdefault("DJANGO_SETTINGS_MODULE", "config.base_conf")
+        raise Exception("{}服务配置文件不存在，请检查".format(server_name))
+        # os.environ.setdefault("DJANGO_SETTINGS_MODULE", "config.base_conf")
     server_hosts = os.environ.get('SERVER_HOSTS', '127.0.0.1')
-    if server_name =='category':
+    if server_name =='news_category':
         # server ip
         server_port = os.environ.get('PORT', 19901)
-    elif server_name == 'regional':
+    elif server_name == 'news_regional':
         server_port = os.environ.get('PORT', 18801)
-    elif server_name == 'parser':
+    elif server_name == 'news_parser':
         server_port = os.environ.get('PORT', 8020)
+    elif server_name == 'video_category':
+        server_port = os.environ.get('PORT', 17701)
     else:
         server_port = os.environ.get('PORT', 10901)
     return server_hosts, server_port
 
 
 SERVER_HOSTS, SERVER_PORT = set_environ(SERVER_NAME)
-
+# 服务pid监控
 SERVER_NAME_PIDFILE = '.{}_pidfile'.format(SERVER_NAME)
 PIDFILE = "{}/{}".format(HOME, SERVER_NAME_PIDFILE)
 cmd_server_name = os.path.split(os.path.realpath(NAME))[-1].replace('.py', '')
 
-
+# 启动
 def start():
-    print(" | ".join([HOME, NAME]))
-    print("Starting {} ...".format(SERVER_NAME))
+    # print(" | ".join([HOME, NAME]))
+    print("Starting {} server on\nhttp://{}:{}...".format(SERVER_NAME, SERVER_HOSTS, SERVER_PORT))
     if os.path.exists(PIDFILE):
         print("{} has been running | PID:{}\nContinue?(Y/N)".format(SERVER_NAME, open(PIDFILE).readline()))
         k = input()
@@ -98,7 +101,7 @@ def start():
     else:
         return pid
 
-
+# 停止
 def stop():
     if not os.path.exists(PIDFILE):
         return
@@ -141,7 +144,7 @@ def stop():
     else:
         print("Stop Error..")
 
-
+# 重启
 def restart():
     stop()
     time.sleep(1)

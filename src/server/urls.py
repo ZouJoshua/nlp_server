@@ -16,10 +16,28 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 from django.conf.urls import include
+import os
+
+
+
+def get_server_path(server_name):
+    if server_name == "news_parser":
+        return path('nlp_parser/', include('{}.urls'.format(server_name), namespace=server_name))
+    elif server_name == "news_regional":
+        return path('nlp_regional/', include('{}.urls'.format(server_name), namespace=server_name))
+    elif server_name == "news_category":
+        return path('nlp_category/', include('{}.urls'.format(server_name), namespace=server_name))
+    elif server_name == "video_category":
+        return path('v_category/', include('{}.urls'.format(server_name), namespace=server_name))
+    else:
+        raise Exception("服务不存在，请检查服务是否正确, 如正确，请添加服务路由")
+
+
+SERVER_NAME = os.environ.get("NLP_SERVER_NAME")
+server_url_path = get_server_path(SERVER_NAME)
+
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('nlp_category/', include('nlp_category.urls', namespace='nlp_category')),
-    path('nlp_regional/', include('nlp_regional.urls', namespace='nlp_regional')),
-    path('nlp_parser/', include('nlp_parser.urls', namespace='nlp_parser'))
+    server_url_path
 ]

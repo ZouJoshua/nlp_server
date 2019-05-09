@@ -2,11 +2,10 @@
 # -*- coding: utf-8 -*-
 """
 @Author  : Joshua
-@Time    : 19-4-11 上午9:44
-@File    : regional_conf.py
-@Desc    : nlp_regional_server setting
+@Time    : 19-4-11 上午9:45
+@File    : parser_conf.py
+@Desc    : nlp_parser_server setting
 """
-
 
 import os
 import sys
@@ -119,6 +118,8 @@ PROJECT_DATA_PATH = os.path.join(BASE_DIR, 'data')
 #Server Setting#
 ################
 
+NLP_SERVER_NAME = os.environ.get("NLP_SERVER_NAME", 'news_parser')
+
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
@@ -126,9 +127,11 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    # 添加nlp地域app
-    'apps.nlp_regional',
-
+    # 添加nlp爬虫解析app
+    'apps.{}'.format(NLP_SERVER_NAME),
 ]
 
-REGIONAL_LOG_FILE = os.path.join(PROJECT_LOGS_PATH, 'regional_server.log')
+# parser 服务日志文件
+PARSER_LOG_FILE = os.path.join(PROJECT_LOGS_PATH, '{}_server.log'.format(NLP_SERVER_NAME))
+# parser 服务数据目录
+PARSER_DATA_PATH = os.path.join(PROJECT_DATA_PATH, NLP_SERVER_NAME)

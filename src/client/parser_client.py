@@ -12,12 +12,18 @@ import json
 
 url = 'http://127.0.0.1:8020/nlp_parser/parser'
 
+id1 = "1502764925793848"
+parser_url1 = "http://www.bollywoodnews.org/go/WlZTp"
+parms1 = {"id": id1, "website": parser_url1, "lang": "en"}
 
-id = "1502776564471413"
-spider_url = 'https://theindianawaaz.com/president-confers-gandhi-peace-prize/'
+id2 = "1502776564471413"
+parser_url2 = "https://www.sciencedaily.com/releases/2019/02/190225123449.htm"
+parms2 = {"id": id2, "website": parser_url2, "lang": "en"}
 
-# post 参数
-parms = {"id": id, "website": spider_url}
+id3 = "1502889409622478"
+parser_url3 = "https://theindianawaaz.com/president-confers-gandhi-peace-prize/"
+parms3 = {"id": id3, "website": parser_url3, "lang": "en"}
+
 
 
 ## >>>>>>>>>> 请求爬虫解析服务参数
@@ -25,8 +31,19 @@ parms = {"id": id, "website": spider_url}
 传入参数：
     id: string（必传，打印日志）
     website: string（必传）
+    lang: string(必传 "en","hi")
 """
+
+
 # spider parser test
-resp1 = requests.post(url, data=parms)  # 发送请求
+resp1 = requests.post(url, data=parms1)  # 发送请求
+# Decoded text returned by the request
 print(resp1.text)
 
+resp2 = requests.post(url, data=parms2)  # 发送请求
+# Decoded text returned by the request
+print(resp2.text)
+
+resp3 = requests.post(url, data=parms3)  # 发送请求
+# Decoded text returned by the request
+print(resp3.text)

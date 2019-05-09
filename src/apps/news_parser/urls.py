@@ -8,13 +8,11 @@
 """
 
 from django.urls import path
-from .views import index_view
-from .views import Regional
+from .views import SpiderParser
 
 
-app_name = '[nlp_regional]'
+app_name = '[news_parser]'
 
 urlpatterns = [
-    path('', index_view, name='index_url'),
-    path('regional', Regional.as_view()),
+    path('parser', SpiderParser.as_view()),
 ]

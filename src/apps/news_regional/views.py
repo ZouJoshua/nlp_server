@@ -5,7 +5,7 @@ from django.views import View
 from .regional_processer.load_regional_map import LoadRegionalMap
 from .regional_processer.predict import Predict
 from utils.logger import Logger
-from web.settings import REGIONAL_LOG_FILE, NLP_REGIONAL_DATA_PATH
+from config.news_regional_conf import REGIONAL_LOG_FILE, NLP_REGIONAL_DATA_PATH
 import os
 
 logger = Logger('nlp_regional_predict', log2console=False, log2file=True, logfile=REGIONAL_LOG_FILE).get_logger()

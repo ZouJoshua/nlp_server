@@ -10,9 +10,9 @@
 import requests
 import json
 
-url1 = 'http://127.0.0.1:10901/nlp_category/category'
-url2 = 'http://127.0.0.1:10901/nlp_category/top'
-url3 = 'http://127.0.0.1:10901/nlp_category/sub'
+url1 = 'http://127.0.0.1:19901/nlp_category/category'
+url2 = 'http://127.0.0.1:19901/nlp_category/top'
+url3 = 'http://127.0.0.1:19901/nlp_category/sub'
 
 
 id = "1502776564471413"
@@ -43,8 +43,8 @@ print(resp1.text)
 # parms = {"title": title, "content": content, "thresholds": 0.3}
 
 # top_category test
-# resp2 = requests.post(url2, data=parms)  # 发送请求
-# print(resp2.text)
+resp2 = requests.post(url2, data=parms)  # 发送请求
+print(resp2.text)
 
 ## >>>>>>>>>> 单独请求二级类参数
 """
@@ -57,5 +57,5 @@ print(resp1.text)
 # parms = {"title": title, "content": content, "top_category": top_category, "thresholds": 0.2}
 
 # sub_category test
-# resp3 = requests.post(url3, data=parms)  # 发送请求
-# print(resp3.text)
+resp3 = requests.post(url3, data=parms)  # 发送请求
+print(resp3.text)

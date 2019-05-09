@@ -29,7 +29,7 @@ class SpiderParser(View):
     def post(self, request):
         """
         返回新闻爬虫解析结果
-        :param request: {"id":"","website":""}
+        :param request: {"id":"","website":"", "lang":""}
         :return: {"category": [], "title": [], "tag": [],
                     "hyperlink_text": [], "hyperlink_url": []}
 
@@ -39,6 +39,7 @@ class SpiderParser(View):
         client_host = request_meta['HTTP_HOST']
         request_data = request.POST  # 查看客户端发来的请求内容
         url = request_data.get("website", default='')
+        lang = request_data.get("lang", default='en')
         task_id = request_data.get("id", default='')
         logger.info('Successfully received the task_id {} sent by the client {}'.format(task_id, client_host))
         header = get_http_header()
@@ -48,5 +49,5 @@ class SpiderParser(View):
         elif html == "Others error":
             return JsonResponse(_result)
         else:
-            result = hp.parse(url, html, rules_xpath)
+            result = hp.parse(url, html, rules_xpath[lang])
             return JsonResponse(result)  # 通过 django内置的Json格式 丢给客户端数据

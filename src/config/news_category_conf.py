@@ -4,7 +4,7 @@
 @Author  : Joshua
 @Time    : 19-4-11 上午9:44
 @File    : category_conf.py
-@Desc    : nlp_category_server setting
+@Desc    : news_category_server setting
 """
 
 
@@ -119,6 +119,8 @@ PROJECT_DATA_PATH = os.path.join(BASE_DIR, 'data')
 #Server Setting#
 ################
 
+NLP_SERVER_NAME = os.environ.get("NLP_SERVER_NAME", 'news_category')
+
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
@@ -127,11 +129,11 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     # 添加nlp分类app
-    'apps.nlp_category',
+    'apps.{}'.format(NLP_SERVER_NAME),
 ]
 
-CATEGORY_LOG_FILE = os.path.join(PROJECT_LOGS_PATH, 'category_server.log')
+CATEGORY_LOG_FILE = os.path.join(PROJECT_LOGS_PATH, '{}_server.log'.format(NLP_SERVER_NAME))
 
 # NLP分类模型路径
-NLP_MODEL_PATH = os.path.join(PROJECT_DATA_PATH, 'model')
-# NLP_MODEL_PATH = '/data/zoushuai/news_content/sub_classification_model/model'
+# NLP_MODEL_PATH = os.path.join(PROJECT_DATA_PATH, NLP_SERVER_NAME)
+NLP_MODEL_PATH = '/data/news_category'

@@ -5,7 +5,7 @@ from django.views import View
 from .classification.load_model import LoadModel
 from .classification.predict import Predict
 from utils.logger import Logger
-from web.settings import CATEGORY_LOG_FILE, NLP_MODEL_PATH
+from config.news_category_conf import CATEGORY_LOG_FILE, NLP_MODEL_PATH
 
 
 logger = Logger('nlp_category_predict', log2console=False, log2file=True, logfile=CATEGORY_LOG_FILE).get_logger()
@@ -75,12 +75,7 @@ class TopCategory(View):
                         [{"id":"","category":"","proba":""},
                         {"id":"","category":"","proba":""},
                         {"id":"","category":"","proba":""}]
-                        },
-                "sub_category":
-                        [{"id":"","category":"","proba":""},
-                        {"id":"","category":"","proba":""},
-                        {"id":"","category":"","proba":""}]
-                        }
+                    }}
         """
         result = dict()
         request_meta = request.META
