@@ -30,10 +30,8 @@ class Regional(View):
         """
         返回新闻地域分类
         :param request:
-        :return: {"status": "Successful", "result":{"Odisha":1.0}}
-        {"status": "Successful", result:{"name":"Odisha", "prob":1.0}}
-                {"status": "Successful", "result":{"unknown":1.0}}
-                {"status": "Error", "result":{"unknown":1.0}}
+        :return: {"status": "Successful", result:{"name":"Odisha", "prob":1.0}}
+                    {"status": "Error", "result":{"name": "unknown", "prob": 1.0}}
         """
         result = dict()
         request_meta = request.META
@@ -48,7 +46,7 @@ class Regional(View):
             # res = pred.get_regional(content=text, title=title)
             result["status"] = 'Successful'
         else:
-            res = {"name": "unknown","prob": 1.0}
+            res = {"name": "unknown", "prob": 1.0}
             result["status"] = 'Error'
             logger.warming('User-delivered content and title fields were not found.')
         result["result"] = res
