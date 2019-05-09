@@ -4,7 +4,7 @@
 @Author  : Joshua
 @Time    : 2019/3/4 10:26
 @File    : load_model.py
-@Desc    :
+@Desc    : 
 """
 
 import fasttext
@@ -25,7 +25,7 @@ class LoadModel(object):
     def load_models_and_idmap(self, path):
         """
         用于加载模型和分类ID的映射关系
-        :param path: path为本地模型所在文件夹路径
+        :param path: path为本地模型所在文件夹路径 
         :return: 模型列表（dict）、分类ID的映射（json）
         """
         classifier_dict = dict()

@@ -4,7 +4,7 @@
 @Author  : Joshua
 @Time    : 2019/3/4 12:26
 @File    : predict.py
-@Desc    :
+@Desc    : 
 """
 
 import fasttext

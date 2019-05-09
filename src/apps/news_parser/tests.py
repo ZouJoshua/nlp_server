@@ -7,12 +7,15 @@ from unittest import main, TestCase
 from .parser_processer.get_html import HtmlDownloader
 from .parser_processer.parse_html import HtmlPaser
 from .parser_processer.user_agents import user_agent_list
-
+import os
 import sys
-sys.path.append("/home/zoushuai/algoproject/nlp_parser_server/src")
-sys.path.append("/home/zoushuai/algoproject/nlp_parser_server/src/web")
 
-from config.n_parser_conf import PARSER_DATA_PATH
+apps_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+sys.path.append(os.path.dirname(apps_dir))
+# sys.path.append("/home/zoushuai/algoproject/nlp_server/src")
+
+
+from config.news_parser_conf import PARSER_DATA_PATH
 
 import random
 import time
@@ -54,12 +57,12 @@ class TestPredict(TestCase):
         print(">>>>>>>>>>请求网页耗时： {}".format(s1 - s))
         rules_xpath, new_domains_file, xpath_error_file = self.get_file()
         hp = HtmlPaser(new_domains_fo=new_domains_file, xpath_error_fo=xpath_error_file)
-        result = hp.parse(self.url, html, rules_xpath)
+        result = hp.parse(self.url, html, rules_xpath["en"])
         s2 = time.time()
         print(">>>>>>>>>>解析网页耗时： {}".format(s2 - s1))
 
     def get_file(self):
-        NLP_PARSER_FILE_PATH = os.path.join(PARSER_DATA_PATH, 'rule.json')
+        NLP_PARSER_FILE_PATH = os.path.join(PARSER_DATA_PATH, 'rules.json')
         with open(NLP_PARSER_FILE_PATH, 'r', encoding='utf-8') as jf:
             rules_xpath = json.load(jf)
         NEW_DOMAINS_FILE = os.path.join(PARSER_DATA_PATH, 'new_domain.txt')

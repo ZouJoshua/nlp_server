@@ -26,7 +26,8 @@ class Predict(object):
 
     def get_regional(self, content='', title=''):
         text = content + '.' + title
-        out_count = self.get_detail_regional(text, self.reg_map)
+        # out_count = self.get_detail_regional(text, self.reg_map)
+        out_count = self._match_detail_regional(text, self.reg_map)
         regional_ct = self. _count_regional(out_count, self.reg_map)
 
         return self._get_regional(regional_ct, text)
@@ -78,7 +79,15 @@ class Predict(object):
                         # else:
                         #     pass
                 self.log.info('Get the region of the article {}'.format(regional))
-        return regional
+        result = dict()
+        if len(regional['regional']):
+            result["prob"] = 1.0
+            result["name"] = regional['regional'][0]
+        else:
+            result["prob"] = 1.0
+            result["name"] = "unknown"
+            # result["unknown"] = 1.0
+        return result
 
     def get_detail_regional(self, text, names_map):
         out = dict()
@@ -122,3 +131,28 @@ class Predict(object):
                 out[region] += v
         self.log.info('Get state and city statistics\n{}'.format(out))
         return out
+
+
+    def _match_detail_regional(self, text, names_map):
+        out = dict()
+        word_list = list()
+        for i in range(4):
+            patten = re.compile(r"(?:[A-Z]+\w+[\s\-]?){%s}" % (i+1))
+            _word_list = re.findall(patten, text)
+            if _word_list:
+                word_list += _word_list
+            # word_list = re.findall(r"(?:[A-Z]+\w+[\s\-]?){3}", text)
+        # print(word_list)
+        # word_list = text.split(" ")
+        for _i in word_list:
+            i = _i.strip()
+            if len(i) > 2:
+                if i in names_map.keys():
+                    if i in out.keys():
+                        out[i] += 1
+                    else:
+                        out[i] = 1
+            else:
+                continue
+        self.log.info('Get all the regional names of the article\n{}'.format(out))
+        return self._re_count_regional(out)
