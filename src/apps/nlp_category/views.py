@@ -75,12 +75,7 @@ class TopCategory(View):
                         [{"id":"","category":"","proba":""},
                         {"id":"","category":"","proba":""},
                         {"id":"","category":"","proba":""}]
-                        },
-                "sub_category":
-                        [{"id":"","category":"","proba":""},
-                        {"id":"","category":"","proba":""},
-                        {"id":"","category":"","proba":""}]
-                        }
+                    }}
         """
         result = dict()
         request_meta = request.META
