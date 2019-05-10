@@ -135,5 +135,5 @@ INSTALLED_APPS = [
 CATEGORY_LOG_FILE = os.path.join(PROJECT_LOGS_PATH, '{}_server.log'.format(NLP_SERVER_NAME))
 
 # NLP分类模型路径
-# NLP_MODEL_PATH = os.path.join(PROJECT_DATA_PATH, NLP_SERVER_NAME)
-NLP_MODEL_PATH = '/data/news_category'
+NLP_MODEL_PATH = os.path.join(PROJECT_DATA_PATH, NLP_SERVER_NAME)
+# NLP_MODEL_PATH = '/data/news_category'
