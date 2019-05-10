@@ -17,7 +17,8 @@ from utils.daemonize import daemonize
 HOME = os.getcwd()
 SCRPET = os.path.basename(sys.argv[0])
 if len(sys.argv) != 4 or sys.argv[1] == '-h':
-    sys.exit("Usage:sudo %s {news_category, news_regional, news_parser} {start, stop, restart}" % SCRPET)
+    print("ServerName:\n>> news_category\n>> news_regional\n>> news_parser\n>> video_category")
+    sys.exit("Usage:sudo %s {ServerName} {start, stop, restart}" % SCRPET)
 
 RUN = "python3"
 SERVER_NAME = sys.argv[1]
@@ -25,9 +26,10 @@ NAME = sys.argv[2]
 OP = sys.argv[3]
 
 # 服务环境设置
-def set_environ(server_name):
+def set_environ(server_name,server_host):
     BASE_DIR = os.path.dirname(os.path.abspath(__file__))
     os.environ.setdefault("NLP_SERVER_NAME", server_name)
+    os.environ.setdefault("SERVER_HOSTS", server_host)
     config_file = "{}_conf".format(server_name)
     if os.path.exists(os.path.join(BASE_DIR, 'config', config_file+'.py')):
         os.environ.setdefault("DJANGO_SETTINGS_MODULE", "config.{}".format(config_file))
@@ -48,8 +50,8 @@ def set_environ(server_name):
         server_port = os.environ.get('PORT', 10901)
     return server_hosts, server_port
 
-
-SERVER_HOSTS, SERVER_PORT = set_environ(SERVER_NAME)
+server_host= "127.0.0.1"
+SERVER_HOSTS, SERVER_PORT = set_environ(SERVER_NAME, server_host)
 # 服务pid监控
 SERVER_NAME_PIDFILE = '.{}_pidfile'.format(SERVER_NAME)
 PIDFILE = "{}/{}".format(HOME, SERVER_NAME_PIDFILE)

@@ -1,7 +1,7 @@
-
 - [x] NLP分类服务
 - [x] NLP地域服务
 - [x] NLP爬虫解析服务
+- [x] NLP视频分类服务
 ---------------
 
 ## NLP分类服务(nlp_category_server)
@@ -140,7 +140,7 @@ result = resp.text
 
 ---------------
 
-## NLP爬虫解析服务(nlp_parser_server)
+## NLP视频分类服务(nlp_v_category_server)
 
 
 ### 配置
@@ -149,7 +149,7 @@ result = resp.text
 
 ```python
 SERVER_HOSTS = os.environ.get('SERVER_HOSTS', '127.0.0.1')
-SERVER_PORT = os.environ.get('PORT', 8020)
+SERVER_PORT = os.environ.get('PORT', 1010)
 ```
 
 修改 `settings.py` 日志
@@ -202,3 +202,78 @@ print(resp1.text)
 ### 后续优化
 * 优化解析规则，使提取的数据更精确
 * 修复旧网址失效解析规则, 增加新网址的解析规则
+
+----------
+
+## NLP分类服务(nlp_category_server)
+
+### 配置
+
+修改 run.py 服务ip及端口
+
+```python
+SERVER_HOSTS = os.environ.get('SERVER_HOSTS', '127.0.0.1')
+SERVER_PORT = os.environ.get('PORT', 19901)
+```
+
+修改 settings.py 模型路径及日志
+
+```python
+NLP_MODEL_PATH = ""  # nlp 模型路径
+PROJECT_LOG_FILE = ""  # 日志文件
+```
+
+### 服务设置
+
+#### 启动
+
+```bash
+python3 run.py nlp_category_server manage.py start
+# 添加定时加载映射文件
+python3 manage.py crontab add
+```
+
+
+
+#### 停止
+
+```bash
+# 停止定时任务
+python3 manage.py crontab remove
+python3 run.py nlp_category_server manage.py stop
+```
+
+#### 重启
+
+```bash
+python3 run.py nlp_category_server manage.py restart
+```
+
+### API Demo
+
+```python
+# url
+url1 = 'http://127.0.0.1:17701/nlp_category/v_category'
+
+"""
+传入参数：
+    newsid: string(必传)
+    title: string（必传）
+    content: string（必传）
+    category: string()
+    sub_category: string()
+    resource_type: string(0：文章 1：视频)
+    business_type: string(0:浏览器 1:游戏)
+    
+"""
+parms = {"newsid": _id, "title": title, "content": content, "category": top_category, "sub_category":sub_category, "business_type":business_type,"resource_type":resource_type}
+
+# 发送请求
+resp1 = requests.post(url1, data=parms)
+
+# 获取结果
+result = resp1.text
+```
+
+
+

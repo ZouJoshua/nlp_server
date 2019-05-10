@@ -4,7 +4,7 @@
 @Author  : Joshua
 @Time    : 19-4-11 上午9:44
 @File    : category_conf.py
-@Desc    : news_category_server setting
+@Desc    : 新闻分类服务配置
 """
 
 

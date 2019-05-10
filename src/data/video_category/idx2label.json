@@ -1,0 +1,2930 @@
+{
+    "211": {
+        "top_category": [
+            {
+                "id": "211",
+                "category": "Latest",
+                "proba": 1.0
+            }
+        ],
+        "sub_category": [
+            {
+                "id": -1,
+                "category": "",
+                "proba": 0.0
+            }
+        ]
+    },
+    "212": {
+        "top_category": [
+            {
+                "id": "212",
+                "category": "Trending Video",
+                "proba": 1.0
+            }
+        ],
+        "sub_category": [
+            {
+                "id": -1,
+                "category": "",
+                "proba": 0.0
+            }
+        ]
+    },
+    "213": {
+        "top_category": [
+            {
+                "id": "213",
+                "category": "Top Picks",
+                "proba": 1.0
+            }
+        ],
+        "sub_category": [
+            {
+                "id": -1,
+                "category": "",
+                "proba": 0.0
+            }
+        ]
+    },
+    "214": {
+        "top_category": [
+            {
+                "id": "214",
+                "category": "offbeat",
+                "proba": 1.0
+            }
+        ],
+        "sub_category": [
+            {
+                "id": -1,
+                "category": "",
+                "proba": 0.0
+            }
+        ]
+    },
+    "10001": {
+        "top_category": [
+            {
+                "id": "214",
+                "category": "offbeat",
+                "proba": 1.0
+            }
+        ],
+        "sub_category": [
+            {
+                "id": "10001",
+                "category": "Oddly Satisfying",
+                "proba": 1.0
+            }
+        ]
+    },
+    "10002": {
+        "top_category": [
+            {
+                "id": "214",
+                "category": "offbeat",
+                "proba": 1.0
+            }
+        ],
+        "sub_category": [
+            {
+                "id": "10002",
+                "category": "unique",
+                "proba": 1.0
+            }
+        ]
+    },
+    "10003": {
+        "top_category": [
+            {
+                "id": "214",
+                "category": "offbeat",
+                "proba": 1.0
+            }
+        ],
+        "sub_category": [
+            {
+                "id": "10003",
+                "category": "supernatural",
+                "proba": 1.0
+            }
+        ]
+    },
+    "10004": {
+        "top_category": [
+            {
+                "id": "214",
+                "category": "offbeat",
+                "proba": 1.0
+            }
+        ],
+        "sub_category": [
+            {
+                "id": "10004",
+                "category": "out of the box",
+                "proba": 1.0
+            }
+        ]
+    },
+    "10005": {
+        "top_category": [
+            {
+                "id": "214",
+                "category": "offbeat",
+                "proba": 1.0
+            }
+        ],
+        "sub_category": [
+            {
+                "id": "10005",
+                "category": "society",
+                "proba": 1.0
+            }
+        ]
+    },
+    "10078": {
+        "top_category": [
+            {
+                "id": "214",
+                "category": "offbeat",
+                "proba": 1.0
+            }
+        ],
+        "sub_category": [
+            {
+                "id": "10078",
+                "category": "other offbeat",
+                "proba": 1.0
+            }
+        ]
+    },
+    "214(-1)": {
+        "top_category": [
+            {
+                "id": "214",
+                "category": "offbeat",
+                "proba": 1.0
+            }
+        ],
+        "sub_category": [
+            {
+                "id": "10078",
+                "category": "other offbeat",
+                "proba": 1.0
+            }
+        ]
+    },
+    "215": {
+        "top_category": [
+            {
+                "id": "215",
+                "category": "lifestyle",
+                "proba": 1.0
+            }
+        ],
+        "sub_category": [
+            {
+                "id": -1,
+                "category": "",
+                "proba": 0.0
+            }
+        ]
+    },
+    "10006": {
+        "top_category": [
+            {
+                "id": "215",
+                "category": "lifestyle",
+                "proba": 1.0
+            }
+        ],
+        "sub_category": [
+            {
+                "id": "10006",
+                "category": "life hacks",
+                "proba": 1.0
+            }
+        ]
+    },
+    "10007": {
+        "top_category": [
+            {
+                "id": "215",
+                "category": "lifestyle",
+                "proba": 1.0
+            }
+        ],
+        "sub_category": [
+            {
+                "id": "10007",
+                "category": "travel.",
+                "proba": 1.0
+            }
+        ]
+    },
+    "10008": {
+        "top_category": [
+            {
+                "id": "215",
+                "category": "lifestyle",
+                "proba": 1.0
+            }
+        ],
+        "sub_category": [
+            {
+                "id": "10008",
+                "category": "gaming",
+                "proba": 1.0
+            }
+        ]
+    },
+    "10009": {
+        "top_category": [
+            {
+                "id": "215",
+                "category": "lifestyle",
+                "proba": 1.0
+            }
+        ],
+        "sub_category": [
+            {
+                "id": "10009",
+                "category": "horoscope",
+                "proba": 1.0
+            }
+        ]
+    },
+    "10011": {
+        "top_category": [
+            {
+                "id": "215",
+                "category": "lifestyle",
+                "proba": 1.0
+            }
+        ],
+        "sub_category": [
+            {
+                "id": "10011",
+                "category": "Luxury",
+                "proba": 1.0
+            }
+        ]
+    },
+    "10012": {
+        "top_category": [
+            {
+                "id": "215",
+                "category": "lifestyle",
+                "proba": 1.0
+            }
+        ],
+        "sub_category": [
+            {
+                "id": "10012",
+                "category": "Emotion",
+                "proba": 1.0
+            }
+        ]
+    },
+    "10013": {
+        "top_category": [
+            {
+                "id": "215",
+                "category": "lifestyle",
+                "proba": 1.0
+            }
+        ],
+        "sub_category": [
+            {
+                "id": "10013",
+                "category": "Health.",
+                "proba": 1.0
+            }
+        ]
+    },
+    "10076": {
+        "top_category": [
+            {
+                "id": "215",
+                "category": "lifestyle",
+                "proba": 1.0
+            }
+        ],
+        "sub_category": [
+            {
+                "id": "10076",
+                "category": "talent show",
+                "proba": 1.0
+            }
+        ]
+    },
+    "10079": {
+        "top_category": [
+            {
+                "id": "215",
+                "category": "lifestyle",
+                "proba": 1.0
+            }
+        ],
+        "sub_category": [
+            {
+                "id": "10079",
+                "category": "other lifestyle",
+                "proba": 1.0
+            }
+        ]
+    },
+    "215(-1)": {
+        "top_category": [
+            {
+                "id": "215",
+                "category": "lifestyle",
+                "proba": 1.0
+            }
+        ],
+        "sub_category": [
+            {
+                "id": "10079",
+                "category": "other lifestyle",
+                "proba": 1.0
+            }
+        ]
+    },
+    "216": {
+        "top_category": [
+            {
+                "id": "216",
+                "category": "Auto",
+                "proba": 1.0
+            }
+        ],
+        "sub_category": [
+            {
+                "id": -1,
+                "category": "",
+                "proba": 0.0
+            }
+        ]
+    },
+    "10014": {
+        "top_category": [
+            {
+                "id": "216",
+                "category": "Auto",
+                "proba": 1.0
+            }
+        ],
+        "sub_category": [
+            {
+                "id": "10014",
+                "category": "racing",
+                "proba": 1.0
+            }
+        ]
+    },
+    "10015": {
+        "top_category": [
+            {
+                "id": "216",
+                "category": "Auto",
+                "proba": 1.0
+            }
+        ],
+        "sub_category": [
+            {
+                "id": "10015",
+                "category": "reviews",
+                "proba": 1.0
+            }
+        ]
+    },
+    "10016": {
+        "top_category": [
+            {
+                "id": "216",
+                "category": "Auto",
+                "proba": 1.0
+            }
+        ],
+        "sub_category": [
+            {
+                "id": "10016",
+                "category": "Motor",
+                "proba": 1.0
+            }
+        ]
+    },
+    "10080": {
+        "top_category": [
+            {
+                "id": "216",
+                "category": "Auto",
+                "proba": 1.0
+            }
+        ],
+        "sub_category": [
+            {
+                "id": "10080",
+                "category": "other auto",
+                "proba": 1.0
+            }
+        ]
+    },
+    "216(-1)": {
+        "top_category": [
+            {
+                "id": "216",
+                "category": "Auto",
+                "proba": 1.0
+            }
+        ],
+        "sub_category": [
+            {
+                "id": "10080",
+                "category": "other auto",
+                "proba": 1.0
+            }
+        ]
+    },
+    "217": {
+        "top_category": [
+            {
+                "id": "217",
+                "category": "Entertainment",
+                "proba": 1.0
+            }
+        ],
+        "sub_category": [
+            {
+                "id": -1,
+                "category": "",
+                "proba": 0.0
+            }
+        ]
+    },
+    "10017": {
+        "top_category": [
+            {
+                "id": "217",
+                "category": "Entertainment",
+                "proba": 1.0
+            }
+        ],
+        "sub_category": [
+            {
+                "id": "10017",
+                "category": "domestic entertainment",
+                "proba": 1.0
+            }
+        ]
+    },
+    "10018": {
+        "top_category": [
+            {
+                "id": "217",
+                "category": "Entertainment",
+                "proba": 1.0
+            }
+        ],
+        "sub_category": [
+            {
+                "id": "10018",
+                "category": "oversea entertainment",
+                "proba": 1.0
+            }
+        ]
+    },
+    "10019": {
+        "top_category": [
+            {
+                "id": "217",
+                "category": "Entertainment",
+                "proba": 1.0
+            }
+        ],
+        "sub_category": [
+            {
+                "id": "10019",
+                "category": "celebrity",
+                "proba": 1.0
+            }
+        ]
+    },
+    "10020": {
+        "top_category": [
+            {
+                "id": "217",
+                "category": "Entertainment",
+                "proba": 1.0
+            }
+        ],
+        "sub_category": [
+            {
+                "id": "10020",
+                "category": "people",
+                "proba": 1.0
+            }
+        ]
+    },
+    "10021": {
+        "top_category": [
+            {
+                "id": "217",
+                "category": "Entertainment",
+                "proba": 1.0
+            }
+        ],
+        "sub_category": [
+            {
+                "id": "10021",
+                "category": "gossip",
+                "proba": 1.0
+            }
+        ]
+    },
+    "10022": {
+        "top_category": [
+            {
+                "id": "217",
+                "category": "Entertainment",
+                "proba": 1.0
+            }
+        ],
+        "sub_category": [
+            {
+                "id": "10022",
+                "category": "events(awards etc.)",
+                "proba": 1.0
+            }
+        ]
+    },
+    "10081": {
+        "top_category": [
+            {
+                "id": "217",
+                "category": "Entertainment",
+                "proba": 1.0
+            }
+        ],
+        "sub_category": [
+            {
+                "id": "10081",
+                "category": "other entertainment",
+                "proba": 1.0
+            }
+        ]
+    },
+    "217(-1)": {
+        "top_category": [
+            {
+                "id": "217",
+                "category": "Entertainment",
+                "proba": 1.0
+            }
+        ],
+        "sub_category": [
+            {
+                "id": "10081",
+                "category": "other entertainment",
+                "proba": 1.0
+            }
+        ]
+    },
+    "218": {
+        "top_category": [
+            {
+                "id": "218",
+                "category": "Sports",
+                "proba": 1.0
+            }
+        ],
+        "sub_category": [
+            {
+                "id": -1,
+                "category": "",
+                "proba": 0.0
+            }
+        ]
+    },
+    "10023": {
+        "top_category": [
+            {
+                "id": "218",
+                "category": "Sports",
+                "proba": 1.0
+            }
+        ],
+        "sub_category": [
+            {
+                "id": "10023",
+                "category": "soccer",
+                "proba": 1.0
+            }
+        ]
+    },
+    "10024": {
+        "top_category": [
+            {
+                "id": "218",
+                "category": "Sports",
+                "proba": 1.0
+            }
+        ],
+        "sub_category": [
+            {
+                "id": "10024",
+                "category": "basketball",
+                "proba": 1.0
+            }
+        ]
+    },
+    "10025": {
+        "top_category": [
+            {
+                "id": "218",
+                "category": "Sports",
+                "proba": 1.0
+            }
+        ],
+        "sub_category": [
+            {
+                "id": "10025",
+                "category": "sports racing",
+                "proba": 1.0
+            }
+        ]
+    },
+    "10026": {
+        "top_category": [
+            {
+                "id": "218",
+                "category": "Sports",
+                "proba": 1.0
+            }
+        ],
+        "sub_category": [
+            {
+                "id": "10026",
+                "category": "cricket",
+                "proba": 1.0
+            }
+        ]
+    },
+    "10027": {
+        "top_category": [
+            {
+                "id": "218",
+                "category": "Sports",
+                "proba": 1.0
+            }
+        ],
+        "sub_category": [
+            {
+                "id": "10027",
+                "category": "wrestling",
+                "proba": 1.0
+            }
+        ]
+    },
+    "10028": {
+        "top_category": [
+            {
+                "id": "218",
+                "category": "Sports",
+                "proba": 1.0
+            }
+        ],
+        "sub_category": [
+            {
+                "id": "10028",
+                "category": "other sports",
+                "proba": 1.0
+            }
+        ]
+    },
+    "218(-1)": {
+        "top_category": [
+            {
+                "id": "218",
+                "category": "Sports",
+                "proba": 1.0
+            }
+        ],
+        "sub_category": [
+            {
+                "id": "10028",
+                "category": "other sports",
+                "proba": 1.0
+            }
+        ]
+    },
+    "219": {
+        "top_category": [
+            {
+                "id": "219",
+                "category": "Movies",
+                "proba": 1.0
+            }
+        ],
+        "sub_category": [
+            {
+                "id": -1,
+                "category": "",
+                "proba": 0.0
+            }
+        ]
+    },
+    "10029": {
+        "top_category": [
+            {
+                "id": "219",
+                "category": "Movies",
+                "proba": 1.0
+            }
+        ],
+        "sub_category": [
+            {
+                "id": "10029",
+                "category": "Bollywood",
+                "proba": 1.0
+            }
+        ]
+    },
+    "10030": {
+        "top_category": [
+            {
+                "id": "219",
+                "category": "Movies",
+                "proba": 1.0
+            }
+        ],
+        "sub_category": [
+            {
+                "id": "10030",
+                "category": "Hollywood",
+                "proba": 1.0
+            }
+        ]
+    },
+    "10072": {
+        "top_category": [
+            {
+                "id": "219",
+                "category": "Movies",
+                "proba": 1.0
+            }
+        ],
+        "sub_category": [
+            {
+                "id": "10072",
+                "category": "Tollywood",
+                "proba": 1.0
+            }
+        ]
+    },
+    "10073": {
+        "top_category": [
+            {
+                "id": "219",
+                "category": "Movies",
+                "proba": 1.0
+            }
+        ],
+        "sub_category": [
+            {
+                "id": "10073",
+                "category": "Kollywood",
+                "proba": 1.0
+            }
+        ]
+    },
+    "10074": {
+        "top_category": [
+            {
+                "id": "219",
+                "category": "Movies",
+                "proba": 1.0
+            }
+        ],
+        "sub_category": [
+            {
+                "id": "10074",
+                "category": "Mollywood",
+                "proba": 1.0
+            }
+        ]
+    },
+    "10075": {
+        "top_category": [
+            {
+                "id": "219",
+                "category": "Movies",
+                "proba": 1.0
+            }
+        ],
+        "sub_category": [
+            {
+                "id": "10075",
+                "category": "Sandalwood",
+                "proba": 1.0
+            }
+        ]
+    },
+    "10082": {
+        "top_category": [
+            {
+                "id": "219",
+                "category": "Movies",
+                "proba": 1.0
+            }
+        ],
+        "sub_category": [
+            {
+                "id": "10082",
+                "category": "other movies",
+                "proba": 1.0
+            }
+        ]
+    },
+    "219(-1)": {
+        "top_category": [
+            {
+                "id": "219",
+                "category": "Movies",
+                "proba": 1.0
+            }
+        ],
+        "sub_category": [
+            {
+                "id": "10082",
+                "category": "other movies",
+                "proba": 1.0
+            }
+        ]
+    },
+    "220": {
+        "top_category": [
+            {
+                "id": "220",
+                "category": "Food",
+                "proba": 1.0
+            }
+        ],
+        "sub_category": [
+            {
+                "id": -1,
+                "category": "",
+                "proba": 0.0
+            }
+        ]
+    },
+    "10031": {
+        "top_category": [
+            {
+                "id": "220",
+                "category": "Food",
+                "proba": 1.0
+            }
+        ],
+        "sub_category": [
+            {
+                "id": "10031",
+                "category": "yummy",
+                "proba": 1.0
+            }
+        ]
+    },
+    "10032": {
+        "top_category": [
+            {
+                "id": "220",
+                "category": "Food",
+                "proba": 1.0
+            }
+        ],
+        "sub_category": [
+            {
+                "id": "10032",
+                "category": "recipe",
+                "proba": 1.0
+            }
+        ]
+    },
+    "10033": {
+        "top_category": [
+            {
+                "id": "220",
+                "category": "Food",
+                "proba": 1.0
+            }
+        ],
+        "sub_category": [
+            {
+                "id": "10033",
+                "category": "Culinary or Cooking",
+                "proba": 1.0
+            }
+        ]
+    },
+    "10077": {
+        "top_category": [
+            {
+                "id": "220",
+                "category": "Food",
+                "proba": 1.0
+            }
+        ],
+        "sub_category": [
+            {
+                "id": "10077",
+                "category": "eating broadcast",
+                "proba": 1.0
+            }
+        ]
+    },
+    "10083": {
+        "top_category": [
+            {
+                "id": "220",
+                "category": "Food",
+                "proba": 1.0
+            }
+        ],
+        "sub_category": [
+            {
+                "id": "10083",
+                "category": "other foods",
+                "proba": 1.0
+            }
+        ]
+    },
+    "220(-1)": {
+        "top_category": [
+            {
+                "id": "220",
+                "category": "Food",
+                "proba": 1.0
+            }
+        ],
+        "sub_category": [
+            {
+                "id": "10083",
+                "category": "other foods",
+                "proba": 1.0
+            }
+        ]
+    },
+    "221": {
+        "top_category": [
+            {
+                "id": "221",
+                "category": "TV Shows",
+                "proba": 1.0
+            }
+        ],
+        "sub_category": [
+            {
+                "id": -1,
+                "category": "",
+                "proba": 0.0
+            }
+        ]
+    },
+    "10034": {
+        "top_category": [
+            {
+                "id": "221",
+                "category": "TV Shows",
+                "proba": 1.0
+            }
+        ],
+        "sub_category": [
+            {
+                "id": "10034",
+                "category": "highlights",
+                "proba": 1.0
+            }
+        ]
+    },
+    "10035": {
+        "top_category": [
+            {
+                "id": "221",
+                "category": "TV Shows",
+                "proba": 1.0
+            }
+        ],
+        "sub_category": [
+            {
+                "id": "10035",
+                "category": "teaser",
+                "proba": 1.0
+            }
+        ]
+    },
+    "10036": {
+        "top_category": [
+            {
+                "id": "221",
+                "category": "TV Shows",
+                "proba": 1.0
+            }
+        ],
+        "sub_category": [
+            {
+                "id": "10036",
+                "category": "cartoon",
+                "proba": 1.0
+            }
+        ]
+    },
+    "10084": {
+        "top_category": [
+            {
+                "id": "221",
+                "category": "TV Shows",
+                "proba": 1.0
+            }
+        ],
+        "sub_category": [
+            {
+                "id": "10084",
+                "category": "other TV shows",
+                "proba": 1.0
+            }
+        ]
+    },
+    "221(-1)": {
+        "top_category": [
+            {
+                "id": "221",
+                "category": "TV Shows",
+                "proba": 1.0
+            }
+        ],
+        "sub_category": [
+            {
+                "id": "10084",
+                "category": "other TV shows",
+                "proba": 1.0
+            }
+        ]
+    },
+    "222": {
+        "top_category": [
+            {
+                "id": "222",
+                "category": "Fashion",
+                "proba": 1.0
+            }
+        ],
+        "sub_category": [
+            {
+                "id": -1,
+                "category": "",
+                "proba": 0.0
+            }
+        ]
+    },
+    "10037": {
+        "top_category": [
+            {
+                "id": "222",
+                "category": "Fashion",
+                "proba": 1.0
+            }
+        ],
+        "sub_category": [
+            {
+                "id": "10037",
+                "category": "Beauty & grooming",
+                "proba": 1.0
+            }
+        ]
+    },
+    "10038": {
+        "top_category": [
+            {
+                "id": "222",
+                "category": "Fashion",
+                "proba": 1.0
+            }
+        ],
+        "sub_category": [
+            {
+                "id": "10038",
+                "category": "miss india",
+                "proba": 1.0
+            }
+        ]
+    },
+    "10039": {
+        "top_category": [
+            {
+                "id": "222",
+                "category": "Fashion",
+                "proba": 1.0
+            }
+        ],
+        "sub_category": [
+            {
+                "id": "10039",
+                "category": "miss diva",
+                "proba": 1.0
+            }
+        ]
+    },
+    "10040": {
+        "top_category": [
+            {
+                "id": "222",
+                "category": "Fashion",
+                "proba": 1.0
+            }
+        ],
+        "sub_category": [
+            {
+                "id": "10040",
+                "category": "campus princess",
+                "proba": 1.0
+            }
+        ]
+    },
+    "10041": {
+        "top_category": [
+            {
+                "id": "222",
+                "category": "Fashion",
+                "proba": 1.0
+            }
+        ],
+        "sub_category": [
+            {
+                "id": "10041",
+                "category": "mr india",
+                "proba": 1.0
+            }
+        ]
+    },
+    "10042": {
+        "top_category": [
+            {
+                "id": "222",
+                "category": "Fashion",
+                "proba": 1.0
+            }
+        ],
+        "sub_category": [
+            {
+                "id": "10042",
+                "category": "make up",
+                "proba": 1.0
+            }
+        ]
+    },
+    "10043": {
+        "top_category": [
+            {
+                "id": "222",
+                "category": "Fashion",
+                "proba": 1.0
+            }
+        ],
+        "sub_category": [
+            {
+                "id": "10043",
+                "category": "Fitness",
+                "proba": 1.0
+            }
+        ]
+    },
+    "10044": {
+        "top_category": [
+            {
+                "id": "222",
+                "category": "Fashion",
+                "proba": 1.0
+            }
+        ],
+        "sub_category": [
+            {
+                "id": "10044",
+                "category": "dress style",
+                "proba": 1.0
+            }
+        ]
+    },
+    "10045": {
+        "top_category": [
+            {
+                "id": "222",
+                "category": "Fashion",
+                "proba": 1.0
+            }
+        ],
+        "sub_category": [
+            {
+                "id": "10045",
+                "category": "runway(or peagent)",
+                "proba": 1.0
+            }
+        ]
+    },
+    "10046": {
+        "top_category": [
+            {
+                "id": "222",
+                "category": "Fashion",
+                "proba": 1.0
+            }
+        ],
+        "sub_category": [
+            {
+                "id": "10046",
+                "category": "fashion people",
+                "proba": 1.0
+            }
+        ]
+    },
+    "10085": {
+        "top_category": [
+            {
+                "id": "222",
+                "category": "Fashion",
+                "proba": 1.0
+            }
+        ],
+        "sub_category": [
+            {
+                "id": "10085",
+                "category": "other fashion",
+                "proba": 1.0
+            }
+        ]
+    },
+    "222(-1)": {
+        "top_category": [
+            {
+                "id": "222",
+                "category": "Fashion",
+                "proba": 1.0
+            }
+        ],
+        "sub_category": [
+            {
+                "id": "10085",
+                "category": "other fashion",
+                "proba": 1.0
+            }
+        ]
+    },
+    "223": {
+        "top_category": [
+            {
+                "id": "223",
+                "category": "Viral",
+                "proba": 1.0
+            }
+        ],
+        "sub_category": [
+            {
+                "id": -1,
+                "category": "",
+                "proba": 0.0
+            }
+        ]
+    },
+    "10047": {
+        "top_category": [
+            {
+                "id": "223",
+                "category": "Viral",
+                "proba": 1.0
+            }
+        ],
+        "sub_category": [
+            {
+                "id": "10047",
+                "category": "DIY",
+                "proba": 1.0
+            }
+        ]
+    },
+    "10048": {
+        "top_category": [
+            {
+                "id": "223",
+                "category": "Viral",
+                "proba": 1.0
+            }
+        ],
+        "sub_category": [
+            {
+                "id": "10048",
+                "category": "Viral.",
+                "proba": 1.0
+            }
+        ]
+    },
+    "10049": {
+        "top_category": [
+            {
+                "id": "223",
+                "category": "Viral",
+                "proba": 1.0
+            }
+        ],
+        "sub_category": [
+            {
+                "id": "10049",
+                "category": "LOL/Funny Videos",
+                "proba": 1.0
+            }
+        ]
+    },
+    "10086": {
+        "top_category": [
+            {
+                "id": "223",
+                "category": "Viral",
+                "proba": 1.0
+            }
+        ],
+        "sub_category": [
+            {
+                "id": "10086",
+                "category": "other viral",
+                "proba": 1.0
+            }
+        ]
+    },
+    "223(-1)": {
+        "top_category": [
+            {
+                "id": "223",
+                "category": "Viral",
+                "proba": 1.0
+            }
+        ],
+        "sub_category": [
+            {
+                "id": "10086",
+                "category": "other viral",
+                "proba": 1.0
+            }
+        ]
+    },
+    "224": {
+        "top_category": [
+            {
+                "id": "224",
+                "category": "Music&Dance",
+                "proba": 1.0
+            }
+        ],
+        "sub_category": [
+            {
+                "id": -1,
+                "category": "",
+                "proba": 0.0
+            }
+        ]
+    },
+    "10050": {
+        "top_category": [
+            {
+                "id": "224",
+                "category": "Music&Dance",
+                "proba": 1.0
+            }
+        ],
+        "sub_category": [
+            {
+                "id": "10050",
+                "category": "music",
+                "proba": 1.0
+            }
+        ]
+    },
+    "10051": {
+        "top_category": [
+            {
+                "id": "224",
+                "category": "Music&Dance",
+                "proba": 1.0
+            }
+        ],
+        "sub_category": [
+            {
+                "id": "10051",
+                "category": "dance",
+                "proba": 1.0
+            }
+        ]
+    },
+    "10087": {
+        "top_category": [
+            {
+                "id": "224",
+                "category": "Music&Dance",
+                "proba": 1.0
+            }
+        ],
+        "sub_category": [
+            {
+                "id": "10087",
+                "category": "other music&dance",
+                "proba": 1.0
+            }
+        ]
+    },
+    "224(-1)": {
+        "top_category": [
+            {
+                "id": "224",
+                "category": "Music&Dance",
+                "proba": 1.0
+            }
+        ],
+        "sub_category": [
+            {
+                "id": "10087",
+                "category": "other music&dance",
+                "proba": 1.0
+            }
+        ]
+    },
+    "225": {
+        "top_category": [
+            {
+                "id": "225",
+                "category": "Tech",
+                "proba": 1.0
+            }
+        ],
+        "sub_category": [
+            {
+                "id": -1,
+                "category": "",
+                "proba": 0.0
+            }
+        ]
+    },
+    "10052": {
+        "top_category": [
+            {
+                "id": "225",
+                "category": "Tech",
+                "proba": 1.0
+            }
+        ],
+        "sub_category": [
+            {
+                "id": "10052",
+                "category": "gadgets",
+                "proba": 1.0
+            }
+        ]
+    },
+    "10053": {
+        "top_category": [
+            {
+                "id": "225",
+                "category": "Tech",
+                "proba": 1.0
+            }
+        ],
+        "sub_category": [
+            {
+                "id": "10053",
+                "category": "science",
+                "proba": 1.0
+            }
+        ]
+    },
+    "10054": {
+        "top_category": [
+            {
+                "id": "225",
+                "category": "Tech",
+                "proba": 1.0
+            }
+        ],
+        "sub_category": [
+            {
+                "id": "10054",
+                "category": "innovation",
+                "proba": 1.0
+            }
+        ]
+    },
+    "10055": {
+        "top_category": [
+            {
+                "id": "225",
+                "category": "Tech",
+                "proba": 1.0
+            }
+        ],
+        "sub_category": [
+            {
+                "id": "10055",
+                "category": "Nature",
+                "proba": 1.0
+            }
+        ]
+    },
+    "10088": {
+        "top_category": [
+            {
+                "id": "225",
+                "category": "Tech",
+                "proba": 1.0
+            }
+        ],
+        "sub_category": [
+            {
+                "id": "10088",
+                "category": "other tech",
+                "proba": 1.0
+            }
+        ]
+    },
+    "225(-1)": {
+        "top_category": [
+            {
+                "id": "225",
+                "category": "Tech",
+                "proba": 1.0
+            }
+        ],
+        "sub_category": [
+            {
+                "id": "10088",
+                "category": "other tech",
+                "proba": 1.0
+            }
+        ]
+    },
+    "226": {
+        "top_category": [
+            {
+                "id": "226",
+                "category": "Inspirational",
+                "proba": 1.0
+            }
+        ],
+        "sub_category": [
+            {
+                "id": -1,
+                "category": "",
+                "proba": 0.0
+            }
+        ]
+    },
+    "10056": {
+        "top_category": [
+            {
+                "id": "226",
+                "category": "Inspirational",
+                "proba": 1.0
+            }
+        ],
+        "sub_category": [
+            {
+                "id": "10056",
+                "category": "Quotes\uff08\u9e21\u6c64\uff09",
+                "proba": 1.0
+            }
+        ]
+    },
+    "10089": {
+        "top_category": [
+            {
+                "id": "226",
+                "category": "Inspirational",
+                "proba": 1.0
+            }
+        ],
+        "sub_category": [
+            {
+                "id": "10089",
+                "category": "other inspirational",
+                "proba": 1.0
+            }
+        ]
+    },
+    "226(-1)": {
+        "top_category": [
+            {
+                "id": "226",
+                "category": "Inspirational",
+                "proba": 1.0
+            }
+        ],
+        "sub_category": [
+            {
+                "id": "10089",
+                "category": "other inspirational",
+                "proba": 1.0
+            }
+        ]
+    },
+    "227": {
+        "top_category": [
+            {
+                "id": "227",
+                "category": "Spirituality",
+                "proba": 1.0
+            }
+        ],
+        "sub_category": [
+            {
+                "id": -1,
+                "category": "",
+                "proba": 0.0
+            }
+        ]
+    },
+    "10057": {
+        "top_category": [
+            {
+                "id": "227",
+                "category": "Spirituality",
+                "proba": 1.0
+            }
+        ],
+        "sub_category": [
+            {
+                "id": "10057",
+                "category": "religion",
+                "proba": 1.0
+            }
+        ]
+    },
+    "10058": {
+        "top_category": [
+            {
+                "id": "227",
+                "category": "Spirituality",
+                "proba": 1.0
+            }
+        ],
+        "sub_category": [
+            {
+                "id": "10058",
+                "category": "meditation",
+                "proba": 1.0
+            }
+        ]
+    },
+    "10090": {
+        "top_category": [
+            {
+                "id": "227",
+                "category": "Spirituality",
+                "proba": 1.0
+            }
+        ],
+        "sub_category": [
+            {
+                "id": "10090",
+                "category": "other spirituality",
+                "proba": 1.0
+            }
+        ]
+    },
+    "227(-1)": {
+        "top_category": [
+            {
+                "id": "227",
+                "category": "Spirituality",
+                "proba": 1.0
+            }
+        ],
+        "sub_category": [
+            {
+                "id": "10090",
+                "category": "other spirituality",
+                "proba": 1.0
+            }
+        ]
+    },
+    "228": {
+        "top_category": [
+            {
+                "id": "228",
+                "category": "News",
+                "proba": 1.0
+            }
+        ],
+        "sub_category": [
+            {
+                "id": -1,
+                "category": "",
+                "proba": 0.0
+            }
+        ]
+    },
+    "10059": {
+        "top_category": [
+            {
+                "id": "228",
+                "category": "News",
+                "proba": 1.0
+            }
+        ],
+        "sub_category": [
+            {
+                "id": "10059",
+                "category": "world",
+                "proba": 1.0
+            }
+        ]
+    },
+    "10060": {
+        "top_category": [
+            {
+                "id": "228",
+                "category": "News",
+                "proba": 1.0
+            }
+        ],
+        "sub_category": [
+            {
+                "id": "10060",
+                "category": "national",
+                "proba": 1.0
+            }
+        ]
+    },
+    "10061": {
+        "top_category": [
+            {
+                "id": "228",
+                "category": "News",
+                "proba": 1.0
+            }
+        ],
+        "sub_category": [
+            {
+                "id": "10061",
+                "category": "business.",
+                "proba": 1.0
+            }
+        ]
+    },
+    "10091": {
+        "top_category": [
+            {
+                "id": "228",
+                "category": "News",
+                "proba": 1.0
+            }
+        ],
+        "sub_category": [
+            {
+                "id": "10091",
+                "category": "other news",
+                "proba": 1.0
+            }
+        ]
+    },
+    "228(-1)": {
+        "top_category": [
+            {
+                "id": "228",
+                "category": "News",
+                "proba": 1.0
+            }
+        ],
+        "sub_category": [
+            {
+                "id": "10091",
+                "category": "other news",
+                "proba": 1.0
+            }
+        ]
+    },
+    "229": {
+        "top_category": [
+            {
+                "id": "229",
+                "category": " Status",
+                "proba": 1.0
+            }
+        ],
+        "sub_category": [
+            {
+                "id": -1,
+                "category": "",
+                "proba": 0.0
+            }
+        ]
+    },
+    "10062": {
+        "top_category": [
+            {
+                "id": "229",
+                "category": " Status",
+                "proba": 1.0
+            }
+        ],
+        "sub_category": [
+            {
+                "id": "10062",
+                "category": "Whatsapp status",
+                "proba": 1.0
+            }
+        ]
+    },
+    "10063": {
+        "top_category": [
+            {
+                "id": "229",
+                "category": " Status",
+                "proba": 1.0
+            }
+        ],
+        "sub_category": [
+            {
+                "id": "10063",
+                "category": "Instagram status",
+                "proba": 1.0
+            }
+        ]
+    },
+    "10092": {
+        "top_category": [
+            {
+                "id": "229",
+                "category": " Status",
+                "proba": 1.0
+            }
+        ],
+        "sub_category": [
+            {
+                "id": "10092",
+                "category": "other status",
+                "proba": 1.0
+            }
+        ]
+    },
+    "229(-1)": {
+        "top_category": [
+            {
+                "id": "229",
+                "category": " Status",
+                "proba": 1.0
+            }
+        ],
+        "sub_category": [
+            {
+                "id": "10092",
+                "category": "other status",
+                "proba": 1.0
+            }
+        ]
+    },
+    "230": {
+        "top_category": [
+            {
+                "id": "230",
+                "category": "Adult",
+                "proba": 1.0
+            }
+        ],
+        "sub_category": [
+            {
+                "id": -1,
+                "category": "",
+                "proba": 0.0
+            }
+        ]
+    },
+    "10064": {
+        "top_category": [
+            {
+                "id": "230",
+                "category": "Adult",
+                "proba": 1.0
+            }
+        ],
+        "sub_category": [
+            {
+                "id": "10064",
+                "category": "18+",
+                "proba": 1.0
+            }
+        ]
+    },
+    "10065": {
+        "top_category": [
+            {
+                "id": "230",
+                "category": "Adult",
+                "proba": 1.0
+            }
+        ],
+        "sub_category": [
+            {
+                "id": "10065",
+                "category": "india",
+                "proba": 1.0
+            }
+        ]
+    },
+    "10066": {
+        "top_category": [
+            {
+                "id": "230",
+                "category": "Adult",
+                "proba": 1.0
+            }
+        ],
+        "sub_category": [
+            {
+                "id": "10066",
+                "category": "japan",
+                "proba": 1.0
+            }
+        ]
+    },
+    "10067": {
+        "top_category": [
+            {
+                "id": "230",
+                "category": "Adult",
+                "proba": 1.0
+            }
+        ],
+        "sub_category": [
+            {
+                "id": "10067",
+                "category": "north asia",
+                "proba": 1.0
+            }
+        ]
+    },
+    "10068": {
+        "top_category": [
+            {
+                "id": "230",
+                "category": "Adult",
+                "proba": 1.0
+            }
+        ],
+        "sub_category": [
+            {
+                "id": "10068",
+                "category": "europe",
+                "proba": 1.0
+            }
+        ]
+    },
+    "10069": {
+        "top_category": [
+            {
+                "id": "230",
+                "category": "Adult",
+                "proba": 1.0
+            }
+        ],
+        "sub_category": [
+            {
+                "id": "10069",
+                "category": "north america",
+                "proba": 1.0
+            }
+        ]
+    },
+    "10070": {
+        "top_category": [
+            {
+                "id": "230",
+                "category": "Adult",
+                "proba": 1.0
+            }
+        ],
+        "sub_category": [
+            {
+                "id": "10070",
+                "category": "south america",
+                "proba": 1.0
+            }
+        ]
+    },
+    "10071": {
+        "top_category": [
+            {
+                "id": "230",
+                "category": "Adult",
+                "proba": 1.0
+            }
+        ],
+        "sub_category": [
+            {
+                "id": "10071",
+                "category": "other adults",
+                "proba": 1.0
+            }
+        ]
+    },
+    "230(-1)": {
+        "top_category": [
+            {
+                "id": "230",
+                "category": "Adult",
+                "proba": 1.0
+            }
+        ],
+        "sub_category": [
+            {
+                "id": "10071",
+                "category": "other adults",
+                "proba": 1.0
+            }
+        ]
+    },
+    "700": {
+        "top_category": [
+            {
+                "id": "700",
+                "category": "Casual puzzle",
+                "proba": 1.0
+            }
+        ],
+        "sub_category": [
+            {
+                "id": -1,
+                "category": "",
+                "proba": 0.0
+            }
+        ]
+    },
+    "70000": {
+        "top_category": [
+            {
+                "id": "700",
+                "category": "Casual puzzle",
+                "proba": 1.0
+            }
+        ],
+        "sub_category": [
+            {
+                "id": "70000",
+                "category": "Music games",
+                "proba": 1.0
+            }
+        ]
+    },
+    "70001": {
+        "top_category": [
+            {
+                "id": "700",
+                "category": "Casual puzzle",
+                "proba": 1.0
+            }
+        ],
+        "sub_category": [
+            {
+                "id": "70001",
+                "category": "competitive games",
+                "proba": 1.0
+            }
+        ]
+    },
+    "70002": {
+        "top_category": [
+            {
+                "id": "700",
+                "category": "Casual puzzle",
+                "proba": 1.0
+            }
+        ],
+        "sub_category": [
+            {
+                "id": "70002",
+                "category": "Business Games",
+                "proba": 1.0
+            }
+        ]
+    },
+    "70003": {
+        "top_category": [
+            {
+                "id": "700",
+                "category": "Casual puzzle",
+                "proba": 1.0
+            }
+        ],
+        "sub_category": [
+            {
+                "id": "70003",
+                "category": "Tower defense games",
+                "proba": 1.0
+            }
+        ]
+    },
+    "70004": {
+        "top_category": [
+            {
+                "id": "700",
+                "category": "Casual puzzle",
+                "proba": 1.0
+            }
+        ],
+        "sub_category": [
+            {
+                "id": "70004",
+                "category": "Dance games",
+                "proba": 1.0
+            }
+        ]
+    },
+    "70005": {
+        "top_category": [
+            {
+                "id": "700",
+                "category": "Casual puzzle",
+                "proba": 1.0
+            }
+        ],
+        "sub_category": [
+            {
+                "id": "70005",
+                "category": "Elimination games",
+                "proba": 1.0
+            }
+        ]
+    },
+    "70006": {
+        "top_category": [
+            {
+                "id": "700",
+                "category": "Casual puzzle",
+                "proba": 1.0
+            }
+        ],
+        "sub_category": [
+            {
+                "id": "70006",
+                "category": "Puzzle games",
+                "proba": 1.0
+            }
+        ]
+    },
+    "70007": {
+        "top_category": [
+            {
+                "id": "700",
+                "category": "Casual puzzle",
+                "proba": 1.0
+            }
+        ],
+        "sub_category": [
+            {
+                "id": "70007",
+                "category": "Sandbox games",
+                "proba": 1.0
+            }
+        ]
+    },
+    "70008": {
+        "top_category": [
+            {
+                "id": "700",
+                "category": "Casual puzzle",
+                "proba": 1.0
+            }
+        ],
+        "sub_category": [
+            {
+                "id": "70008",
+                "category": "Fishing games",
+                "proba": 1.0
+            }
+        ]
+    },
+    "70009": {
+        "top_category": [
+            {
+                "id": "700",
+                "category": "Casual puzzle",
+                "proba": 1.0
+            }
+        ],
+        "sub_category": [
+            {
+                "id": "70009",
+                "category": "gaming city",
+                "proba": 1.0
+            }
+        ]
+    },
+    "70010": {
+        "top_category": [
+            {
+                "id": "700",
+                "category": "Casual puzzle",
+                "proba": 1.0
+            }
+        ],
+        "sub_category": [
+            {
+                "id": "70010",
+                "category": "mini-game",
+                "proba": 1.0
+            }
+        ]
+    },
+    "70011": {
+        "top_category": [
+            {
+                "id": "700",
+                "category": "Casual puzzle",
+                "proba": 1.0
+            }
+        ],
+        "sub_category": [
+            {
+                "id": "70011",
+                "category": "Casual puzzle others",
+                "proba": 1.0
+            }
+        ]
+    },
+    "700(-1)": {
+        "top_category": [
+            {
+                "id": "700",
+                "category": "Casual puzzle",
+                "proba": 1.0
+            }
+        ],
+        "sub_category": [
+            {
+                "id": "70011",
+                "category": "Casual puzzle others",
+                "proba": 1.0
+            }
+        ]
+    },
+    "701": {
+        "top_category": [
+            {
+                "id": "701",
+                "category": "Real-Time Strategy",
+                "proba": 1.0
+            }
+        ],
+        "sub_category": [
+            {
+                "id": -1,
+                "category": "",
+                "proba": 0.0
+            }
+        ]
+    },
+    "70012": {
+        "top_category": [
+            {
+                "id": "701",
+                "category": "Real-Time Strategy",
+                "proba": 1.0
+            }
+        ],
+        "sub_category": [
+            {
+                "id": "70012",
+                "category": "Multiplayer Online Battle Arena",
+                "proba": 1.0
+            }
+        ]
+    },
+    "70013": {
+        "top_category": [
+            {
+                "id": "701",
+                "category": "Real-Time Strategy",
+                "proba": 1.0
+            }
+        ],
+        "sub_category": [
+            {
+                "id": "70013",
+                "category": "Real-Time Strategy games",
+                "proba": 1.0
+            }
+        ]
+    },
+    "70014": {
+        "top_category": [
+            {
+                "id": "701",
+                "category": "Real-Time Strategy",
+                "proba": 1.0
+            }
+        ],
+        "sub_category": [
+            {
+                "id": "70014",
+                "category": "RTS others",
+                "proba": 1.0
+            }
+        ]
+    },
+    "701(-1)": {
+        "top_category": [
+            {
+                "id": "701",
+                "category": "Real-Time Strategy",
+                "proba": 1.0
+            }
+        ],
+        "sub_category": [
+            {
+                "id": "70014",
+                "category": "RTS others",
+                "proba": 1.0
+            }
+        ]
+    },
+    "702": {
+        "top_category": [
+            {
+                "id": "702",
+                "category": "Chess & Card games",
+                "proba": 1.0
+            }
+        ],
+        "sub_category": [
+            {
+                "id": -1,
+                "category": "",
+                "proba": 0.0
+            }
+        ]
+    },
+    "70015": {
+        "top_category": [
+            {
+                "id": "702",
+                "category": "Chess & Card games",
+                "proba": 1.0
+            }
+        ],
+        "sub_category": [
+            {
+                "id": "70015",
+                "category": "Table games",
+                "proba": 1.0
+            }
+        ]
+    },
+    "70016": {
+        "top_category": [
+            {
+                "id": "702",
+                "category": "Chess & Card games",
+                "proba": 1.0
+            }
+        ],
+        "sub_category": [
+            {
+                "id": "70016",
+                "category": "board game",
+                "proba": 1.0
+            }
+        ]
+    },
+    "70017": {
+        "top_category": [
+            {
+                "id": "702",
+                "category": "Chess & Card games",
+                "proba": 1.0
+            }
+        ],
+        "sub_category": [
+            {
+                "id": "70017",
+                "category": "Poker game",
+                "proba": 1.0
+            }
+        ]
+    },
+    "70018": {
+        "top_category": [
+            {
+                "id": "702",
+                "category": "Chess & Card games",
+                "proba": 1.0
+            }
+        ],
+        "sub_category": [
+            {
+                "id": "70018",
+                "category": "chess & card others",
+                "proba": 1.0
+            }
+        ]
+    },
+    "702(-1)": {
+        "top_category": [
+            {
+                "id": "702",
+                "category": "Chess & Card games",
+                "proba": 1.0
+            }
+        ],
+        "sub_category": [
+            {
+                "id": "70018",
+                "category": "chess & card others",
+                "proba": 1.0
+            }
+        ]
+    },
+    "703": {
+        "top_category": [
+            {
+                "id": "703",
+                "category": "Sports games",
+                "proba": 1.0
+            }
+        ],
+        "sub_category": [
+            {
+                "id": -1,
+                "category": "",
+                "proba": 0.0
+            }
+        ]
+    },
+    "70019": {
+        "top_category": [
+            {
+                "id": "703",
+                "category": "Sports games",
+                "proba": 1.0
+            }
+        ],
+        "sub_category": [
+            {
+                "id": "70019",
+                "category": "Ball games",
+                "proba": 1.0
+            }
+        ]
+    },
+    "70020": {
+        "top_category": [
+            {
+                "id": "703",
+                "category": "Sports games",
+                "proba": 1.0
+            }
+        ],
+        "sub_category": [
+            {
+                "id": "70020",
+                "category": "Dodge game",
+                "proba": 1.0
+            }
+        ]
+    },
+    "70021": {
+        "top_category": [
+            {
+                "id": "703",
+                "category": "Sports games",
+                "proba": 1.0
+            }
+        ],
+        "sub_category": [
+            {
+                "id": "70021",
+                "category": "sports games others",
+                "proba": 1.0
+            }
+        ]
+    },
+    "703(-1)": {
+        "top_category": [
+            {
+                "id": "703",
+                "category": "Sports games",
+                "proba": 1.0
+            }
+        ],
+        "sub_category": [
+            {
+                "id": "70021",
+                "category": "sports games others",
+                "proba": 1.0
+            }
+        ]
+    },
+    "704": {
+        "top_category": [
+            {
+                "id": "704",
+                "category": "Simulation Game",
+                "proba": 1.0
+            }
+        ],
+        "sub_category": [
+            {
+                "id": -1,
+                "category": "",
+                "proba": 0.0
+            }
+        ]
+    },
+    "70022": {
+        "top_category": [
+            {
+                "id": "704",
+                "category": "Simulation Game",
+                "proba": 1.0
+            }
+        ],
+        "sub_category": [
+            {
+                "id": "70022",
+                "category": "War Simulation Game",
+                "proba": 1.0
+            }
+        ]
+    },
+    "70023": {
+        "top_category": [
+            {
+                "id": "704",
+                "category": "Simulation Game",
+                "proba": 1.0
+            }
+        ],
+        "sub_category": [
+            {
+                "id": "70023",
+                "category": "SLG-SIM",
+                "proba": 1.0
+            }
+        ]
+    },
+    "70024": {
+        "top_category": [
+            {
+                "id": "704",
+                "category": "Simulation Game",
+                "proba": 1.0
+            }
+        ],
+        "sub_category": [
+            {
+                "id": "70024",
+                "category": "RSLG",
+                "proba": 1.0
+            }
+        ]
+    },
+    "70025": {
+        "top_category": [
+            {
+                "id": "704",
+                "category": "Simulation Game",
+                "proba": 1.0
+            }
+        ],
+        "sub_category": [
+            {
+                "id": "70025",
+                "category": "Analog swap card",
+                "proba": 1.0
+            }
+        ]
+    },
+    "70026": {
+        "top_category": [
+            {
+                "id": "704",
+                "category": "Simulation Game",
+                "proba": 1.0
+            }
+        ],
+        "sub_category": [
+            {
+                "id": "70026",
+                "category": "SLG others",
+                "proba": 1.0
+            }
+        ]
+    },
+    "704(-1)": {
+        "top_category": [
+            {
+                "id": "704",
+                "category": "Simulation Game",
+                "proba": 1.0
+            }
+        ],
+        "sub_category": [
+            {
+                "id": "70026",
+                "category": "SLG others",
+                "proba": 1.0
+            }
+        ]
+    },
+    "705": {
+        "top_category": [
+            {
+                "id": "705",
+                "category": "Action Game",
+                "proba": 1.0
+            }
+        ],
+        "sub_category": [
+            {
+                "id": -1,
+                "category": "",
+                "proba": 0.0
+            }
+        ]
+    },
+    "70027": {
+        "top_category": [
+            {
+                "id": "705",
+                "category": "Action Game",
+                "proba": 1.0
+            }
+        ],
+        "sub_category": [
+            {
+                "id": "70027",
+                "category": "Fighting Game",
+                "proba": 1.0
+            }
+        ]
+    },
+    "70028": {
+        "top_category": [
+            {
+                "id": "705",
+                "category": "Action Game",
+                "proba": 1.0
+            }
+        ],
+        "sub_category": [
+            {
+                "id": "70028",
+                "category": "First Personal Shooting Game",
+                "proba": 1.0
+            }
+        ]
+    },
+    "70029": {
+        "top_category": [
+            {
+                "id": "705",
+                "category": "Action Game",
+                "proba": 1.0
+            }
+        ],
+        "sub_category": [
+            {
+                "id": "70029",
+                "category": "Third Person Shooting",
+                "proba": 1.0
+            }
+        ]
+    },
+    "70030": {
+        "top_category": [
+            {
+                "id": "705",
+                "category": "Action Game",
+                "proba": 1.0
+            }
+        ],
+        "sub_category": [
+            {
+                "id": "70030",
+                "category": "Flying Barrage Shooting",
+                "proba": 1.0
+            }
+        ]
+    },
+    "70031": {
+        "top_category": [
+            {
+                "id": "705",
+                "category": "Action Game",
+                "proba": 1.0
+            }
+        ],
+        "sub_category": [
+            {
+                "id": "70031",
+                "category": "Racing Game",
+                "proba": 1.0
+            }
+        ]
+    },
+    "70032": {
+        "top_category": [
+            {
+                "id": "705",
+                "category": "Action Game",
+                "proba": 1.0
+            }
+        ],
+        "sub_category": [
+            {
+                "id": "70032",
+                "category": "ACT others",
+                "proba": 1.0
+            }
+        ]
+    },
+    "705(-1)": {
+        "top_category": [
+            {
+                "id": "705",
+                "category": "Action Game",
+                "proba": 1.0
+            }
+        ],
+        "sub_category": [
+            {
+                "id": "70032",
+                "category": "ACT others",
+                "proba": 1.0
+            }
+        ]
+    },
+    "706": {
+        "top_category": [
+            {
+                "id": "706",
+                "category": "Role-playing Game",
+                "proba": 1.0
+            }
+        ],
+        "sub_category": [
+            {
+                "id": -1,
+                "category": "",
+                "proba": 0.0
+            }
+        ]
+    },
+    "70033": {
+        "top_category": [
+            {
+                "id": "706",
+                "category": "Role-playing Game",
+                "proba": 1.0
+            }
+        ],
+        "sub_category": [
+            {
+                "id": "70033",
+                "category": "Round-based RPG",
+                "proba": 1.0
+            }
+        ]
+    },
+    "70034": {
+        "top_category": [
+            {
+                "id": "706",
+                "category": "Role-playing Game",
+                "proba": 1.0
+            }
+        ],
+        "sub_category": [
+            {
+                "id": "70034",
+                "category": "action role-playing games",
+                "proba": 1.0
+            }
+        ]
+    },
+    "70035": {
+        "top_category": [
+            {
+                "id": "706",
+                "category": "Role-playing Game",
+                "proba": 1.0
+            }
+        ],
+        "sub_category": [
+            {
+                "id": "70035",
+                "category": "Card type RPG",
+                "proba": 1.0
+            }
+        ]
+    },
+    "70037": {
+        "top_category": [
+            {
+                "id": "706",
+                "category": "Role-playing Game",
+                "proba": 1.0
+            }
+        ],
+        "sub_category": [
+            {
+                "id": "70037",
+                "category": "RPG others",
+                "proba": 1.0
+            }
+        ]
+    },
+    "706(-1)": {
+        "top_category": [
+            {
+                "id": "706",
+                "category": "Role-playing Game",
+                "proba": 1.0
+            }
+        ],
+        "sub_category": [
+            {
+                "id": "70037",
+                "category": "RPG others",
+                "proba": 1.0
+            }
+        ]
+    },
+    "70036": {
+        "top_category": [
+            {
+                "id": "706",
+                "category": "Role-playing Game",
+                "proba": 1.0
+            }
+        ],
+        "sub_category": [
+            {
+                "id": "70036",
+                "category": "Massively Multi Role-Playing ",
+                "proba": 1.0
+            }
+        ]
+    },
+    "707": {
+        "top_category": [
+            {
+                "id": "707",
+                "category": "Other games",
+                "proba": 1.0
+            }
+        ],
+        "sub_category": [
+            {
+                "id": -1,
+                "category": "",
+                "proba": 0.0
+            }
+        ]
+    },
+    "70038": {
+        "top_category": [
+            {
+                "id": "707",
+                "category": "Other games",
+                "proba": 1.0
+            }
+        ],
+        "sub_category": [
+            {
+                "id": "70038",
+                "category": "Funny",
+                "proba": 1.0
+            }
+        ]
+    },
+    "70039": {
+        "top_category": [
+            {
+                "id": "707",
+                "category": "Other games",
+                "proba": 1.0
+            }
+        ],
+        "sub_category": [
+            {
+                "id": "70039",
+                "category": "Beauty&Sexy",
+                "proba": 1.0
+            }
+        ]
+    }
+}

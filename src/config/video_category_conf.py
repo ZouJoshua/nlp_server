@@ -2,9 +2,9 @@
 # -*- coding: utf-8 -*-
 """
 @Author  : Joshua
-@Time    : 19-4-11 上午9:44
-@File    : regional_conf.py
-@Desc    : 地域服务配置
+@Time    : 19-5-10 上午9:51
+@File    : video_category_conf.py
+@Desc    : 视频分类服务配置
 """
 
 
@@ -17,15 +17,17 @@ import logging
 #Basic Setting#
 ###############
 
+# Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
-# 添加 apps 目录
-sys.path.insert(0, os.path.join(BASE_DIR, 'apps'))
-# 添加 utils 目录
-sys.path.insert(0, os.path.join(BASE_DIR, 'utils'))
 
+# Quick-start development settings - unsuitable for production
+# See https://docs.djangoproject.com/en/2.1/howto/deployment/checklist/
+
+# SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = 'dxj13rzpw*(h%ew#vk5rbmj-rh%i(*kvp*m^ll_kxvkxdoc@-)'
 
+# SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
 # ALLOWED_HOSTS = ["localhost", "127.0.0.1"]
@@ -42,7 +44,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-
+ROOT_URLCONF = 'server.urls'
 
 TEMPLATES = [
     {
@@ -60,11 +62,21 @@ TEMPLATES = [
     },
 ]
 
-ROOT_URLCONF = 'server.urls'
 WSGI_APPLICATION = 'server.wsgi.application'
 
 
+# CACHESps -ef | g
+CACHES = {
+    'default': {
+        'BACKEND': 'django.core.cache.backends.locmem.LocMemCache',
+        'LOCATION': 'unique-snowflake'
+    }
+}
+
+
+
 # Database
+# https://docs.djangoproject.com/en/2.1/ref/settings/#databases
 
 # DATABASES = {
 #     'default': {
@@ -75,6 +87,7 @@ WSGI_APPLICATION = 'server.wsgi.application'
 
 
 # Password validation
+# https://docs.djangoproject.com/en/2.1/ref/settings/#auth-password-validators
 
 AUTH_PASSWORD_VALIDATORS = [
     {
@@ -93,33 +106,46 @@ AUTH_PASSWORD_VALIDATORS = [
 
 
 # Internationalization
+# https://docs.djangoproject.com/en/2.1/topics/i18n/
 
 LANGUAGE_CODE = 'en-us'
+
 TIME_ZONE = 'Asia/Shanghai'
+
 USE_I18N = True
+
 USE_L10N = True
+
 USE_TZ = True
 
+
 # Static files (CSS, JavaScript, Images)
+# https://docs.djangoproject.com/en/2.1/howto/static-files/
 
 STATIC_URL = '/static/'
 
 
+# 添加 apps 目录
+sys.path.insert(0, os.path.join(BASE_DIR, 'apps'))
+# print(sys.path)
+# 添加 utils 目录
+sys.path.insert(0, os.path.join(BASE_DIR, 'utils'))
+# print(sys.path)
+
 # 日志
 DEFAULT_LOGGING_LEVEL = logging.INFO
-PROJECT_LOGS_PATH = os.path.join(BASE_DIR, 'logs')
-if not os.path.exists(PROJECT_LOGS_PATH):
-    os.mkdir(PROJECT_LOGS_PATH)
+LOG_PATH = os.path.join(BASE_DIR, 'logs')
+if not os.path.exists(LOG_PATH):
+    os.mkdir(LOG_PATH)
 
 # NLP数据目录
 PROJECT_DATA_PATH = os.path.join(BASE_DIR, 'data')
-
 
 ################
 #Server Setting#
 ################
 
-NLP_SERVER_NAME = os.environ.get("NLP_SERVER_NAME", 'news_regional')
+NLP_SERVER_NAME = os.environ.get("NLP_SERVER_NAME", 'video_category')
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -128,10 +154,21 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    # 添加nlp地域app
+    # 添加定时任务app
+    'django_crontab',
+    # 添加nlp分类app
     'apps.{}'.format(NLP_SERVER_NAME),
-
 ]
 
-REGIONAL_LOG_FILE = os.path.join(PROJECT_LOGS_PATH, '{}_server.log'.format(NLP_SERVER_NAME))
-NLP_REGIONAL_DATA_PATH = os.path.join(PROJECT_DATA_PATH, NLP_SERVER_NAME)
+
+
+PROJECT_LOG_FILE = os.path.join(LOG_PATH, '{}_server.log'.format(NLP_SERVER_NAME))
+CRONJOBS_LOG_FILE = os.path.join(LOG_PATH, 'crontab.log')
+
+# 运行定时函数
+CRONJOBS = [
+    ('0 */2 * * *', 'apps.video_category.classification.crontab_load_idxlabel.crontab_load', '>> {}'.format(CRONJOBS_LOG_FILE))
+]
+# nlp模型
+NLP_MODEL_PATH = os.path.join(PROJECT_DATA_PATH, NLP_SERVER_NAME)
+# NLP_MODEL_PATH = '/data/zoushuai/news_content/sub_classification_model/model'

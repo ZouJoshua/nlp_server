@@ -4,7 +4,7 @@
 @Author  : Joshua
 @Time    : 19-4-11 上午9:45
 @File    : parser_conf.py
-@Desc    : nlp_parser_server setting
+@Desc    : 爬虫解析服务配置
 """
 
 import os
