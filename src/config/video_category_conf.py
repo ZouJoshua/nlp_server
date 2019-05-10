@@ -17,12 +17,14 @@ import logging
 #Basic Setting#
 ###############
 
-# Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
-
-# Quick-start development settings - unsuitable for production
-# See https://docs.djangoproject.com/en/2.1/howto/deployment/checklist/
+# 添加 apps 目录
+sys.path.insert(0, os.path.join(BASE_DIR, 'apps'))
+# print(sys.path)
+# 添加 utils 目录
+sys.path.insert(0, os.path.join(BASE_DIR, 'utils'))
+# print(sys.path)
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = 'dxj13rzpw*(h%ew#vk5rbmj-rh%i(*kvp*m^ll_kxvkxdoc@-)'
@@ -125,12 +127,6 @@ USE_TZ = True
 STATIC_URL = '/static/'
 
 
-# 添加 apps 目录
-sys.path.insert(0, os.path.join(BASE_DIR, 'apps'))
-# print(sys.path)
-# 添加 utils 目录
-sys.path.insert(0, os.path.join(BASE_DIR, 'utils'))
-# print(sys.path)
 
 # 日志
 DEFAULT_LOGGING_LEVEL = logging.INFO
