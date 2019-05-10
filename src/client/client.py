@@ -32,7 +32,6 @@ business_type = "0"
     sub_category: string()
     resource_type: string(0：文章 1：视频)
     business_type: string(0:浏览器 1:游戏)
-    
 """
 parms = {"newsid": _id, "title": title, "content": content, "category": top_category, "sub_category":sub_category, "business_type":business_type,"resource_type":resource_type}
 
