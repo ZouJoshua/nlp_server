@@ -17,7 +17,7 @@ from utils.daemonize import daemonize
 HOME = os.getcwd()
 SCRPET = os.path.basename(sys.argv[0])
 if len(sys.argv) != 4 or sys.argv[1] == '-h':
-    print("ServerName:\n>> news_category\n>> news_regional\n>> news_parser\n>> video_category")
+    print("ServerName:\n>> news_category\n>> news_regional\n>> news_parser\n>> video_category\n>> news_taste")
     sys.exit("Usage:sudo %s {ServerName} {start, stop, restart}" % SCRPET)
 
 RUN = "python3"
@@ -46,6 +46,8 @@ def set_environ(server_name,server_host):
         server_port = os.environ.get('PORT', 8020)
     elif server_name == 'video_category':
         server_port = os.environ.get('PORT', 17701)
+    elif server_name == 'news_taste':
+        server_port = os.environ.get('PORT', 16601)
     else:
         server_port = os.environ.get('PORT', 10901)
     return server_hosts, server_port

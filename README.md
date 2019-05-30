@@ -16,6 +16,7 @@
 - [x] NLP地域服务
 - [x] NLP爬虫解析服务
 - [x] NLP视频分类服务
+- [x] NLP浏览口味服务
 ---------------
 
 ## 新增本地服务app
@@ -307,3 +308,71 @@ result = resp1.text
     
     后续优化
     1.视频分类模型
+
+
+### NLP浏览口味分类服务(news_taste)
+
+>- 服务配置
+
+**服务名称**：news_taste
+
+``` python
+
+# 修改 run.py 服务ip及端口
+server_host= "127.0.0.1"
+# 默认端口19901，如需修改修改 set_environ()
+server_port = os.environ.get('PORT', 16601) 
+
+# 修改 news_category_conf.py 模型路径及日志
+NLP_MODEL_PATH = ""     # nlp 模型数据路径(默认 ./data/news_taste)
+CATEGORY_LOG_FILE = ""  # 日志文件(默认 news_taste_server.log)
+
+```
+
+>- 服务部署
+
+``` bash
+# 启动
+python3 run.py news_taste manage.py start
+
+# 停止
+python3 run.py news_taste manage.py stop
+
+# 重启
+python3 run.py news_taste manage.py restart
+
+```
+
+>- 服务API Demo(参见client)
+
+
+``` python
+# url
+url1 = 'http://127.0.0.1:16601/nlp_category/taste'
+
+
+## >>>>>>>>>> 请求一级和二级类参数
+"""
+传入参数：
+    id: string(必传)
+    title: string（必传）
+    content: string（必传）
+    thresholds: float（可不传，默认参数0.3）
+"""
+# category test
+parms = {"id": _id, "title": title, "content": content, "thresholds": 0.3}
+resp1 = requests.post(url1, data=parms)  # 发送请求
+print(resp1.text)
+
+```
+
+>- 现状及优化
+
+    目前情况
+    1. 目前支持新闻浏览口味4种，准确率达到85%，
+    2. 目前模型使用fasttext模型
+    
+    
+    后续优化
+    1. 支持深度学习模型，如textcnn、rnn、bert等
+
