@@ -37,7 +37,11 @@ class LoadModel(object):
         idx2labelmap_path = os.path.join(path, "idx2label_map.json")
         if os.path.exists(idx2labelmap_path):
             with open(idx2labelmap_path, "r") as load_f:
-                idx2label_map = json.load(load_f)
+                idx2label = json.load(load_f)
+            if "tastecategory" in idx2label.keys():
+                idx2label_map = idx2label["tastecategory"]
+            else:
+                idx2label_map = {"0": "泛娱乐", "1": "新闻", "2": "专业", "3": "其他"}
             self.log.info('Successfully loaded classification id mapping')
         else:
             self.log.error('Please check if the classification id mapping exists')

@@ -53,5 +53,5 @@ class TasteCategory(View):
             logger.warming('User-delivered content and title fields were not found.')
         result["result"] = res
 
-        return JsonResponse(result)  # 通过 django内置的Json格式 丢给客户端数据
+        return JsonResponse(result, json_dumps_params={'ensure_ascii': False})  # 通过 django内置的Json格式 丢给客户端数据
 
