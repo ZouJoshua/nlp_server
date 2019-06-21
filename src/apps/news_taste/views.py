@@ -39,7 +39,7 @@ class TasteCategory(View):
         request_meta = request.META
         client_host = request_meta['HTTP_HOST']
         request_data = request.POST  # 查看客户端发来的请求内容
-        task_id = request_data.get("id", default='NOID')
+        task_id = request_data.get("newsid", default='NOID')
         logger.info('Successfully received the task_id {} sent by the client {}'.format(task_id, client_host))
         text = request_data.get("content", default='')
         title = request_data.get("title", default='')

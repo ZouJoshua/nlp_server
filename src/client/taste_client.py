@@ -20,12 +20,12 @@ _id = "1000"
 # 请求
 """
 传入参数：
-    id: string(必传)
+    newsid: string(必传)
     title: string（必传）
     content: string（必传）
     thresholds: float（可不传，默认参数0.3）
 """
-parms = {"id": _id, "title": title, "content": content, "thresholds": 0.3}
+parms = {"newsid": _id, "title": title, "content": content, "thresholds": 0.3}
 
 # category test
 resp1 = requests.post(url1, data=parms)  # 发送请求
