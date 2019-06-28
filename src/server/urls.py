@@ -27,10 +27,12 @@ def get_server_path(server_name):
         return path('nlp_regional/', include('{}.urls'.format(server_name), namespace=server_name))
     elif server_name == "news_category":
         return path('nlp_category/', include('{}.urls'.format(server_name), namespace=server_name))
-    elif server_name == "video_category":
-        return path('nlp_category/', include('{}.urls'.format(server_name), namespace=server_name))
     elif server_name == 'news_taste':
         return path('nlp_category/', include('{}.urls'.format(server_name), namespace=server_name))
+    elif server_name == "video_category":
+        return path('nlp_category/', include('{}.urls'.format(server_name), namespace=server_name))
+    elif server_name == 'video_tags':
+        return path('polls/', include('{}.urls'.format(server_name), namespace=server_name))
     else:
         raise Exception("服务不存在，请检查服务是否正确, 如正确，请添加服务路由")
 
