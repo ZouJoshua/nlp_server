@@ -550,26 +550,3 @@ class Predict(object):
         return continuous_chunk
 
 
-if __name__ == "__main__":
-    import os
-    import sys
-    root_dir = os.path.dirname(os.path.realpath(__file__))
-    sys.path.append(os.path.dirname(root_dir))
-    from classification.load_mapdata import LoadDict
-    vtags_file = "/home/zoushuai/algoproject/nlp_server/src/data/video_tags/vtags.0413"
-    trim_file = "/home/zoushuai/algoproject/nlp_server/src/data/video_tags/trim2"
-    stopwords_file = "/home/zoushuai/algoproject/nlp_server/src/data/video_tags/stopwords.txt"
-
-    ld = LoadDict(vtags_file, trim_file, stopwords_file)
-    vtag2kwline = ld.vtag2kwline
-    fix2list = ld.fix2list
-    word2fix = ld.word2fix
-    kw2vtag = ld.kw2vtag
-    stopwords = ld.stopwords
-    pred = Predict(vtag2kwline, fix2list, word2fix, kw2vtag, stopwords)
-    title = "Actress Bhavana Latest Images | Tollywood Updates"
-    vtaglist = "actress bhavana rare and unseen family pics,atest celebrity updates,total tollywood,bhava,actress bhavana,bhavana family,bhavana family pics,bhavana family images,bhavana family photos,actress bhavana family pics,actress bhavana friends,celebrity family photos,celebrity news,celebrity updates,latest celebrity news,latest celebrity updates,Actress Bhavana Latest Images"
-    taglist = vtaglist.split(',')
-    nlp_vtagres, resultdict = pred.process_vtag(title, taglist)
-    print(nlp_vtagres)
-    print(resultdict)
