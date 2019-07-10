@@ -5,7 +5,7 @@ from django.http import HttpResponse, Http404
 from django.core.cache import cache
 from django.views import View
 
-from .classification.predict import Predict
+from .classification.en_vtag_process import EnProcess
 from .classification.load_mapdata import LoadDict
 from utils.logger import Logger
 from config.video_tags_conf import PROJECT_LOG_FILE, NLP_MODEL_PATH
@@ -19,13 +19,13 @@ vtags_file = os.path.join(NLP_MODEL_PATH, 'vtags.0413')
 trim_file = os.path.join(NLP_MODEL_PATH, 'trim2')
 stopwords_file = os.path.join(NLP_MODEL_PATH, 'stopwords.txt')
 ld = LoadDict(vtags_file, trim_file, stopwords_file)
-vtag2kwline = ld.vtag2kwline
-fix2list = ld.fix2list
-word2fix = ld.word2fix
-kw2vtag = ld.kw2vtag
+vtag2kwline = ld.en_vtag2kwline
+fix2list = ld.en_fix2list
+word2fix = ld.en_word2fix
+kw2vtag = ld.en_kw2vtag
 stopwords = ld.stopwords
 logger.info("Successfully cache idx2map")
-pred = Predict(vtag2kwline, fix2list, word2fix, kw2vtag, stopwords, logger=logger)
+pred = EnProcess(vtag2kwline, fix2list, word2fix, kw2vtag, stopwords, logger=logger)
 
 
 def index_view(request):
@@ -88,5 +88,25 @@ class Category(View):
         return HttpResponse(tagresult)
 
 
+
+class VtagProcess(object):
+
+    def __init__(self, title, content, lang, taglist):
+        self.title = title
+        self.content = content
+        self.lang = lang.lower()
+        self.taglist = taglist
+        self.nlp_vtag = list()
+
+    def nlp_vtag_process(self):
+        taglist = self.taglist.split(',')
+        if self.lang == "en":
+            nlp_vtagres, resultdict = pred.process_vtag(self.title, taglist)
+            if len(nlp_vtagres) == 0:
+                nlp_vtagres = pred.extract_tag(self.title, self.content)
+        elif self.lang == 'es':
+            pass
+        else:
+            pass
 
 

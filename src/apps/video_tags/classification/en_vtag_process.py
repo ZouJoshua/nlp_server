@@ -4,7 +4,7 @@
 @Author  : Joshua
 @Time    : 2019/3/4 12:26
 @File    : predict.py
-@Desc    : 
+@Desc    : 印度英语视频tag处理
 """
 
 from pyquery import PyQuery
@@ -18,7 +18,7 @@ from nltk.tree import Tree
 
 
 
-class Predict(object):
+class EnProcess(object):
 
     def __init__(self, vtag2kwline, fix2list, word2fix, kw2vtag, stopwords, logger=None):
         self.fix2list = fix2list
@@ -29,10 +29,11 @@ class Predict(object):
         if logger:
             self.log = logger
         else:
-            self.log = logging.getLogger("load_classification_model")
+            self.log = logging.getLogger("vtag_process")
             self.log.setLevel(logging.INFO)
 
     def process_vtag(self, title, taglist):
+        self.log.info("process video tag of taglist")
         newtaglist = []
         # 保留tf>=5的tag
         resultdict = {}
@@ -236,7 +237,7 @@ class Predict(object):
         return [item[0] for item in mergetaglist], resultdict
 
     def extract_tag(self, title, text):
-
+        self.log.info("extracting tags from title and text...")
         mergetaglist = []
         mergetagdict = {}
         lasttaglist = []
