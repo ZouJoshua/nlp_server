@@ -8,11 +8,62 @@
 """
 
 import json
+import os
+import logging
+from config.video_tags_conf import PROJECT_LOG_FILE, NLP_MODEL_PATH
+from .en_vtag_process import EnProcess
+from .es_vtag_process import EsProcess
+from .normal_vtag_process import NormalProcess
+
+
+
+class LoadMultiCountryTagInstance(object):
+    en_vtags_file = os.path.join(NLP_MODEL_PATH, 'en_vtags.0413')
+    en_trim_file = os.path.join(NLP_MODEL_PATH, 'en_base_tags')
+    stopwords_file = os.path.join(NLP_MODEL_PATH, 'stopwords.txt')
+    es_base_tag_file = os.path.join(NLP_MODEL_PATH, 'es_base_tags')
+    es_type_tag_file = os.path.join(NLP_MODEL_PATH, 'es_type_tags')
+
+    def __init__(self, logger=None):
+        if logger:
+            self.log = logger
+        else:
+            self.log = logging.getLogger("vtag_process")
+            self.log.setLevel(logging.INFO)
+        self.log.info("Initialization start...")
+        self.log.info("Loading multi country tag file...")
+
+        ld = LoadDict(self.en_vtags_file, self.en_trim_file,
+                      self.es_type_tag_file, self.es_base_tag_file,
+                      self.stopwords_file)
+        self.en_vtag2kwline = ld.en_vtag2kwline
+        self.en_fix2list = ld.en_fix2list
+        self.en_word2fix = ld.en_word2fix
+        self.en_kw2vtag = ld.en_kw2vtag
+        self.es_base_tags = ld.es_base_tags
+        self.es_type_tags = ld.es_type_tags
+        self.stopwords = ld.stopwords
+
+        self.log.info("Successfully cache tag infomations of multi country")
+
+    def load_process_instance(self):
+        en_proc = EnProcess(self.en_vtag2kwline, self.en_fix2list, self.en_word2fix,
+                            self.en_kw2vtag, self.stopwords, logger=self.log)
+        self.log.info("Successfully load en tag process instance...")
+
+        es_proc = EsProcess(self.es_type_tags, self.es_base_tags, self.stopwords, logger=self.log)
+        self.log.info("Successfully load es tag process instance...")
+
+        normal_proc = NormalProcess()
+        self.log.info("Successfully load normal tag process instance...")
+
+        return en_proc, es_proc, normal_proc
+
 
 
 class LoadDict(object):
 
-    def __init__(self, en_vtags_file, en_tag2type_file, es_type_tags,es_base_tags,stopwords_file):
+    def __init__(self, en_vtags_file, en_tag2type_file, es_type_tags, es_base_tags, stopwords_file):
         self.en_vtag2kwline = dict()
         self.en_kw2vtag = dict()
         self.en_fix2list = dict()
@@ -77,8 +128,3 @@ class LoadDict(object):
 
         self.es_base_tags = list(standard_tag_dict.keys())
 
-
-
-
-if __name__ == "__main__":
-    ld = LoadDict('./dict1/vtags.0413', './dict1/trim2', './dict1/stopwords.txt')

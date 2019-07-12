@@ -5,27 +5,15 @@ from django.http import HttpResponse, Http404
 from django.core.cache import cache
 from django.views import View
 
-from .classification.en_vtag_process import EnProcess
-from .classification.load_mapdata import LoadDict
+from .classification.load_process_instance import LoadMultiCountryTagInstance
+
 from utils.logger import Logger
 from config.video_tags_conf import PROJECT_LOG_FILE, NLP_MODEL_PATH
 
+logger = Logger('nlp_v_tags_process', log2console=False, log2file=True, logfile=PROJECT_LOG_FILE).get_logger()
 
-
-logger = Logger('nlp_v_tags_predict', log2console=False, log2file=True, logfile=PROJECT_LOG_FILE).get_logger()
-logger.info("Initialization start...")
-logger.info("Loading models and idx2map...")
-vtags_file = os.path.join(NLP_MODEL_PATH, 'vtags.0413')
-trim_file = os.path.join(NLP_MODEL_PATH, 'trim2')
-stopwords_file = os.path.join(NLP_MODEL_PATH, 'stopwords.txt')
-ld = LoadDict(vtags_file, trim_file, stopwords_file)
-vtag2kwline = ld.en_vtag2kwline
-fix2list = ld.en_fix2list
-word2fix = ld.en_word2fix
-kw2vtag = ld.en_kw2vtag
-stopwords = ld.stopwords
-logger.info("Successfully cache idx2map")
-pred = EnProcess(vtag2kwline, fix2list, word2fix, kw2vtag, stopwords, logger=logger)
+lmc = LoadMultiCountryTagInstance(logger=logger)
+en_proc, es_proc, normal_proc = lmc.load_process_instance()
 
 
 def index_view(request):
@@ -53,6 +41,7 @@ class Category(View):
         title = request_data.get("title", default="")
         text = request_data.get("content", default="")
         vtaglist = request_data.get("vtaglist", default="")
+        lang = request_data.get("lang", default="en")
         topn = request_data.get("topn", default="")
         category = request_data.get("category", default="")
         resource_type = request_data.get("resource_type", default="")
@@ -66,13 +55,8 @@ class Category(View):
             logger.info("Response:Title is empty, vtaglist is empty")
             return HttpResponse("")
 
-        taglist = vtaglist.split(',')
-
-        nlp_vtagres, resultdict = pred.process_vtag(title, taglist)
-        if len(nlp_vtagres) == 0:
-            nlp_vtagres = pred.extract_tag(title, text)
-
-        tagresult = '\t'.join(nlp_vtagres)
+        nlp_vtag = VtagProcess(title, text, lang, vtaglist).nlp_vtag
+        tagresult = '\t'.join(nlp_vtag)
         if tagresult == None:
             tagresult = ''
 
@@ -96,17 +80,22 @@ class VtagProcess(object):
         self.content = content
         self.lang = lang.lower()
         self.taglist = taglist
-        self.nlp_vtag = list()
+        self.nlp_vtag = self.nlp_vtag_process()
 
     def nlp_vtag_process(self):
         taglist = self.taglist.split(',')
         if self.lang == "en":
-            nlp_vtagres, resultdict = pred.process_vtag(self.title, taglist)
+            nlp_vtagres, resultdict = en_proc.process_vtag(self.title, taglist)
             if len(nlp_vtagres) == 0:
-                nlp_vtagres = pred.extract_tag(self.title, self.content)
+                nlp_vtagres = en_proc.extract_tag(self.title, self.content)
         elif self.lang == 'es':
-            pass
+            nlp_vtagres = es_proc.get_cleaned_tags(taglist)
+            if len(nlp_vtagres) == 0:
+                nlp_vtagres = es_proc.extract_tag(self.title, self.content)
         else:
             pass
+
+        return nlp_vtagres
+
 
 

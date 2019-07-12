@@ -11,6 +11,9 @@
 import logging
 import re
 import string
+import emoji
+from nltk import ne_chunk, pos_tag, word_tokenize
+from nltk.tree import Tree
 
 
 class EsProcess(object):
@@ -26,13 +29,21 @@ class EsProcess(object):
             self.log = logging.getLogger("vtag_process")
             self.log.setLevel(logging.INFO)
 
-    def trim_video_tag(self, input_tag, tag_dict, standard_tag_list):
-        self.log.info("")
+    def get_cleaned_tags(self, taglist):
+        nlp_tags = list()
+        for tag in taglist:
+            _tags, _, _ = self.trim_video_tag(tag)
+            nlp_tags += _tags
+
+        return [tag for tag in nlp_tags]
+
+    def trim_video_tag(self, input_tag):
+        self.log.info("trim es video tags...")
         resultdict = {}
         details = []
 
         # 1. 预清洗
-        new_tag = self.standard_tag(input_tag, standard_tag_list)
+        new_tag = self.standard_tag(input_tag, self.standard_tag_list)
         # print(new_tag)
         tag_tokens = new_tag.split(" ")
         details.append("【{}】0==>【{}】".format(input_tag, new_tag))
@@ -41,22 +52,23 @@ class EsProcess(object):
 
         c_tag = []
         if len(tag_tokens) == 1:
-            if new_tag in tag_dict.keys():
+            if new_tag in self.tag_dict.keys():
                 c_tag = [new_tag]
         else:
             for tok in tag_tokens:
-                if tok in tag_dict.keys():
-                    print(new_tag)
-                    print(tag_dict[tok].keys())
-                    if new_tag in tag_dict[tok].keys():
+                if tok in self.tag_dict.keys():
+                    # print(new_tag)
+                    # print(self.tag_dict[tok].keys())
+                    if new_tag in self.tag_dict[tok].keys():
                         c_tag = [new_tag]
-                        print(c_tag)
+                        # print(c_tag)
                     else:
                         c_tag.append(tok)
 
         if len(c_tag) >= 1:
             resultdict["in_tag_dict"] = c_tag
             details.append("【{}】1==>【{}】".format(new_tag, c_tag))
+            self.log.info("clean {} type tag details:{}".format("one_gram", details))
             return c_tag, resultdict, details
         else:
             pass
@@ -65,6 +77,7 @@ class EsProcess(object):
         if len(tag_tokens) < 2:
             resultdict["one_gram"] = [new_tag]
             details.append("【{}】2==>【{}】".format(new_tag, new_tag))
+            self.log.info("clean {} type tag details:{}".format("one_gram", details))
             return [new_tag], resultdict, details
         else:
             pass
@@ -90,12 +103,12 @@ class EsProcess(object):
         # 3. 预判断:is in tag_dict or not
         c_tag = []
         if len(res1_tokens) == 1:
-            if res1 in tag_dict.keys():
+            if res1 in self.tag_dict.keys():
                 c_tag = [res1]
         else:
             for tok in res1_tokens:
-                if tok in tag_dict.keys():
-                    if res1 in tag_dict[tok].keys():
+                if tok in self.tag_dict.keys():
+                    if res1 in self.tag_dict[tok].keys():
                         c_tag = res1_tokens
                     else:
                         c_tag.append(tok)
@@ -103,6 +116,7 @@ class EsProcess(object):
         if len(c_tag) >= 1:
             resultdict["period"] = c_tag
             details.append("【{}】4==>【{}】".format(res1, c_tag))
+            self.log.info("clean {} type tag details:{}".format("period", details))
             return c_tag, resultdict, details
         else:
             pass
@@ -111,6 +125,7 @@ class EsProcess(object):
         if len(res1_tokens) < 2:
             resultdict["period"] = [res1]
             details.append("【{}】5==>【{}】".format(new_tag, res1))
+            self.log.info("clean {} type tag details:{}".format("period", details))
             return [res1], resultdict, details
         else:
             pass
@@ -136,12 +151,12 @@ class EsProcess(object):
         # 4. 预判断:is in tag_dict or not
         c_tag = []
         if len(res2_tokens) == 1:
-            if res2 in tag_dict.keys():
+            if res2 in self.tag_dict.keys():
                 c_tag = [res2]
         else:
             for tok in res2_tokens:
-                if tok in tag_dict.keys():
-                    if res2 in tag_dict[tok].keys():
+                if tok in self.tag_dict.keys():
+                    if res2 in self.tag_dict[tok].keys():
                         c_tag = res2_tokens
                     else:
                         c_tag.append(tok)
@@ -149,6 +164,7 @@ class EsProcess(object):
         if len(c_tag) >= 1:
             resultdict["lang"] = c_tag
             details.append("【{}】7==>【{}】".format(res1, c_tag))
+            self.log.info("clean {} type tag details:{}".format("lang", details))
             return c_tag, resultdict, details
         else:
             pass
@@ -157,10 +173,120 @@ class EsProcess(object):
         if len(res1_tokens) < 2:
             resultdict["lang"] = [res2]
             details.append("【{}】\t8==>\t【{}】".format(new_tag, res2))
+            self.log.info("clean {} type tag details:{}".format("lang", details))
             return [res2], resultdict, details
         else:
             pass
         return [res2], resultdict, details
+
+
+
+    def extract_tag(self, title, text):
+        self.log.info("extracting tags from title and text...")
+        mergetaglist = []
+        mergetagdict = {}
+        lasttaglist = []
+        pattern1 = r"""(\||\-\s{1}|\s{1}\-|\(|\)|\?|!|–\s{1}|\s{1}–|│|\"|\'\s{1}|\s{1}\'|‘\s{1}|\s{1}‘|’\s{1}|\s{1}’|:|\s{1}\[|\]\s{1}|~|\/\s{1}|\s{1}\/|\*)"""
+        res = re.compile(pattern1, flags=0)
+
+        title_no_emoji = self.clean_emoji(title)
+        title2 = res.sub("#", title_no_emoji)
+        if text.startswith(title):
+            text = text[len(title):]
+        text2 = text.replace('\n', ' ').replace("\t", " ").replace("\r", " ")
+        text2 = self.clean_emoji(text2)
+        text2 = self.clean_url(text2)
+        text2 = self.clean_mail(text2)
+        text2_lower = text2.lower()
+
+        text2_ner_list = self.get_continuous_chunks(text2)
+
+        debug_list1 = []
+        debug_list2 = []
+        title_nerlist = []
+        for title_trunk in title2.split('#'):
+            title_trunk = title_trunk.strip()
+            title_trunk_lower = title_trunk.lower()
+            title_trunk_tokens = title_trunk_lower.split(" ")
+            if text2_lower.find(title_trunk_lower) >= 0 and title_trunk != title2:
+                debug_list1.append(title_trunk_lower)
+            if title_trunk != '':
+                if len(title_trunk_tokens) == 1:
+                    if title_trunk_lower not in mergetagdict:
+                        mergetaglist.append([title_trunk_lower, 'title_trunk_vtag'])
+                        mergetagdict[title_trunk_lower] = None
+                else:
+                    for tok in title_trunk_tokens:
+                        if tok in self.tag_dict:
+                            if title_trunk_lower in self.tag_dict[tok]:
+                                if tok not in mergetagdict:
+                                    mergetaglist.append([title_trunk_lower, 'title_trunk_kw'])
+                                    mergetagdict[title_trunk_lower] = None
+            else:
+                continue
+
+            title_trunk_list = self.get_continuous_chunks(title_trunk)
+            title_nerlist.extend(title_trunk_list)
+        tfdict = {}
+        for trunk in title_nerlist:
+            trunk_lower = trunk.lower()
+            if trunk_lower == '': continue
+            if trunk_lower in self.stopwords: continue
+            n = len(trunk_lower.split(' '))
+            x = 1.5
+            if n >= 2:
+                x = 2
+            if trunk_lower not in tfdict:
+                tfdict[trunk_lower] = x
+            else:
+                tfdict[trunk_lower] += x
+        for trunk in text2_ner_list:
+            trunk_lower = trunk.lower()
+            if trunk_lower in self.stopwords: continue
+            if trunk_lower == '': continue
+            if trunk_lower not in tfdict:
+                tfdict[trunk_lower] = 1
+            else:
+                tfdict[trunk_lower] += 1
+        sorted_tfdict = sorted(tfdict.items(), key=lambda k: k[1], reverse=True)
+        sorted_tfdict2 = [x for x in sorted_tfdict if x[1] >= 2]
+
+        for c_tag, c_tf in sorted_tfdict2:
+
+            if c_tag in self.tag_dict or len(c_tag.split(' ')) >= 2:
+                if c_tag not in mergetagdict:
+                    mergetaglist.append([c_tag, 'tf_vtag'])
+                    mergetagdict[c_tag] = None
+
+        for i, (tag, reason) in enumerate(mergetaglist):
+            if i >= 5: break
+            lasttaglist.append(tag)
+
+        return lasttaglist
+
+    def get_continuous_chunks(self, text):
+
+        chunked = ne_chunk(pos_tag(word_tokenize(text)))
+        continuous_chunk = []
+        current_chunk = []
+        for i in chunked:
+            if type(i) == Tree:
+                current_chunk.append(" ".join([token for token, pos in i.leaves()]))
+            elif current_chunk:
+                continuous_chunk.append(" ".join(current_chunk))
+                continuous_chunk.append(i[0])
+                current_chunk = []
+            else:
+                continuous_chunk.append(i[0])
+                continue
+        if current_chunk:
+            continuous_chunk.append(" ".join(current_chunk))
+            current_chunk = []
+
+        return continuous_chunk
+
+
+
 
     def standard_tag(self, tag, standard_tag_list):
         # print(">>>>> 正在标准化tag")
@@ -210,6 +336,29 @@ class EsProcess(object):
             return new_tag.strip()
 
     @staticmethod
+    def clean_emoji(text):
+        """
+        清洗表情符号
+        :param text:
+        :return:
+        """
+        token_list = text.replace("¡", "").replace("¿", "").split(" ")
+        em_str = r":.*?:"
+        em_p = re.compile(em_str, flags=0)
+        clean_token = list()
+        for token in token_list:
+            em = emoji.demojize(token)
+            emj = em_p.search(em)
+            if emj:
+                _e = emj.group(0)
+                # print(_e)
+            else:
+                clean_token.append(token)
+        cleaned_text = " ".join(clean_token)
+        return cleaned_text.strip()
+
+
+    @staticmethod
     def clean_punc(text):
         """
         清洗标点符号
@@ -223,13 +372,27 @@ class EsProcess(object):
         return new_text
 
     @staticmethod
+    def clean_mail(text):
+        """
+        清洗邮箱
+        :param text:
+        :return:
+        """
+        pattern = re.compile(r"\w+[-_.]*[a-zA-Z0-9]+@[a-zA-Z0-9]+\.[a-zA-Z]{2,3}")
+        mail_list = re.findall(pattern, text)
+        for mail in mail_list:
+            text = text.replace(mail, " ")
+        return text
+
+    @staticmethod
     def clean_url(text):
         """
         清洗url网址
         :param text:
         :return:
         """
-        pattern = re.compile(r'(?:https?|ftp|file)://[-A-Za-z0-9+&@#/%?=~_|!:,.;]+[-A-Za-z0-9+&@#/%=~_|]')
+        pattern = re.compile(
+            r'(?:(?:https?|ftp|file)://[-A-Za-z0-9+&@#/%?=~_|!:,.;]+[-A-Za-z0-9+&@#/%=~_|])|(?:www\.[-A-Za-z0-9+&@#/%?=~_|!:,.;]+[-A-Za-z0-9+&@#/%=~_|])')
         # pattern = re.compile(r'http[s]?://(?:[a-zA-Z]|[0-9]|[$-_@.&+]|[!*\(\),]|(?:%[0-9a-zA-Z][0-9a-zA-Z]))+')
         url_list = re.findall(pattern, text)
         for url in url_list:
