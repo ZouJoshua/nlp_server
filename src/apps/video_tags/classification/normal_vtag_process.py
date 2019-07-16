@@ -19,10 +19,11 @@ class NormalProcess(object):
         if logger:
             self.log = logger
         else:
-            self.log = logging.getLogger("vtag_process")
+            self.log = logging.getLogger("nlp_v_tags_process")
             self.log.setLevel(logging.INFO)
 
-    def get_cleaned_tag(self, taglist):
+    def get_cleaned_tags(self, taglist):
+        self.log.info("Processing normal video tag of taglist:【{}】".format(taglist))
         new_tag_list = list()
         for tag in taglist:
             new_tag = self.trim_video_tag(tag)
@@ -84,6 +85,7 @@ class NormalProcess(object):
         mail_list = re.findall(pattern, text)
         for mail in mail_list:
             text = text.replace(mail, " ")
+        return text
 
     @staticmethod
     def clean_url(text):
@@ -92,7 +94,8 @@ class NormalProcess(object):
         :param text:
         :return:
         """
-        pattern = re.compile(r'(?:https?|ftp|file)://[-A-Za-z0-9+&@#/%?=~_|!:,.;]+[-A-Za-z0-9+&@#/%=~_|]')
+        pattern = re.compile(
+            r'(?:(?:https?|ftp|file)://[-A-Za-z0-9+&@#/%?=~_|!:,.;]+[-A-Za-z0-9+&@#/%=~_|])|(?:www\.[-A-Za-z0-9+&@#/%?=~_|!:,.;]+[-A-Za-z0-9+&@#/%=~_|])')
         # pattern = re.compile(r'http[s]?://(?:[a-zA-Z]|[0-9]|[$-_@.&+]|[!*\(\),]|(?:%[0-9a-zA-Z][0-9a-zA-Z]))+')
         url_list = re.findall(pattern, text)
         for url in url_list:

@@ -54,7 +54,7 @@ class LoadMultiCountryTagInstance(object):
         es_proc = EsProcess(self.es_type_tags, self.es_base_tags, self.stopwords, logger=self.log)
         self.log.info("Successfully load es tag process instance...")
 
-        normal_proc = NormalProcess()
+        normal_proc = NormalProcess(logger=self.log)
         self.log.info("Successfully load normal tag process instance...")
 
         return en_proc, es_proc, normal_proc
@@ -124,7 +124,7 @@ class LoadDict(object):
         self.es_type_tags = tag_dict
 
         with open(es_standard_tag_file, 'r') as f:
-            standard_tag_dict = json.load(es_standard_tag_file)
+            standard_tag_dict = json.load(f)
 
         self.es_base_tags = list(standard_tag_dict.keys())
 

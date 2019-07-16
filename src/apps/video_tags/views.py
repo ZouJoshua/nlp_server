@@ -20,7 +20,7 @@ def index_view(request):
     return HttpResponse("Hello World!")
 
 class Category(View):
-    global idx2label_map
+    global en_proc, es_proc, normal_proc
 
     def get(self, request):
         pass
@@ -29,8 +29,7 @@ class Category(View):
         """
         返回视频分类
         :param request:
-        :return: {"top_category": [{"id":"","category":"","proba":""}],
-                "sub_category": [{"id":"","category":"","proba":""}]}
+        :return: "tag1\ttag2\ttag3"
         """
         request_meta = request.META
         client_host = request_meta['HTTP_HOST']
@@ -42,11 +41,11 @@ class Category(View):
         text = request_data.get("content", default="")
         vtaglist = request_data.get("vtaglist", default="")
         lang = request_data.get("lang", default="en")
-        topn = request_data.get("topn", default="")
-        category = request_data.get("category", default="")
-        resource_type = request_data.get("resource_type", default="")
-        source_url = request_data.get("source_url", default="")
-        business_type = request_data.get("business_type", default="")
+        # topn = request_data.get("topn", default="")
+        # category = request_data.get("category", default="")
+        # resource_type = request_data.get("resource_type", default="")
+        # source_url = request_data.get("source_url", default="")
+        # business_type = request_data.get("business_type", default="")
 
         requestjson = json.dumps(request_data, ensure_ascii=False)
 
@@ -56,19 +55,11 @@ class Category(View):
             return HttpResponse("")
 
         nlp_vtag = VtagProcess(title, text, lang, vtaglist).nlp_vtag
-        tagresult = '\t'.join(nlp_vtag)
+        tagresult = '|'.join(nlp_vtag)
         if tagresult == None:
             tagresult = ''
+        logger.info("Processed vtag 【{}】".format(tagresult))
 
-        request_info['nlp_vtag'] = nlp_vtagres
-        result = {}
-        result['nlp_vtag'] = nlp_vtagres
-        responsejson = json.dumps(request_info, ensure_ascii=False)
-
-        # responseinfo = "Title["+title+"],Oldtaglist["+vtaglist+"], Vtag_result["+tagresult+']'
-        # print(loginfo)
-        # print(responsejson)
-        logger.info("Response:" + responsejson)
         return HttpResponse(tagresult)
 
 
@@ -83,17 +74,19 @@ class VtagProcess(object):
         self.nlp_vtag = self.nlp_vtag_process()
 
     def nlp_vtag_process(self):
-        taglist = self.taglist.split(',')
+        tag_list = self.taglist.split(',')
         if self.lang == "en":
-            nlp_vtagres, resultdict = en_proc.process_vtag(self.title, taglist)
+            nlp_vtagres, resultdict = en_proc.process_vtag(self.title, tag_list)
             if len(nlp_vtagres) == 0:
+                logger.info("the tag was not extracted from the taglist and is being extracted from the title and text")
                 nlp_vtagres = en_proc.extract_tag(self.title, self.content)
         elif self.lang == 'es':
-            nlp_vtagres = es_proc.get_cleaned_tags(taglist)
+            nlp_vtagres = es_proc.get_cleaned_tags(tag_list)
             if len(nlp_vtagres) == 0:
+                logger.info("the tag was not extracted from the taglist and is being extracted from the title and text")
                 nlp_vtagres = es_proc.extract_tag(self.title, self.content)
         else:
-            pass
+            nlp_vtagres = normal_proc.get_cleaned_tags(tag_list)
 
         return nlp_vtagres
 

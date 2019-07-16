@@ -29,11 +29,11 @@ class EnProcess(object):
         if logger:
             self.log = logger
         else:
-            self.log = logging.getLogger("vtag_process")
+            self.log = logging.getLogger("nlp_v_tags_process")
             self.log.setLevel(logging.INFO)
 
     def process_vtag(self, title, taglist):
-        self.log.info("process video tag of taglist")
+        self.log.info("Processing en video tag of taglist:【{}】".format(taglist))
         newtaglist = []
         # 保留tf>=5的tag
         resultdict = {}
