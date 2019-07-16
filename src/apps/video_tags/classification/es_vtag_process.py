@@ -37,7 +37,7 @@ class EsProcess(object):
             _tags, _, _ = self.trim_video_tag(tag)
             nlp_tags += _tags
 
-        nlp_tags_list = [k for k, v in Counter(nlp_tags).items() if len(k) > 2][:10]
+        nlp_tags_list = [k for k, v in Counter(nlp_tags).items() if len(k) > 2][:6]
 
         return [tag for tag in nlp_tags_list]
 
