@@ -55,7 +55,7 @@ class Category(View):
             return HttpResponse("")
 
         nlp_vtag = VtagProcess(title, text, lang, vtaglist).nlp_vtag
-        tagresult = '|'.join(nlp_vtag)
+        tagresult = '\t'.join(nlp_vtag)
         if tagresult == None:
             tagresult = ''
         logger.info("Processed vtag 【{}】".format(tagresult))
