@@ -31,17 +31,17 @@ class LoadModel(object):
         classifier_dict = dict()
         # 加载一级模型
         topcategory_model_path = os.path.join(path, 'top_content_model.bin')
-        topcategory_auto_science_model_path = os.path.join(path, 'top_auto_science_model.bin')
-        if os.path.exists(topcategory_model_path) and os.path.exists(topcategory_auto_science_model_path):
+        topcategory_title_model_path = os.path.join(path, 'top_title_model.bin')
+        if os.path.exists(topcategory_model_path) and os.path.exists(topcategory_title_model_path):
             topcategory_classifier = fasttext.load_model(topcategory_model_path)
             classifier_dict['topcategory_model'] = topcategory_classifier
-            auto_science_classifier = fasttext.load_model(topcategory_auto_science_model_path)
-            classifier_dict['auto_science'] = auto_science_classifier
+            auto_science_classifier = fasttext.load_model(topcategory_title_model_path)
+            classifier_dict['topcategory_title_model'] = auto_science_classifier
             self.log.info('Successfully loaded the first-level classification model')
         elif os.path.exists(topcategory_model_path):
             topcategory_classifier = fasttext.load_model(topcategory_model_path)
             classifier_dict['topcategory_model'] = topcategory_classifier
-            self.log.warning('Successfully loaded the first-level classification model without top_auto_science_model')
+            self.log.warning('Successfully loaded the first-level classification model without top_title_model')
         else:
             self.log.error('Please check if the first-level model path exists')
             raise Exception('一级分类模型路径不存在')

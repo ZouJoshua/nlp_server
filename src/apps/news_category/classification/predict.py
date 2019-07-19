@@ -7,7 +7,6 @@
 @Desc    : 
 """
 
-import fasttext
 from pyquery import PyQuery
 import re
 import logging
@@ -28,7 +27,7 @@ class Predict(object):
         doc = PyQuery(text)
         text = doc.text()
         # 去除网址和邮箱
-        text = text.replace("\n", "").replace("\t", "").replace("\r", "").replace("&#13;", "").lower()
+        text = text.replace("\n", " ").replace("\t", " ").replace("\r", " ").replace("&#13;", " ").lower()
         url_list = re.findall(r'http://[a-zA-Z0-9.?/&=:]*', text)
         for url in url_list:
             text = text.replace(url, "")
@@ -42,7 +41,7 @@ class Predict(object):
                 cleaned_text += c
         return cleaned_text
 
-    def get_category(self, content, title, classifier_dict, idx2label, thresholds=(0.3,0.2)):
+    def get_category(self, content, title, classifier_dict, idx2label, only_title=False, thresholds=(0.3,0.2)):
         """
         分类结果
         :param content: 内容（str）
@@ -53,12 +52,16 @@ class Predict(object):
         :return: 分类结果（一级类、二级类）
         """
         content_list = []
-        content_list.append(self.clean_string(title + '.' + content))
+        if only_title:
+            text = self.clean_string(title)
+        else:
+            text = self.clean_string(title + '.' + content)
+        content_list.append(text)
         if thresholds and len(thresholds) == 2:
             top_threshold, sub_threshold = thresholds
         else:
             top_threshold, sub_threshold = (0.3, 0.2)
-        predict_top_res = self._predict_topcategory(content_list, classifier_dict, idx2label, proba_threshold=top_threshold)
+        predict_top_res = self._predict_topcategory(content_list, classifier_dict, idx2label, only_title=only_title, proba_threshold=top_threshold)
         # self.log.info("Successfully predicting the top_category\n{}".format(predict_top_res))
         predict_top_category = predict_top_res['top_category'][0]['category']
         if predict_top_category in classifier_dict.keys():
@@ -72,7 +75,7 @@ class Predict(object):
             self.log.warning("There is no secondary classification model for this primary classification({}).".format(predict_top_category))
         return predict_sub_res
 
-    def get_topcategory(self, content_list, classifier_dict, idx2label, threshold=0.3):
+    def get_topcategory(self, content_list, classifier_dict, idx2label, only_title=False, threshold=0.3):
         """
         一级分类结果
         :param content_list: 内容（list）
@@ -80,7 +83,7 @@ class Predict(object):
         :param idx2label: 分类id映射（json）
         :return: 一级分类结果（dict）
         """
-        return self._predict_topcategory(content_list, classifier_dict, idx2label, proba_threshold=threshold)
+        return self._predict_topcategory(content_list, classifier_dict, idx2label, only_title=only_title, proba_threshold=threshold)
 
     def get_subcategory(self, content_list, classifier, idx2label, predict_res, threshold=0.2):
         """
@@ -93,11 +96,14 @@ class Predict(object):
         """
         return self._predict_subcategory(content_list, classifier, idx2label, predict_res, proba_threshold=threshold)
 
-    def _predict_topcategory(self, content_list, classifier_dict, idx2label, topk=3, proba_threshold=0.3):
+    def _predict_topcategory(self, content_list, classifier_dict, idx2label, only_title=False, topk=3, proba_threshold=0.3):
         result = dict()
         result["top_category"] = list()
         try:
-            classifier = classifier_dict['topcategory_model']
+            if only_title:
+                classifier = classifier_dict['topcategory_title_model']
+            else:
+                classifier = classifier_dict['topcategory_model']
             label = classifier.predict_proba(content_list, topk)
         except Exception as e:
             self.log.error('Error({}) with topcategory model prediction.'.format(e))

@@ -48,9 +48,16 @@ class Category(View):
         logger.info('Successfully received the request content sent by the client {}'.format(client_host))
         text = request_data.get("content", default='')
         title = request_data.get("title", default='')
+        only_title = request_data.get("only_title", default='0')
+        if str(only_title) == '0':
+            title_flag = False
+        elif str(only_title) == '1':
+            title_flag = True
+        else:
+            title_flag = False
         threshold = request_data.get("thresholds", default=(0.3, 0.2))
         if text or title:
-            res = pred.get_category(content=text, title=title, classifier_dict=classifier_dict, idx2label=idx2label_map, thresholds=threshold)
+            res = pred.get_category(content=text, title=title, classifier_dict=classifier_dict, idx2label=idx2label_map, only_title=title_flag, thresholds=threshold)
             result["status"] = 'Successful'
         else:
             res = dict()

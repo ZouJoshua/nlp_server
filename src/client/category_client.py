@@ -26,10 +26,11 @@ top_category = 'national'
 传入参数：
     title: string（必传）
     content: string（必传）
+    only_title: string（必传【0,1】，默认0）
     thresholds: （float，float）（可不传，默认参数（0.3,0.2））
 """
 # category test
-parms = {"title": title, "content": content, "top_category": top_category}
+parms = {"title": title, "content": content, "only_title": "1", "top_category": top_category}
 resp1 = requests.post(url1, data=parms)  # 发送请求
 print(resp1.text)
 
@@ -38,6 +39,7 @@ print(resp1.text)
 传入参数：
     title: string（必传）
     content: string（必传）
+    only_title: string（必传【0,1】，默认0）
     thresholds: float（可不传，默认参数0.3）
 """
 # top_category test
