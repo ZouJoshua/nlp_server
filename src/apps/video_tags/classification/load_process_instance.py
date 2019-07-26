@@ -13,6 +13,7 @@ import logging
 from config.video_tags_conf import PROJECT_LOG_FILE, NLP_MODEL_PATH
 from .en_vtag_process import EnProcess
 from .es_vtag_process import EsProcess
+from .ko_vtag_process import KoProcess
 from .normal_vtag_process import NormalProcess
 
 
@@ -23,6 +24,8 @@ class LoadMultiCountryTagInstance(object):
     stopwords_file = os.path.join(NLP_MODEL_PATH, 'stopwords.txt')
     es_base_tag_file = os.path.join(NLP_MODEL_PATH, 'es_base_tags')
     es_type_tag_file = os.path.join(NLP_MODEL_PATH, 'es_type_tags')
+    ko_base_tag_file = os.path.join(NLP_MODEL_PATH, 'ko_base_tags')
+    ko_type_tag_file = os.path.join(NLP_MODEL_PATH, 'ko_type_tags')
 
     def __init__(self, logger=None):
         if logger:
@@ -35,6 +38,7 @@ class LoadMultiCountryTagInstance(object):
 
         ld = LoadDict(self.en_vtags_file, self.en_trim_file,
                       self.es_type_tag_file, self.es_base_tag_file,
+                      self.ko_type_tag_file, self.ko_base_tag_file,
                       self.stopwords_file)
         self.en_vtag2kwline = ld.en_vtag2kwline
         self.en_fix2list = ld.en_fix2list
@@ -42,6 +46,8 @@ class LoadMultiCountryTagInstance(object):
         self.en_kw2vtag = ld.en_kw2vtag
         self.es_base_tags = ld.es_base_tags
         self.es_type_tags = ld.es_type_tags
+        self.ko_base_tags = ld.ko_base_tags
+        self.ko_type_tags = ld.ko_type_tags
         self.stopwords = ld.stopwords
 
         self.log.info("Successfully cache tag infomations of multi country")
@@ -54,16 +60,25 @@ class LoadMultiCountryTagInstance(object):
         es_proc = EsProcess(self.es_type_tags, self.es_base_tags, self.stopwords, logger=self.log)
         self.log.info("Successfully load es tag process instance...")
 
+        ko_proc = KoProcess(self.ko_type_tags, self.ko_base_tags, self.stopwords, logger=self.log)
+        self.log.info("Successfully load ko tag process instance...")
+
         normal_proc = NormalProcess(logger=self.log)
         self.log.info("Successfully load normal tag process instance...")
 
-        return en_proc, es_proc, normal_proc
+
+
+        return en_proc, es_proc, ko_proc, normal_proc
 
 
 
 class LoadDict(object):
 
-    def __init__(self, en_vtags_file, en_tag2type_file, es_type_tags, es_base_tags, stopwords_file):
+    def __init__(self,
+                 en_vtags_file, en_tag2type_file,
+                 es_type_tags, es_base_tags,
+                 ko_type_tags, ko_base_tags,
+                 stopwords_file):
         self.en_vtag2kwline = dict()
         self.en_kw2vtag = dict()
         self.en_fix2list = dict()
@@ -73,6 +88,7 @@ class LoadDict(object):
         self.es_type_tags = dict()
         self.load_en_dict(en_vtags_file, en_tag2type_file, stopwords_file)
         self.load_es_dict(es_type_tags, es_base_tags)
+        self.load_ko_dict(ko_type_tags, ko_base_tags)
 
     def load_en_dict(self, vtags_file, tag2type_file, stopwords_file):
         with open(vtags_file, 'r') as f0:
@@ -127,4 +143,16 @@ class LoadDict(object):
             standard_tag_dict = json.load(f)
 
         self.es_base_tags = list(standard_tag_dict.keys())
+
+
+    def load_ko_dict(self, ko_type_file, ko_standard_tag_file):
+
+        with open(ko_type_file, 'r') as f:
+            tag_dict = json.load(f)
+        self.ko_type_tags = tag_dict
+
+        with open(ko_standard_tag_file, 'r') as f:
+            standard_tag_dict = json.load(f)
+
+        self.ko_base_tags = list(standard_tag_dict.keys())
 

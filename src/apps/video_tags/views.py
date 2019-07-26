@@ -13,7 +13,7 @@ from config.video_tags_conf import PROJECT_LOG_FILE, NLP_MODEL_PATH
 logger = Logger('nlp_v_tags_process', log2console=False, log2file=True, logfile=PROJECT_LOG_FILE).get_logger()
 
 lmc = LoadMultiCountryTagInstance(logger=logger)
-en_proc, es_proc, normal_proc = lmc.load_process_instance()
+en_proc, es_proc, ko_proc, normal_proc = lmc.load_process_instance()
 
 
 def index_view(request):
@@ -85,6 +85,11 @@ class VtagProcess(object):
             if len(nlp_vtagres) == 0:
                 logger.info("the tag was not extracted from the taglist and is being extracted from the title and text")
                 nlp_vtagres = es_proc.extract_tag(self.title, self.content)
+        elif self.lang == 'ko':
+            nlp_vtagres = ko_proc.get_cleaned_tags(tag_list)
+            if len(nlp_vtagres) == 0:
+                logger.info("the tag was not extracted from the taglist and is being extracted from the title and text")
+                nlp_vtagres = ko_proc.extract_tag(self.title, self.content)
         else:
             nlp_vtagres = normal_proc.get_cleaned_tags(tag_list)
 

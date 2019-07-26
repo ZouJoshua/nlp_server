@@ -21,7 +21,7 @@ from utils.tools import read_json_format_file
 url = 'http://127.0.0.1:9022/polls/vtag'
 
 
-def tt_tag_server(raw_file):
+def tt_es_tag_server(raw_file):
     print(">>>>> 正在读取西班牙原始tag")
     count_ = 0
     for line in read_json_format_file(raw_file):
@@ -41,5 +41,27 @@ def tt_tag_server(raw_file):
             break
 
 
-raw_file = "/home/zoushuai/algoproject/algo-python/nlp/preprocess/tags/ES_video_tags"
-tt_tag_server(raw_file)
+def tt_ko_tag_server(raw_file):
+    print(">>>>> 正在读取韩国原始tag")
+    count_ = 0
+    for line in read_json_format_file(raw_file):
+        _id = line["id"]
+        title = line["article_title"]
+        content = line["text"]
+        vtaglist = line["vtaglist"]
+        lang = line["lang"]
+        # lang = "eg"
+        parms = {"newsid": _id, "lang": lang, "title": title, "vtaglist": vtaglist, "content": content}
+        resp = requests.post(url, data=parms)  # 发送请求
+        print("\n>>>>> id:【{}】".format(_id))
+        print(">>>>> raw vtaglist:【{}】".format(vtaglist))
+        print(">>>>> nlp vtaglist:【{}】".format(resp.text.replace("\t", ",")))
+        count_ += 1
+        if count_ == 1000:
+            break
+
+
+# es_raw_file = "/home/zoushuai/algoproject/algo-python/nlp/preprocess/tags/ES_video_tags"
+# tt_es_tag_server(es_raw_file)
+ko_raw_file = "/home/zoushuai/algoproject/algo-python/nlp/preprocess/tags/KR_video_tags"
+tt_ko_tag_server(ko_raw_file)

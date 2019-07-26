@@ -33,7 +33,7 @@ business_type = "0"
     resource_type: string(0：文章 1：视频)
     business_type: string(0:浏览器 1:游戏)
 """
-parms = {"newsid": _id,"lang":lang, "title": title, "vtaglist": vtaglist, "content": content, "category": category, "business_type":business_type,"resource_type":resource_type}
+parms = {"newsid": _id, "lang": lang, "title": title, "vtaglist": vtaglist, "content": content, "category": category, "business_type":business_type,"resource_type":resource_type}
 
 # category test
 resp1 = requests.post(url1, data=parms)  # 发送请求
