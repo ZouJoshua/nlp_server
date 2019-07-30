@@ -63,5 +63,7 @@ def tt_ko_tag_server(raw_file):
 
 # es_raw_file = "/home/zoushuai/algoproject/algo-python/nlp/preprocess/tags/ES_video_tags"
 # tt_es_tag_server(es_raw_file)
-ko_raw_file = "/home/zoushuai/algoproject/algo-python/nlp/preprocess/tags/KR_video_tags"
-tt_ko_tag_server(ko_raw_file)
+# ko_raw_file = "/home/zoushuai/algoproject/algo-python/nlp/preprocess/tags/KR_video_tags"
+# tt_ko_tag_server(ko_raw_file)
+de_raw_file = "/home/zoushuai/algoproject/algo-python/nlp/preprocess/tags/DE_video_tags"
+tt_ko_tag_server(de_raw_file)
