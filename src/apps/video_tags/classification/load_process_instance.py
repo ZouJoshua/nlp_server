@@ -94,6 +94,7 @@ class LoadDict(object):
         self.en_fix2list = dict()
         self.en_word2fix = dict()
         self.stopwords = dict()
+        # self.data_dir = data_dir
         self.load_en_dict(en_vtags_file, en_tag2type_file, stopwords_file)
         self.load_es_dict(es_type_tags, es_base_tags)
         self.load_ko_dict(ko_type_tags, ko_base_tags)
@@ -175,3 +176,11 @@ class LoadDict(object):
             standard_tag_dict = json.load(f)
 
         self.de_base_tags = list(standard_tag_dict.keys())
+
+    # def load_multi_lang_dict(self, lang_list):
+    #     for lang in lang_list:
+    #         type_tag_file = os.path.join(self.data_dir, "{}_base_tag_file".format(lang))
+    #         if os.path.exists(type_tag_file):
+    #             with open(type_tag_file, 'r') as f:
+    #                 tag_dict = json.load(f)
+    #
