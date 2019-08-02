@@ -32,7 +32,7 @@ class EnProcess(object):
             self.log = logging.getLogger("nlp_v_tags_process")
             self.log.setLevel(logging.INFO)
 
-    def process_vtag(self, title, taglist):
+    def get_cleaned_tags(self, title, taglist):
         self.log.info("Processing en video tag of taglist:【{}】".format(taglist))
         newtaglist = []
         # 保留tf>=5的tag
@@ -234,7 +234,7 @@ class EnProcess(object):
                             mergetagdict[kk] = 'ttag'
                             mergetaglist.append((kk, 0.5, 'ttag'))
 
-        return [item[0] for item in mergetaglist], resultdict
+        return [item[0] for item in mergetaglist]
 
     def extract_tag(self, title, text):
         self.log.info("extracting tags from title and text...")

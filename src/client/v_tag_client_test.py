@@ -37,7 +37,7 @@ def tt_es_tag_server(raw_file):
         print(">>>>> raw vtaglist:【{}】".format(vtaglist))
         print(">>>>> nlp vtaglist:【{}】".format(resp.text.replace("\t", ",")))
         count_ += 1
-        if count_ == 1000:
+        if count_ == 10:
             break
 
 
@@ -57,13 +57,15 @@ def tt_ko_tag_server(raw_file):
         print(">>>>> raw vtaglist:【{}】".format(vtaglist))
         print(">>>>> nlp vtaglist:【{}】".format(resp.text.replace("\t", ",")))
         count_ += 1
-        if count_ == 1000:
+        if count_ == 10:
             break
 
 
-# es_raw_file = "/home/zoushuai/algoproject/algo-python/nlp/preprocess/tags/ES_video_tags"
-# tt_es_tag_server(es_raw_file)
-# ko_raw_file = "/home/zoushuai/algoproject/algo-python/nlp/preprocess/tags/KR_video_tags"
-# tt_ko_tag_server(ko_raw_file)
+es_raw_file = "/home/zoushuai/algoproject/algo-python/nlp/preprocess/tags/ES_video_tags"
+tt_es_tag_server(es_raw_file)
+ko_raw_file = "/home/zoushuai/algoproject/algo-python/nlp/preprocess/tags/KR_video_tags"
+tt_ko_tag_server(ko_raw_file)
 de_raw_file = "/home/zoushuai/algoproject/algo-python/nlp/preprocess/tags/DE_video_tags"
 tt_ko_tag_server(de_raw_file)
+pt_raw_file = "/home/zoushuai/algoproject/algo-python/nlp/preprocess/tags/BR_video_tags"
+tt_ko_tag_server(pt_raw_file)

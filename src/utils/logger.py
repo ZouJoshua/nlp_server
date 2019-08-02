@@ -13,8 +13,8 @@ import os
 from os.path import dirname
 
 
-# DEFAULT_LOGGING_LEVEL = logging.INFO
-DEFAULT_LOGGING_LEVEL = logging.DEBUG
+DEFAULT_LOGGING_LEVEL = logging.INFO
+# DEFAULT_LOGGING_LEVEL = logging.DEBUG
 
 
 class Logger(object):
@@ -37,30 +37,43 @@ class Logger(object):
             logger
         """
 
+        self.file_level = loglevel2file
+        self.console_level = loglevel2console
+        if logfile:
+            self.log_file = logfile
+        else:
+            self.log_file = "default.log"
+
         # create logger
         self.logger = logging.getLogger(loggername)
-        # self.logger.setLevel(logging.INFO)
         self.logger.setLevel(logging.DEBUG)
 
         # set formater
-        formatstr = '[%(asctime)s] [%(levelname)s] [%(filename)s-%(lineno)d] [PID:%(process)d-TID:%(thread)d] [%(message)s]'
-        formatter = logging.Formatter(formatstr, "%Y-%m-%d %H:%M:%S")
+        # self.formatstr = '[%(asctime)s] [%(levelname)s] [%(filename)s-%(lineno)d] [PID:%(process)d-TID:%(thread)d] [%(message)s]'
+        self.formatstr = '[%(asctime)s] [%(levelname)s] [%(filename)s-%(lineno)d] [%(message)s]'
+        self.formatter = logging.Formatter(self.formatstr, "%Y-%m-%d %H:%M:%S")
 
         if log2console:
             # Create a handler for output to the console
-            ch = logging.StreamHandler(sys.stderr)
-            ch.setLevel(loglevel2console)
-            ch.setFormatter(formatter)
-            self.logger.addHandler(ch)
+            self._log2console()
 
         if log2file:
             # Create a handler for writing to the log file
-            # fh = logging.FileHandler(logfile)
-            # Create a handler for changing the log file once a day, up to 15, scroll delete
-            fh = logging.handlers.TimedRotatingFileHandler(logfile, when='D', interval=1, backupCount=15, encoding='utf-8')
-            fh.setLevel(loglevel2file)
-            fh.setFormatter(formatter)
-            self.logger.addHandler(fh)
+            self._log2file()
+
+    def _log2console(self):
+        ch = logging.StreamHandler(sys.stderr)
+        ch.setLevel(self.console_level)
+        ch.setFormatter(self.formatter)
+        self.logger.addHandler(ch)
+
+    def _log2file(self):
+        # fh = logging.FileHandler(self.log_file)
+        # Create a handler for changing the log file once a day, up to 15, scroll delete
+        fh = logging.handlers.TimedRotatingFileHandler(self.log_file, when='D', interval=1, backupCount=15, encoding='utf-8')
+        fh.setLevel(self.file_level)
+        fh.setFormatter(self.formatter)
+        self.logger.addHandler(fh)
 
     def get_logger(self):
         return self.logger

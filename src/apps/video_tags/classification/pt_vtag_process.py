@@ -3,8 +3,8 @@
 """
 @Author  : Joshua
 @Time    : 19-7-25 上午9:55
-@File    : ko_vtag_process.py
-@Desc    : 韩语视频tag处理
+@File    : pt_vtag_process.py
+@Desc    : 巴西视频tag处理
 """
 
 
@@ -18,7 +18,7 @@ from nltk import ne_chunk, pos_tag, word_tokenize
 from nltk.tree import Tree
 
 
-class KoProcess(object):
+class PtProcess(object):
 
     def __init__(self, tag_dict, standard_tag_list, stopwords, logger=None):
         self.tag_dict = tag_dict
@@ -32,7 +32,8 @@ class KoProcess(object):
             self.log.setLevel(logging.INFO)
 
     def get_cleaned_tags(self, title, taglist):
-        self.log.info("Processing ko video tag of taglist:【{}】".format(taglist))
+        self.log.info("Processing pt video tag of taglist:【{}】".format(taglist))
+        _title = title
         nlp_tags = list()
         for tag in taglist:
             _tags, _, _ = self.trim_video_tag(tag)
@@ -49,29 +50,43 @@ class KoProcess(object):
         # 1. 预清洗
         new_tag = self.pre_clean(input_tag)
         # print(new_tag)
-        tag_tokens = new_tag.split(" ")
-        details.append("【{}】0==>【{}】".format(input_tag, new_tag))
+        soccer_patten = re.compile("\d-\d|\d:\d|\d \d")
+        no_num_tag = soccer_patten.sub("", new_tag).strip()
+
+        if no_num_tag:
+            if no_num_tag.find(" vs ") >= 0:
+                tag_tokens = no_num_tag.split(" vs ")
+            elif no_num_tag.find(" - ") >= 0:
+                tag_tokens = no_num_tag.split(" - ")
+            else:
+                tag_tokens = no_num_tag.split("\n")
+        else:
+            resultdict["sorccer"] = no_num_tag
+            details.append("【{}】0==>【{}】".format(new_tag, no_num_tag))
+            self.log.debug("Clean {} type tag details:{}".format("sorccer", details))
+            return no_num_tag, resultdict, details
 
         # 2. 预判断:is in tag_dict or not
 
         c_tag = []
         if len(tag_tokens) == 1:
-            if new_tag in self.tag_dict.keys():
-                c_tag = [new_tag]
+            if no_num_tag in self.tag_dict.keys():
+                c_tag = [no_num_tag]
         else:
             for tok in tag_tokens:
                 if tok in self.tag_dict.keys():
+                    c_tag.append(tok)
                     # print(new_tag)
                     # print(self.tag_dict[tok].keys())
-                    if new_tag in self.tag_dict[tok].keys():
-                        c_tag = [new_tag]
+                    if no_num_tag in self.tag_dict[tok].keys():
+                        c_tag.append(no_num_tag)
                         # print(c_tag)
                     else:
                         continue
 
         if len(c_tag) >= 1:
             resultdict["in_tag_dict"] = c_tag
-            details.append("【{}】1==>【{}】".format(new_tag, c_tag))
+            details.append("【{}】1==>【{}】".format(no_num_tag, c_tag))
             self.log.debug("Clean {} type tag details:{}".format("in_tag_dict", details))
             return c_tag, resultdict, details
         else:
@@ -79,10 +94,10 @@ class KoProcess(object):
 
         # 小于2元词不处理,直接返回
         if len(tag_tokens) < 2:
-            resultdict["one_gram"] = [new_tag]
-            details.append("【{}】2==>【{}】".format(new_tag, new_tag))
+            resultdict["one_gram"] = [no_num_tag]
+            details.append("【{}】2==>【{}】".format(no_num_tag, no_num_tag))
             self.log.debug("Clean {} type tag details:{}".format("one_gram", details))
-            return [new_tag], resultdict, details
+            return [no_num_tag], resultdict, details
         else:
             pass
 
@@ -91,7 +106,7 @@ class KoProcess(object):
         pattern_period = r'^top\s{1}\d.\s{1}|^best|^best of|^hit|2015|2016|2017|2018|2019|latest|updates|today| new$|new released|^new '
         res_period = re.compile(pattern_period, flags=0)
 
-        res1 = res_period.sub('', new_tag.strip())
+        res1 = res_period.sub('', no_num_tag.strip())
         res1_tokens = []
         for w in res1.split(' '):
             w = w.strip()
@@ -100,20 +115,21 @@ class KoProcess(object):
 
         res1 = ' '.join(res1_tokens)
 
-        res1findall = res_period.findall(new_tag.strip())
+        res1findall = res_period.findall(no_num_tag.strip())
         resultdict['period'] = res1findall
-        details.append("【{}】3==>【{}】".format(new_tag, res1))
+        details.append("【{}】3==>【{}】".format(no_num_tag, res1))
 
         # 3. 预判断:is in tag_dict or not
         c_tag = []
         if len(res1_tokens) == 1:
             if res1 in self.tag_dict.keys():
-                c_tag = [res1]
+                c_tag.append(res1)
         else:
             for tok in res1_tokens:
                 if tok in self.tag_dict.keys():
+                    c_tag.append(tok)
                     if res1 in self.tag_dict[tok].keys():
-                        c_tag = [res1]
+                        c_tag.append(res1)
                     else:
                         continue
 
@@ -128,60 +144,61 @@ class KoProcess(object):
         # 小于2元词不处理,直接返回
         if len(res1_tokens) < 2:
             resultdict["period"] = [res1]
-            details.append("【{}】5==>【{}】".format(new_tag, res1))
+            details.append("【{}】5==>【{}】".format(no_num_tag, res1))
             self.log.debug("Clean {} type tag details:{}".format("period", details))
             return [res1], resultdict, details
         else:
             pass
 
-        # 4.trim2 process: language trim
-
-        pattern_lang = r'in korean$|in korea$|of korea$|^korean|^korea|korea$'
-
-        res_lang = re.compile(pattern_lang, flags=0)
-        res2 = res_lang.sub('', res1.strip())
-
-        res2_tokens = []
-        for w in res2.split(' '):
-            w = w.strip()
-            if w != '':
-                res2_tokens.append(w)
-        res2 = ' '.join(res2_tokens)
-
-        res2findall = res_lang.findall(res1.strip())
-        resultdict['lang'] = res2findall
-        details.append("【{}】6==>【{}】".format(res1, res2))
-
-        # 4. 预判断:is in tag_dict or not
-        c_tag = []
-        if len(res2_tokens) == 1:
-            if res2 in self.tag_dict.keys():
-                c_tag = [res2]
-        else:
-            for tok in res2_tokens:
-                if tok in self.tag_dict.keys():
-                    if res2 in self.tag_dict[tok].keys():
-                        c_tag = [res2]
-                    else:
-                        continue
-
-        if len(c_tag) >= 1:
-            resultdict["lang"] = c_tag
-            details.append("【{}】7==>【{}】".format(res1, c_tag))
-            self.log.debug("Clean {} type tag details:{}".format("lang", details))
-            return c_tag, resultdict, details
-        else:
-            pass
-
-        # 小于2元词不处理,直接返回
-        if len(res1_tokens) < 2:
-            resultdict["lang"] = [res2]
-            details.append("【{}】8==>【{}】".format(new_tag, res2))
-            self.log.debug("Clean {} type tag details:{}".format("lang", details))
-            return [res2], resultdict, details
-        else:
-            pass
-        return [res2], resultdict, details
+        return [res1], resultdict, details
+        # # 4.trim2 process: language trim
+        #
+        # pattern_lang = r'in korean$|in korea$|of korea$|^korean|^korea|korea$'
+        #
+        # res_lang = re.compile(pattern_lang, flags=0)
+        # res2 = res_lang.sub('', res1.strip())
+        #
+        # res2_tokens = []
+        # for w in res2.split(' '):
+        #     w = w.strip()
+        #     if w != '':
+        #         res2_tokens.append(w)
+        # res2 = ' '.join(res2_tokens)
+        #
+        # res2findall = res_lang.findall(res1.strip())
+        # resultdict['lang'] = res2findall
+        # details.append("【{}】6==>【{}】".format(res1, res2))
+        #
+        # # 4. 预判断:is in tag_dict or not
+        # c_tag = []
+        # if len(res2_tokens) == 1:
+        #     if res2 in self.tag_dict.keys():
+        #         c_tag = [res2]
+        # else:
+        #     for tok in res2_tokens:
+        #         if tok in self.tag_dict.keys():
+        #             if res2 in self.tag_dict[tok].keys():
+        #                 c_tag = [res2]
+        #             else:
+        #                 continue
+        #
+        # if len(c_tag) >= 1:
+        #     resultdict["lang"] = c_tag
+        #     details.append("【{}】7==>【{}】".format(res1, c_tag))
+        #     self.log.debug("Clean {} type tag details:{}".format("lang", details))
+        #     return c_tag, resultdict, details
+        # else:
+        #     pass
+        #
+        # # 小于2元词不处理,直接返回
+        # if len(res1_tokens) < 2:
+        #     resultdict["lang"] = [res2]
+        #     details.append("【{}】8==>【{}】".format(new_tag, res2))
+        #     self.log.debug("Clean {} type tag details:{}".format("lang", details))
+        #     return [res2], resultdict, details
+        # else:
+        #     pass
+        # return [res2], resultdict, details
 
 
 
@@ -308,61 +325,6 @@ class KoProcess(object):
 
         return continuous_chunk
 
-
-
-    def standard_tag(self, raw_tag):
-        # print(">>>>> 正在标准化tag")
-        standard_tag_list1 = ["new", "game", "sport", "highlight", "idol", "kb", "goal", "vlog",
-                              "play", "interview", "transfer", "song", "recipe", "champion", "tutorial", "skill",
-                              "giant", "dog", "battleground", "legend", "kid", "animal", "final", "fichaje", "cat", "movie",
-                              "toy", "tip", "spur", "creator", "star", "fruit", "girl", "playoff", "gooner", "prank",
-                              "deporte", "video", "assist", "noticia", "youtuber", "cosmetic", "dribble", "blue", "replay", "puma",
-                              "mark", "dunk", "exercise", "hairstyle", "voice", "review", "celebration", "cartoon",
-                              "american"]
-
-        standard_tag_list2 = ["k-pop", "v-log", "k-food", "g-20", "make-up", "e-sports", "k-drama", "a-pink",
-                              "min-a", "k-beauty", "hip-hop", "a-jax", "k-culture", "k-popcover", "k-star",
-                              "uh-oh", "play-offs", "hyun-jin", "la-liga", "t-series", "wan-bissaka", "u-20",
-                              "jin-young", "hyun-moo", "so-mi", "hyeong-don", "k-style", "ji-won", "jong-shin",
-                              "gyu-ri", "k-뷰티", "j-hope", "ji-eun", "min-ho", "young-jae", "u-know", "u-kiss",
-                              "gu-ra", "ji-hye", "seul-gi", "ju-ne", "jung-kook", "c-clown", "j-reyez", "ga-in",
-                              "sung-min", "block-b", "new-tro", "eun-i", "g-dragon", "hyun-a", "g-idle",
-                              "chung-ha", "wo-man", "4-4-2oons", "monsta-x", "jae-seok", "seung-yoon", "dong-yup",
-                              "ac-milan", "hat-trick", "real-madrid", "c-jes", "b-boy", "슈퍼주니어-d&e", "ha-neul",
-                              "twi-light", "a-teen", "ph-1", "k-ville", "ji-hyo", "line-up", "chae-young", "i-dle",
-                              "yeon-jung", "manchester-united", "xo-iq", "tteok-bokki", "hye-won", "woo-sung",
-                              "do-yeon", "k-9", "u-15", "semi-finals", "sung-jae", "seung-hoon", "na-young",
-                              "transfer-news", "heung-min", "j-pop", "premier-league", "u-20월드컵", "jin-hwan",
-                              "so-yi", "sae-rom", "jin-woo"]
-
-        for tag in standard_tag_list1:
-            if raw_tag.find(tag + ' ') >= 0 or raw_tag.find(" " + tag) >= 0 or raw_tag == tag:
-                if raw_tag.find(tag + 's ') >= 0 or raw_tag.find(" " + tag + "s") >= 0 or raw_tag == tag + "s":
-                    raw_tag = raw_tag
-                else:
-                    raw_tag = raw_tag.replace(tag, tag + "s")
-            else:
-                continue
-        for tag in standard_tag_list2:
-            if raw_tag.find(tag.replace("-", "") + " ") >= 0 or raw_tag.find(
-                    " " + tag.replace("-", "")) >= 0 or raw_tag == tag.replace("-", ""):
-                raw_tag = raw_tag.replace(tag.replace("-", ""), tag)
-            elif raw_tag.find(tag.replace("-", " ") + " ") >= 0 or raw_tag.find(
-                    " " + tag.replace("-", " ")) >= 0 or raw_tag == tag.replace("-", " "):
-                raw_tag = raw_tag.replace(tag.replace("-", " "), tag)
-            else:
-                continue
-        tag_tok = raw_tag.split(" ")
-        if len(tag_tok) == 1:
-            standardtag_list = [k + "s" for k in standard_tag_list1] + standard_tag_list2
-            for tag in standardtag_list:
-                if raw_tag.find(tag):
-                    raw_tag = raw_tag.replace(tag, tag + " ")
-                else:
-                    continue
-
-        return raw_tag
-
     @staticmethod
     def proof_tag(tag, standard_tag_list):
         """
@@ -473,8 +435,7 @@ class KoProcess(object):
         预处理文本
         1.剔除全数字（match日期）
         2.剔除带‘=’的字符
-        3.语言检测（剔除非韩语、非英语外的语言）
-        4.替换带括号的字符,替换‘#’字符
+        3.替换带括号的字符,替换‘#’字符
         :param text:
         :return:
         """
@@ -482,29 +443,14 @@ class KoProcess(object):
         result_tag = dict()
         tag = ""
         l_tag = text.lower()
-        symbol_text, symbol_detail = self.remove_symbol(l_tag)
+        no_emoji = self.clean_emoji(l_tag)
+        no_url = self.clean_url(no_emoji)
+        no_num = self.rm_num(no_url)
+        symbol_text = self.remove_symbol(no_num)
         details.append("【{}】0==>【{}】".format(l_tag, symbol_text))
         result_tag['symbol'] = symbol_text
-        if symbol_text:
-            num_text, num_detail = self.rm_num(symbol_text)
-            details.append("【{}】1==>【{}】".format(symbol_text, num_text))
-            result_tag['num'] = num_text
-            if num_text:
-                # print(num_text)
-                tag = num_text
-                # lang_text, lang_detail = detect_lang(num_text)
-                # details.append("【{}】2==>【{}】".format(num_text, lang_text))
-                # result_tag['lang'] = lang_text
-                # if lang_text:
-                #     tag = lang_text
-            else:
-                tag = num_text
-        else:
-            tag = symbol_text
 
-        tag = self.standard_tag(tag)
-
-        return tag
+        return symbol_text
 
     @staticmethod
     def remove_symbol(text):
@@ -513,15 +459,13 @@ class KoProcess(object):
         :param text:
         :return:
         """
-        sym_patten = re.compile(r"\(.*?\)|#", flags=0)
-        if text.find("=") < 0:
-            non_sym = sym_patten.sub("", text)
-            detail = "non_symbol_tag"
-            new_tag = non_sym.strip()
+        sym_patten = re.compile(r"#|!|;|\(|\)|\[|\]", flags=0)
+        if text.find("=") < 0 and text.find("�") < 0:
+            text = sym_patten.sub("", text)
+            # text = text.replace(" vs. ", " vs ")
         else:
-            detail = "non_symbol_tag"
-            new_tag = ""
-        return new_tag, detail
+            text = ''
+        return text.strip()
 
     @staticmethod
     def detect_lang(text):
@@ -550,21 +494,7 @@ class KoProcess(object):
         :param text:
         :return:
         """
-        detail = ''
-
-        try:
-            float(text)
-            detail = 'num_tag'
-            return "", detail
-        except:
-            if text.isdigit():
-                time_str = self.clean_period(text)
-                if time_str:
-                    detail = 'time_tag'
-                    return time_str, detail
-                else:
-                    detail = 'num_tag'
-                    return time_str, detail
-            else:
-                return text, detail
+        num_patten = re.compile(r"^\d\.| \d\. ")
+        text = num_patten.sub("", text)
+        return text.strip()
 

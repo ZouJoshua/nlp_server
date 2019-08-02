@@ -11,9 +11,9 @@ from utils.logger import Logger
 from config.video_tags_conf import PROJECT_LOG_FILE, NLP_MODEL_PATH
 
 logger = Logger('nlp_v_tags_process', log2console=False, log2file=True, logfile=PROJECT_LOG_FILE).get_logger()
-
-lmc = LoadMultiCountryTagInstance(logger=logger)
-en_proc, es_proc, ko_proc, de_proc, normal_proc = lmc.load_process_instance()
+lang_list = ["en", "es", "ko", "de", "pt"]
+lmc = LoadMultiCountryTagInstance(lang_list, logger=logger)
+multi_lang_instance_dict = lmc.load_process_instance()
 
 
 def index_view(request):
@@ -75,30 +75,31 @@ class VtagProcess(object):
 
     def nlp_vtag_process(self):
         tag_list = self.taglist.split(',')
-        if self.lang == "en":
-            nlp_vtagres, resultdict = en_proc.process_vtag(self.title, tag_list)
-            if len(nlp_vtagres) == 0:
-                logger.info("the tag was not extracted from the taglist and is being extracted from the title and text")
-                nlp_vtagres = en_proc.extract_tag(self.title, self.content)
-        elif self.lang == 'es':
-            nlp_vtagres = es_proc.get_cleaned_tags(tag_list)
-            if len(nlp_vtagres) == 0:
-                logger.info("the tag was not extracted from the taglist and is being extracted from the title and text")
-                nlp_vtagres = es_proc.extract_tag(self.title, self.content)
-        elif self.lang == 'ko':
-            nlp_vtagres = ko_proc.get_cleaned_tags(tag_list)
-            if len(nlp_vtagres) == 0:
-                logger.info("the tag was not extracted from the taglist and is being extracted from the title and text")
-                nlp_vtagres = ko_proc.extract_tag(self.title, self.content)
-        elif self.lang == 'de':
-            nlp_vtagres = de_proc.get_cleaned_tags(tag_list)
-            if len(nlp_vtagres) == 0:
-                logger.info("the tag was not extracted from the taglist and is being extracted from the title and text")
-                nlp_vtagres = de_proc.extract_tag(self.title, self.content)
+        lang_instance = "{}_instance".format(self.lang)
+        if lang_instance in multi_lang_instance_dict:
+            if self.lang == "en":
+                lang_process = multi_lang_instance_dict[lang_instance]
+            elif self.lang == 'es':
+                lang_process = multi_lang_instance_dict[lang_instance]
+            elif self.lang == 'ko':
+                lang_process = multi_lang_instance_dict[lang_instance]
+            elif self.lang == 'de':
+                lang_process = multi_lang_instance_dict[lang_instance]
+                # print(lang_process)
+            elif self.lang == 'pt':
+                lang_process = multi_lang_instance_dict[lang_instance]
+            else:
+                lang_process = multi_lang_instance_dict[lang_instance]
         else:
-            nlp_vtagres = normal_proc.get_cleaned_tags(tag_list)
+            lang_process = multi_lang_instance_dict[lang_instance]
+
+        if self.lang in lang_list:
+            nlp_vtagres = lang_process.get_cleaned_tags(self.title, tag_list)
+            logger.debug("Successfully process {} tag 【{}】".format(self.lang, nlp_vtagres))
+            if len(nlp_vtagres) == 0:
+                logger.info("the tag was not extracted from the taglist and is being extracted from the title and text")
+                nlp_vtagres = lang_process.extract_tag(self.title, self.content)
+        else:
+            nlp_vtagres = lang_process.get_cleaned_tags(tag_list)
 
         return nlp_vtagres
-
-
-

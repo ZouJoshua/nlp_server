@@ -30,7 +30,7 @@ class EsProcess(object):
             self.log = logging.getLogger("nlp_v_tags_process")
             self.log.setLevel(logging.INFO)
 
-    def get_cleaned_tags(self, taglist):
+    def get_cleaned_tags(self, title, taglist):
         self.log.info("Processing es video tag of taglist:【{}】".format(taglist))
         nlp_tags = list()
         for tag in taglist:
