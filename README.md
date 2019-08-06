@@ -377,3 +377,80 @@ print(resp1.text)
     后续优化
     1. 支持深度学习模型，如textcnn、rnn、bert等
 
+
+### NLP视频标签服务(video_tags)
+
+>- 服务配置
+
+**服务名称**：video_tags
+
+``` python
+
+# 修改 run.py 服务ip及端口
+server_host= "127.0.0.1"
+# 默认端口9022，如需修改修改 set_environ()
+server_port = os.environ.get('PORT', 9022) 
+
+# 修改 video_tags_conf.py 模型路径及日志
+NLP_MODEL_PATH = ""     # nlp 模型数据路径(默认 ./data/video_tags)
+PROJECT_LOG_FILE = ""  # 日志文件(默认 video_tags_server.log)
+
+```
+
+>- 服务部署
+
+``` bash
+# 启动
+python3 run.py video_tags manage.py start
+
+# 停止
+python3 run.py video_tags manage.py stop
+
+# 重启
+python3 run.py video_tags manage.py restart
+
+```
+
+>- 服务API Demo(参见client)
+
+
+``` python
+# url
+url1 = 'http://127.0.0.1:9022/polls/vtag'
+
+
+## >>>>>>>>>> 请求参数
+"""
+传入参数：
+    newsid: string(必传)
+    title: string（必传）
+    vtaglist: string（必传）
+    content: string（必传）
+    lang: string(必传)
+    category: string()
+    sub_category: string()
+    resource_type: string(0：文章 1：视频)
+    business_type: string(0:浏览器 1:游戏)
+"""
+# category test
+parms = {"newsid": _id, "lang": lang, "title": title, "vtaglist": vtaglist, "content": content, "category": category, "business_type":business_type,"resource_type":resource_type}
+resp1 = requests.post(url1, data=parms)  # 发送请求
+print(resp1.text)
+
+```
+
+>- 现状及优化
+
+    目前情况
+    1. 目前英语、西班牙语、葡萄牙语（巴西）、德语、韩语、俄罗斯语的视频tag的处理及抽取
+    2. 目前各语言基本tag统计
+        英语：16大类
+        西班牙语： 690
+        葡萄牙语： 9440
+        德语： 510
+        韩语： 1310
+        俄罗斯语： 7200
+    
+    
+    后续优化
+    1. 优化各语种的tag处理
