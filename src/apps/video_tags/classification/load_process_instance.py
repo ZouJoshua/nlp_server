@@ -16,6 +16,7 @@ from .es_vtag_process import EsProcess
 from .ko_vtag_process import KoProcess
 from .de_vtag_process import DeProcess
 from .pt_vtag_process import PtProcess
+from .ru_vtag_process import RuProcess
 from .normal_vtag_process import NormalProcess
 
 
@@ -81,8 +82,12 @@ class LoadMultiCountryTagInstance(object):
                         pt_proc = PtProcess(type_tags, base_tags, self.stopwords, logger=self.log)
                         multi_lang_instance_dict["pt_instance"] = pt_proc
                         self.log.info("Successfully load pt tag process instance...")
+                    elif lang == 'ru':
+                        ru_proc = RuProcess(type_tags, base_tags, self.stopwords, logger=self.log)
+                        multi_lang_instance_dict["ru_instance"] = ru_proc
+                        self.log.info("Successfully load ru tag process instance...")
                     else:
-                        continue
+                        self.log.warning("Processing of language {} is not supported".format(lang))
                 else:
                     self.log.warning("{} or {} not found".format(type_tag, base_tag))
         normal_proc = NormalProcess(logger=self.log)

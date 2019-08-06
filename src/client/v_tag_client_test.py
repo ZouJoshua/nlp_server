@@ -69,3 +69,5 @@ de_raw_file = "/home/zoushuai/algoproject/algo-python/nlp/preprocess/tags/DE_vid
 tt_ko_tag_server(de_raw_file)
 pt_raw_file = "/home/zoushuai/algoproject/algo-python/nlp/preprocess/tags/BR_video_tags"
 tt_ko_tag_server(pt_raw_file)
+ru_raw_file = "/home/zoushuai/algoproject/algo-python/nlp/preprocess/tags/RU_video_tags"
+tt_ko_tag_server(ru_raw_file)
