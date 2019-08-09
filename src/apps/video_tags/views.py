@@ -46,10 +46,9 @@ class Category(View):
         # resource_type = request_data.get("resource_type", default="")
         # source_url = request_data.get("source_url", default="")
         # business_type = request_data.get("business_type", default="")
+        # requestjson = json.dumps(request_data, ensure_ascii=False)
 
-        requestjson = json.dumps(request_data, ensure_ascii=False)
-
-        logger.info("Request:" + requestjson)
+        logger.info("Request:||task_id:{}||lang:{}||vtaglist:[{}]".format(task_id, lang, vtaglist))
         if title.strip() == '' and vtaglist.strip() == '':
             logger.info("Response:Title is empty, vtaglist is empty")
             return HttpResponse("")

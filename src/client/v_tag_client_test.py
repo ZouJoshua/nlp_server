@@ -57,7 +57,7 @@ def tt_ko_tag_server(raw_file):
         print(">>>>> raw vtaglist:【{}】".format(vtaglist))
         print(">>>>> nlp vtaglist:【{}】".format(resp.text.replace("\t", ",")))
         count_ += 1
-        if count_ == 10:
+        if count_ == 3:
             break
 
 
