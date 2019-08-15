@@ -17,6 +17,7 @@ from .ko_vtag_process import KoProcess
 from .de_vtag_process import DeProcess
 from .pt_vtag_process import PtProcess
 from .ru_vtag_process import RuProcess
+from .ja_vtag_process import JaProcess
 from .normal_vtag_process import NormalProcess
 
 
@@ -86,6 +87,10 @@ class LoadMultiCountryTagInstance(object):
                         ru_proc = RuProcess(type_tags, base_tags, self.stopwords, logger=self.log)
                         multi_lang_instance_dict["ru_instance"] = ru_proc
                         self.log.info("Successfully load ru tag process instance...")
+                    elif lang == 'ja':
+                        ja_proc = JaProcess(type_tags, base_tags, self.stopwords, logger=self.log)
+                        multi_lang_instance_dict["ja_instance"] = ja_proc
+                        self.log.info("Successfully load ja tag process instance...")
                     else:
                         self.log.warning("Processing of language {} is not supported".format(lang))
                 else:

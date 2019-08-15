@@ -11,7 +11,7 @@ from utils.logger import Logger
 from config.video_tags_conf import PROJECT_LOG_FILE, NLP_MODEL_PATH
 
 logger = Logger('nlp_v_tags_process', log2console=False, log2file=True, logfile=PROJECT_LOG_FILE).get_logger()
-lang_list = ["en", "es", "ko", "de", "pt", "ru"]
+lang_list = ["en", "es", "ko", "de", "pt", "ru", "ja"]
 lmc = LoadMultiCountryTagInstance(lang_list, logger=logger)
 multi_lang_instance_dict = lmc.load_process_instance()
 

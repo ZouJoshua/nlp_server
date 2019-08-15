@@ -61,13 +61,15 @@ def tt_ko_tag_server(raw_file):
             break
 
 
-es_raw_file = "/home/zoushuai/algoproject/algo-python/nlp/preprocess/tags/ES_video_tags"
-tt_es_tag_server(es_raw_file)
-ko_raw_file = "/home/zoushuai/algoproject/algo-python/nlp/preprocess/tags/KR_video_tags"
-tt_ko_tag_server(ko_raw_file)
-de_raw_file = "/home/zoushuai/algoproject/algo-python/nlp/preprocess/tags/DE_video_tags"
-tt_ko_tag_server(de_raw_file)
-pt_raw_file = "/home/zoushuai/algoproject/algo-python/nlp/preprocess/tags/BR_video_tags"
-tt_ko_tag_server(pt_raw_file)
-ru_raw_file = "/home/zoushuai/algoproject/algo-python/nlp/preprocess/tags/RU_video_tags"
-tt_ko_tag_server(ru_raw_file)
+# es_raw_file = "/home/zoushuai/algoproject/algo-python/nlp/preprocess/tags/ES_video_tags"
+# tt_es_tag_server(es_raw_file)
+# ko_raw_file = "/home/zoushuai/algoproject/algo-python/nlp/preprocess/tags/KR_video_tags"
+# tt_ko_tag_server(ko_raw_file)
+# de_raw_file = "/home/zoushuai/algoproject/algo-python/nlp/preprocess/tags/DE_video_tags"
+# tt_ko_tag_server(de_raw_file)
+# pt_raw_file = "/home/zoushuai/algoproject/algo-python/nlp/preprocess/tags/BR_video_tags"
+# tt_ko_tag_server(pt_raw_file)
+# ru_raw_file = "/home/zoushuai/algoproject/algo-python/nlp/preprocess/tags/RU_video_tags"
+# tt_ko_tag_server(ru_raw_file)
+ja_raw_file = "/home/zoushuai/algoproject/algo-python/nlp/preprocess/tags/JP_video_tags"
+tt_ko_tag_server(ja_raw_file)

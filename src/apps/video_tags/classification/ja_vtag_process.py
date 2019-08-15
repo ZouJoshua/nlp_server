@@ -3,8 +3,8 @@
 """
 @Author  : Joshua
 @Time    : 19-7-25 上午9:55
-@File    : ru_vtag_process.py
-@Desc    : 俄罗斯视频tag处理
+@File    : ja_vtag_process.py
+@Desc    : 日本视频tag处理
 """
 
 
@@ -18,7 +18,7 @@ from nltk import ne_chunk, pos_tag, word_tokenize
 from nltk.tree import Tree
 
 
-class RuProcess(object):
+class JaProcess(object):
 
     def __init__(self, tag_dict, standard_tag_list, stopwords, logger=None):
         self.tag_dict = tag_dict
@@ -32,7 +32,7 @@ class RuProcess(object):
             self.log.setLevel(logging.INFO)
 
     def get_cleaned_tags(self, title, taglist):
-        self.log.info("Processing ru video tag of taglist:【{}】".format(taglist))
+        self.log.info("Processing ja video tag of taglist:【{}】".format(taglist))
         _title = title
         nlp_tags = list()
         for tag in taglist:
@@ -398,9 +398,10 @@ class RuProcess(object):
         :return:
         """
         pattern = re.compile(r"\w+[-_.]*[a-zA-Z0-9]+@[a-zA-Z0-9]+\.[a-zA-Z]{2,3}")
-        mail_list = re.findall(pattern, text)
-        for mail in mail_list:
-            text = text.replace(mail, " ")
+        # mail_list = re.findall(pattern, text)
+        # for mail in mail_list:
+        #     text = text.replace(mail, " ")
+        text = pattern.sub(" ", text)
         return text
 
     @staticmethod
@@ -443,8 +444,7 @@ class RuProcess(object):
         l_tag = text.lower()
         no_emoji = self.clean_emoji(l_tag)
         no_url = self.clean_url(no_emoji)
-        no_num = self.rm_num(no_url)
-        symbol_text = self.remove_symbol(no_num)
+        symbol_text = self.remove_symbol(no_url)
         details.append("【{}】0==>【{}】".format(l_tag, symbol_text))
         result_tag['symbol'] = symbol_text
 
@@ -457,12 +457,12 @@ class RuProcess(object):
         :param text:
         :return:
         """
-        sym_patten = re.compile(r"\.$|#|!|-$|/|\||^%|_|^-|:|«|»|\[|\]", flags=0)
+        sym_patten = re.compile(r"\.$|#|-$|^%|^-", flags=0)
         spa_patten = re.compile(r"\s+", flags=0)
-        cir_patten = re.compile(r"\(.*?\)", flags=0)
+        # cir_patten = re.compile(r"\(.*?\)", flags=0)
         if text.find("=") < 0:
             text = sym_patten.sub("", text)
-            text = cir_patten.sub("", text)
+            # text = cir_patten.sub("", text)
             text = spa_patten.sub(" ", text)
             # text = text.replace(" vs. ", " vs ")
         else:
