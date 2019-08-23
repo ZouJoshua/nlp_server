@@ -48,6 +48,8 @@ def set_environ(server_name,server_host):
         server_port = os.environ.get('PORT', 16601)
     elif server_name == 'video_category':
         server_port = os.environ.get('PORT', 17701)
+    elif server_name == 'video_browser_category':
+        server_port = os.environ.get('PORT', 15501)
     elif server_name == 'video_tags':
         server_port = os.environ.get('PORT', 9022)
     else:

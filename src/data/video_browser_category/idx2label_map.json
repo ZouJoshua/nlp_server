@@ -1,0 +1,33 @@
+{
+    "topcategory":{
+        "200": "others",
+        "211": "Latest",
+        "212": "Trending Video",
+        "213": "Top Picks",
+        "214": "offbeat",
+        "215": "lifestyle",
+        "216": "Auto",
+        "217": "Entertainment",
+        "218": "Sports",
+        "219": "Movies",
+        "220": "Food",
+        "221": "TV Shows",
+        "222": "Fashion",
+        "223": "Viral",
+        "224": "Music&Dance",
+        "225": "Tech",
+        "226": "Inspirational",
+        "227": "Spirituality",
+        "228": "News",
+        "229": "Status",
+        "230": "Adult",
+        "700": "Casual puzzle",
+        "701": "Real-Time Strategy",
+        "702": "Chess & Card games",
+        "703": "Sports games",
+        "704": "Simulation Game",
+        "705": "Action Game",
+        "706": "Role-playing Game",
+        "707": "Other games"
+    }
+}

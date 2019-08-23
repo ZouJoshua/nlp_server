@@ -10,8 +10,6 @@
 from pyquery import PyQuery
 import re
 import logging
-import json
-import requests
 
 
 

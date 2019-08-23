@@ -4,7 +4,7 @@
 @Author  : Joshua
 @Time    : 19-5-10 上午9:51
 @File    : video_category_conf.py
-@Desc    : 视频分类(映射)服务配置
+@Desc    : 视频分类服务配置
 """
 
 
@@ -141,7 +141,7 @@ PROJECT_DATA_PATH = os.path.join(BASE_DIR, 'data')
 #Server Setting#
 ################
 
-NLP_SERVER_NAME = os.environ.get("NLP_SERVER_NAME", 'video_category')
+NLP_SERVER_NAME = os.environ.get("NLP_SERVER_NAME", 'video_browser_category')
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -156,15 +156,9 @@ INSTALLED_APPS = [
     'apps.{}'.format(NLP_SERVER_NAME),
 ]
 
-
-
 PROJECT_LOG_FILE = os.path.join(LOG_PATH, '{}_server.log'.format(NLP_SERVER_NAME))
-CRONJOBS_LOG_FILE = os.path.join(LOG_PATH, 'crontab.log')
+# CRONJOBS_LOG_FILE = os.path.join(LOG_PATH, 'crontab.log')
 
-# 运行定时函数
-CRONJOBS = [
-    ('0 */2 * * *', 'apps.video_category.classification.crontab_load_idxlabel.crontab_load', '>> {}'.format(CRONJOBS_LOG_FILE))
-]
 # nlp模型
-NLP_MODEL_PATH = os.path.join(PROJECT_DATA_PATH, NLP_SERVER_NAME)
-# NLP_MODEL_PATH = '/data/zoushuai/news_content/sub_classification_model/model'
+# NLP_MODEL_PATH = os.path.join(PROJECT_DATA_PATH, NLP_SERVER_NAME)
+NLP_MODEL_PATH = '/data/browser_category/model'
