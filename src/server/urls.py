@@ -33,6 +33,8 @@ def get_server_path(server_name):
         return path('nlp_category/', include('{}.urls'.format(server_name), namespace=server_name))
     elif server_name == "video_browser_category":
         return path('nlp_category/', include('{}.urls'.format(server_name), namespace=server_name))
+    elif server_name == "video_classification":
+        return path('nlp_category/', include('{}.urls'.format(server_name), namespace=server_name))
     elif server_name == 'video_tags':
         return path('polls/', include('{}.urls'.format(server_name), namespace=server_name))
     else:
