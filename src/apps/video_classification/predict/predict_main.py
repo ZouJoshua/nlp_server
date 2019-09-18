@@ -14,26 +14,27 @@ import json
 import tarfile
 import time
 
-import sys
-curr_path = os.path.dirname(os.path.realpath(__file__))
-vc_path = os.path.dirname(curr_path)
-root_path = os.path.dirname(os.path.dirname(vc_path))
-sys.path.append(vc_path)
-sys.path.append(root_path)
+# import sys
+# curr_path = os.path.dirname(os.path.realpath(__file__))
+# vc_path = os.path.dirname(curr_path)
+# root_path = os.path.dirname(os.path.dirname(vc_path))
+# sys.path.append(vc_path)
+# sys.path.append(root_path)
 
-
+import csv
 import numpy
 import tensorflow as tf
 
 from tensorflow import app
 from tensorflow import flags
 from tensorflow import gfile
-from tensorflow import logging
+# from tensorflow import logging
+import logging
 
-from config.video_classification_conf import NLP_PREP_MODEL_PATH
-from predict.extract_feature_main import ExtractFeature
-from predict import readers
-from predict import utils
+
+from config.video_classification_conf import NLP_PREP_MODEL_PATH, NLP_MODEL_PATH
+from video_classification.predict import readers
+from video_classification.predict import utils
 
 
 
@@ -57,7 +58,7 @@ def load_flags_config():
                         'Image features will be written to sequence feature with '
                         'this key, as bytes list feature, with only one entry, '
                         'containing quantized feature string.')
-    flags.DEFINE_string('video_file_key_feature_key', 'video_id',
+    flags.DEFINE_string('video_file_key_feature_key', 'id',
                         'Input <video_file> will be written to context feature '
                         'with this key, as bytes list feature, with only one '
                         'entry, containing the file path of the video. This '
@@ -68,15 +69,13 @@ def load_flags_config():
                          'pre-trained model.')
 
     # Predict Input
-    flags.DEFINE_string("train_dir", "/data/yt8m/models/test_model",
+    flags.DEFINE_string("train_dir", NLP_MODEL_PATH,
                         "The directory to load the model files from. We assume "
                         "that you have already run eval.py onto this, such that "
                         "inference_model.* files already exist.")
     flags.DEFINE_string(
-        "input_data_pattern", "",
-        "File glob defining the evaluation dataset in tensorflow.SequenceExample "
-        "format. The SequenceExamples are expected to have an 'rgb' byte array "
-        "sequence feature as well as a 'labels' int64 context feature.")
+        "vocabulary_file", os.path.join(os.path.dirname(NLP_MODEL_PATH), "vocabulary.csv"),
+        "idxmap file")
     flags.DEFINE_string("input_model_tgz", "",
                         "If given, must be path to a .tgz file that was written "
                         "by this binary using flag --output_model_tgz. In this "
@@ -96,12 +95,12 @@ def load_flags_config():
                         "the model graph and checkpoint will be bundled in this "
                         "gzip tar. This file can be uploaded to Kaggle for the "
                         "top 10 participants.")
-    flags.DEFINE_integer("top_k", 20,
+    flags.DEFINE_integer("top_k", 10,
                          "How many predictions to output per video.")
 
     # Other flags.
     flags.DEFINE_integer(
-        "batch_size", 20,
+        "batch_size", 1,
         "How many examples to process per batch.")
     flags.DEFINE_integer("num_readers", 1,
                          "How many threads to use for reading input files.")
@@ -112,18 +111,38 @@ def load_flags_config():
     return pred_flags
 
 
+def load_idxmap(idxmap_file):
+    if not os.path.exists(idxmap_file):
+        raise FileNotFoundError("idxmap_file {} not found".format(idxmap_file))
+    idxmap = dict()
+    with open(idxmap_file, 'r') as csv_file:
+        data = csv.DictReader(csv_file, delimiter=",")
+        for row in data:
+            item = {k: row[k] for k in ('Name', 'Vertical1', 'Vertical2', 'Vertical3')}
+            idxmap[row["Index"]] = item
+    return idxmap
+
+
+
 
 class Predict(object):
 
-    def __init__(self, pred_flags):
+    def __init__(self, pred_flags, logger=None):
         self.pred_flags = pred_flags
+        if logger:
+            self.log = logger
+        else:
+            self.log = logging.getLogger("yt8m_video_classification")
+            self.log.setLevel(logging.INFO)
+
         self.reader = self.predict_init()
-        # self.sess = self.load_model_graph()
-        self.sess = tf.Session(config=tf.ConfigProto(allow_soft_placement=True))
-        self.load_model_graph()
+        self.graph = tf.Graph()
+        with self.graph.as_default():
+            self.load_model_graph()
 
     def predict_init(self):
-        logging.set_verbosity(tf.logging.INFO)
+        # logging.set_verbosity(tf.logging.INFO)
+        self.log.info("Initing pre_model and reader")
         if self.pred_flags.input_model_tgz:
             if self.pred_flags.train_dir:
                 raise ValueError("You cannot supply --train_dir if supplying "
@@ -158,15 +177,19 @@ class Predict(object):
         # if self.pred_flags.input_data_pattern is "":
         #     raise ValueError("'input_data_pattern' was not specified. "
         #                      "Unable to continue with inference.")
+        self.log.info("Successful init pre_model and reader")
         return reader
 
     def load_model_graph(self):
+
+        config = tf.ConfigProto(allow_soft_placement=True)
+        self.sess = tf.Session(config=config)
 
         checkpoint_file = os.path.join(self.pred_flags.train_dir, "inference_model")
         if not gfile.Exists(checkpoint_file + ".meta"):
             raise IOError("Cannot find %s. Did you run eval.py?" % checkpoint_file)
         meta_graph_location = checkpoint_file + ".meta"
-        logging.info("loading meta-graph: " + meta_graph_location)
+        self.log.info("Loading meta-graph: " + meta_graph_location)
 
         if self.pred_flags.output_model_tgz:
             with tarfile.open(self.pred_flags.output_model_tgz, "w:gz") as tar:
@@ -174,15 +197,22 @@ class Predict(object):
                     tar.add(model_file, arcname=os.path.basename(model_file))
                 tar.add(os.path.join(self.pred_flags.train_dir, "model_flags.json"),
                         arcname="model_flags.json")
-            print('Tarred model onto ' + self.pred_flags.output_model_tgz)
+            self.log.info('Tarred model onto ' + self.pred_flags.output_model_tgz)
         if self.pred_flags.use_gpu:
             with tf.device("/gpu:0"):
                 saver = tf.train.import_meta_graph(meta_graph_location, clear_devices=True)
         else:
             with tf.device("/cpu:0"):
                 saver = tf.train.import_meta_graph(meta_graph_location, clear_devices=True)
-        logging.info("restoring variables from " + checkpoint_file)
+        self.log.info("Restoring variables from " + checkpoint_file)
         saver.restore(self.sess, checkpoint_file)
+
+        self.input_tensor = tf.get_collection("input_batch_raw")[0]
+        self.num_frames_tensor = tf.get_collection("num_frames")[0]
+        self.predictions_tensor = tf.get_collection("predictions")[0]
+        # print(">> input_batch_raw:{}".format(input_tensor))
+        # print(">> num_frame_tensor:{}".format(num_frames_tensor))
+        # print(">> predictions_tensor:{}".format(predictions_tensor))
 
         # Workaround for num_epochs issue.
         def set_up_init_ops(variables):
@@ -196,68 +226,99 @@ class Predict(object):
 
         self.sess.run(set_up_init_ops(tf.get_collection_ref(
             tf.GraphKeys.LOCAL_VARIABLES)))
-        logging.info("sucessful load graph from pre_train model")
+        self.log.info("Successful load graph from pre_train model")
+        # print(self.sess)
+        # print(type(self.sess))
 
-    def format_lines(self, video_ids, predictions, top_k):
+
+    def format_lines(self, video_ids, predictions, top_k, idxmap):
         batch_size = len(video_ids)
         for video_index in range(batch_size):
             top_indices = numpy.argpartition(predictions[video_index], -top_k)[-top_k:]
             line = [(class_index, predictions[video_index][class_index])
                     for class_index in top_indices]
             line = sorted(line, key=lambda p: -p[1])
-            yield video_ids[video_index].decode('utf-8') + "," + " ".join(
-                "%i %g" % (label, score) for (label, score) in line) + "\n"
+            out = dict()
+            out["video_file_id"] = video_ids[video_index].decode('utf-8')
+            out["video_cats"] = [{"id": str(label), "category": idxmap[str(label)]["Name"], "proba": str(score)} for (label, score) in line]
+
+            yield out
 
 
 
-    def predict(self, example_feature_tensor):
-        self.out = list()
-        video_id_batch, video_batch, num_frames_batch = self.get_input_data_tensors(example_feature_tensor, self.pred_flags.batch_size)
-        print(">> xxxxxxxxxxxxxxxxxxx")
-        print(">> video_id_batch:{}".format(video_id_batch))
-        print(">> video_batch:{}".format(video_batch))
-        print(">> num_frame_batch:{}".format(num_frames_batch))
+    def predict(self, example_feature_tensor, idxmap):
+        with self.graph.as_default():
+            self.log.info("Starting predict...")
+            self.out = list()
+            video_id_batch, video_batch, num_frames_batch = self.get_input_data_tensors(example_feature_tensor, self.pred_flags.batch_size)
+            # self.log.info("Getting input tensors...")
+            # print(">> video_id_batch:{}".format(video_id_batch))
+            # print(">> video_batch:{}".format(video_batch))
+            # print(">> num_frame_batch:{}".format(num_frames_batch))
 
-        input_tensor = tf.get_collection("input_batch_raw")[0]
-        print(">> input_batch_raw:{}".format(input_tensor))
-        num_frames_tensor = tf.get_collection("num_frames")[0]
-        print(">> num_frame_tensor:{}".format(num_frames_tensor))
-        predictions_tensor = tf.get_collection("predictions")[0]
-        print(">> predictions_tensor:{}".format(predictions_tensor))
-
-
-        coord = tf.train.Coordinator()
-        threads = tf.train.start_queue_runners(sess=self.sess, coord=coord)
-        num_examples_processed = 0
-        start_time = time.time()
-        #
-        # video_id_batch_val, video_batch_val, num_frames_batch_val = self.sess.run(
-        #     [video_id_batch, video_batch, num_frames_batch])
-        # predictions_val, = self.sess.run([predictions_tensor], feed_dict={input_tensor: video_batch_val,
-        #                                                                   num_frames_tensor: num_frames_batch_val})
-        # now = time.time()
-        # num_examples_processed += len(video_batch_val)
-        # num_classes = predictions_val.shape[1]
-        # logging.info("num examples processed: " + str(num_examples_processed) + " elapsed seconds: " + "{0:.2f}".format(
-        #     now - start_time))
-        # out.append((video_id_batch_val, predictions_val))
-
-        try:
-            while not coord.should_stop():
-                video_id_batch_val, video_batch_val, num_frames_batch_val = self.sess.run([video_id_batch, video_batch, num_frames_batch])
-                predictions_val, = self.sess.run([predictions_tensor], feed_dict={input_tensor: video_batch_val, num_frames_tensor: num_frames_batch_val})
+            # self.log.info("Starting queue runner...")
+            coord = tf.train.Coordinator()
+            threads = tf.train.start_queue_runners(sess=self.sess, coord=coord)
+            # self.log.info("Successsful start queue runners")
+            num_examples_processed = 0
+            start_time = time.time()
+            try:
+                video_id_batch_val, video_batch_val, num_frames_batch_val = self.sess.run(
+                    [video_id_batch, video_batch, num_frames_batch])
+                predictions_val, = self.sess.run([self.predictions_tensor], feed_dict={self.input_tensor: video_batch_val,
+                                                                                  self.num_frames_tensor: num_frames_batch_val})
                 now = time.time()
                 num_examples_processed += len(video_batch_val)
                 num_classes = predictions_val.shape[1]
-                logging.info("num examples processed: " + str(num_examples_processed) + " elapsed seconds: " + "{0:.2f}".format(now-start_time))
-                for line in self.format_lines(video_id_batch_val, predictions_val, self.pred_flags.top_k):
+                self.log.info("Done with inference, num examples processed: " + str(num_examples_processed) + " elapsed seconds: " + "{0:.2f}".format(
+                    now - start_time))
+                for line in self.format_lines(video_id_batch_val, predictions_val, self.pred_flags.top_k, idxmap):
                     self.out.append(line)
-        except tf.errors.OutOfRangeError:
-            logging.info('Done with inference.')
-        finally:
+                # self.log.info('done with inference.')
+            except Exception as e:
+                self.log.error("error with inference {}".format(e))
             coord.request_stop()
+            coord.join(threads)
+        # return self.out
 
-        coord.join(threads)
+
+
+    # def predict_with_tfrecord(self, example_feature_tensor):
+    #     self.out = list()
+    #     video_id_batch, video_batch, num_frames_batch = self.get_input_data_tensors(example_feature_tensor, self.pred_flags.batch_size)
+    #     print(">> video_id_batch:{}".format(video_id_batch))
+    #     print(">> video_batch:{}".format(video_batch))
+    #     print(">> num_frame_batch:{}".format(num_frames_batch))
+    #
+    #     input_tensor = tf.get_collection("input_batch_raw")[0]
+    #     num_frames_tensor = tf.get_collection("num_frames")[0]
+    #     predictions_tensor = tf.get_collection("predictions")[0]
+    #     print(">> input_batch_raw:{}".format(input_tensor))
+    #     print(">> num_frame_tensor:{}".format(num_frames_tensor))
+    #     print(">> predictions_tensor:{}".format(predictions_tensor))
+    #
+    #
+    #     coord = tf.train.Coordinator()
+    #     threads = tf.train.start_queue_runners(sess=self.sess, coord=coord)
+    #     num_examples_processed = 0
+    #     start_time = time.time()
+    #
+    #     try:
+    #         while not coord.should_stop():
+    #             video_id_batch_val, video_batch_val, num_frames_batch_val = self.sess.run([video_id_batch, video_batch, num_frames_batch])
+    #             predictions_val, = self.sess.run([predictions_tensor], feed_dict={input_tensor: video_batch_val, num_frames_tensor: num_frames_batch_val})
+    #             now = time.time()
+    #             num_examples_processed += len(video_batch_val)
+    #             num_classes = predictions_val.shape[1]
+    #             logging.info("num examples processed: " + str(num_examples_processed) + " elapsed seconds: " + "{0:.2f}".format(now-start_time))
+    #             for line in self.format_lines(video_id_batch_val, predictions_val, self.pred_flags.top_k):
+    #                 self.out.append(line)
+    #                 print(line)
+    #     except tf.errors.OutOfRangeError:
+    #         logging.info('Done with inference.')
+    #     finally:
+    #         coord.request_stop()
+    #     coord.join(threads)
 
 
 
@@ -285,11 +346,12 @@ class Predict(object):
             #                   data_pattern + "'")
             # logging.info("number of input files: " + str(len(files)))
             # filename_queue = tf.train.string_input_producer(
-            #     string_tensor, num_epochs=1, shuffle=False)
-            tf.add_to_collection("serialized_examples", serialized_examples)
+            #     serialized_examples, num_epochs=1, shuffle=False)
+            # tf.add_to_collection("serialized_examples", serialized_examples)
             examples_and_labels = [self.reader.prepare_serialized_examples(serialized_examples)
                                    for _ in range(num_readers)]
-            print(">> example_and_labels 类型{}".format(type(examples_and_labels)))
+            # print(">> len of exmalples_and_labels:{}".format(len(examples_and_labels)))
+            # print(">> example_and_labels 类型{}".format(type(examples_and_labels)))
             # print(">> {}".format(examples_and_labels))
 
             video_id_batch, video_batch, unused_labels, num_frames_batch, batch_preds = (
@@ -301,21 +363,23 @@ class Predict(object):
 
 
 
-if __name__ == "__main__":
-
-    flags = load_flags_config()
-    ef = ExtractFeature(flags)
-    video_file = "/home/zoushuai/Downloads/videoplayback.mp4"
-    s = time.time()
-    feature = ef.extract(video_file)
-    # print(feature)
-    e = time.time()
-    print(">> 抽取视频特征耗时{}s".format(e - s))
-    p = Predict(flags)
-
-    s1 = time.time()
-    app.run(p.predict(feature))
-    # print(p.out)
-    e1 = time.time()
-    print(">> 模型分类耗时{}s".format(e1-s1))
-    p.sess.close()
+# if __name__ == "__main__":
+#     from predict.extract_feature_main import ExtractFeature
+#     flags = load_flags_config()
+#     idxmap = load_idxmap("/home/zoushuai/algoproject/nlp_server/src/data/video_classification/vocabulary.csv")
+#     ef = ExtractFeature(flags)
+#     video_file = "/home/zoushuai/Downloads/videoplayback.mp4"
+#     s = time.time()
+#     fe = ef.extract(video_file)
+#     # print(fe)
+#     e = time.time()
+#     print(">> 抽取视频特征耗时{}s".format(e - s))
+#     p = Predict(flags)
+#
+#     s1 = time.time()
+#     # app.run(p.predict_with_tfrecord(fe))
+#     p.predict(fe, idxmap)
+#     print(p.out[0])
+#     e1 = time.time()
+#     print(">> 模型分类耗时{}s".format(e1-s1))
+#     p.sess.close()

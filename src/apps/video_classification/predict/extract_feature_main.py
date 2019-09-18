@@ -9,16 +9,18 @@
 
 import os
 import sys
+import logging
 
-curr_path = os.path.dirname(os.path.realpath(__file__))
-vc_path = os.path.dirname(curr_path)
-root_path = os.path.dirname(os.path.dirname(vc_path))
-sys.path.append(vc_path)
-sys.path.append(root_path)
+
+# curr_path = os.path.dirname(os.path.realpath(__file__))
+# vc_path = os.path.dirname(curr_path)
+# root_path = os.path.dirname(os.path.dirname(vc_path))
+# sys.path.append(vc_path)
+# sys.path.append(root_path)
 # print(sys.path)
 
 import cv2
-from preprocessing.feature_extractor import YouTube8MFeatureExtractor
+from video_classification.preprocessing.feature_extractor import YouTube8MFeatureExtractor
 # from predict.predict_main import load_flags_config
 import numpy
 import tensorflow as tf
@@ -31,9 +33,16 @@ CAP_PROP_POS_MSEC = 0
 
 class ExtractFeature(object):
 
-    def __init__(self, extract_flags):
-        self.extractor = YouTube8MFeatureExtractor(extract_flags.extractor_model_dir)
+    def __init__(self, extract_flags, logger=None):
         self.flags = extract_flags
+        if logger:
+            self.log = logger
+        else:
+            self.log = logging.getLogger("yt8m_video_classification")
+            self.log.setLevel(logging.INFO)
+        self.log.info("Loading youtube8m feature extractor...")
+        self.extractor = YouTube8MFeatureExtractor(extract_flags.extractor_model_dir)
+        self.log.info("Successful load extractor")
 
 
     def frame_iterator(self, filename, every_ms=1000, max_num_frames=300):
@@ -50,7 +59,8 @@ class ExtractFeature(object):
       """
       video_capture = cv2.VideoCapture()
       if not video_capture.open(filename):
-        print >> sys.stderr, 'Error: Cannot open video file ' + filename
+        # print >> sys.stderr, 'Error: Cannot open video file ' + filename
+        self.log.error("Error: Cannot open video file {}".format(filename))
         return
       last_ts = -99999  # The timestamp of last retrieved frame.
       num_retrieved = 0
@@ -99,20 +109,20 @@ class ExtractFeature(object):
     def extract(self, video_file):
 
         rgb_features = []
-        for rgb in self.frame_iterator(
-            video_file, every_ms=1000.0/self.flags.frames_per_second):
-          features = self.extractor.extract_rgb_frame_features(rgb[:, :, ::-1])
-          rgb_features.append(self._bytes_feature(self.quantize(features)))
+        for rgb in self.frame_iterator(video_file, every_ms=1000.0/self.flags.frames_per_second):
+            features = self.extractor.extract_rgb_frame_features(rgb[:, :, ::-1])
+            rgb_features.append(self._bytes_feature(self.quantize(features)))
 
         if not rgb_features:
-          print >> sys.stderr, 'Could not get features for ' + video_file
+            # print >> sys.stderr, 'Could not get features for ' + video_file
+            self.log.error("Could not get features for {}".format(video_file))
 
         # Create SequenceExample proto and write to output.
         feature_list = {
             self.flags.image_feature_key: tf.train.FeatureList(feature=rgb_features),
         }
         if self.flags.insert_zero_audio_features:
-          feature_list['audio'] = tf.train.FeatureList(
+            feature_list['audio'] = tf.train.FeatureList(
               feature=[self._bytes_feature(self._make_bytes([0] * 128))] * len(rgb_features))
 
         example = tf.train.SequenceExample(
@@ -121,11 +131,12 @@ class ExtractFeature(object):
                     self._int64_list_feature([0]),
                 self.flags.video_file_key_feature_key:
                     self._bytes_feature(self._make_bytes(map(ord, video_file))),
+                # "predictions": tf.train.Feature(float_list=tf.train.FloatList(value=video_prediction))
             }),
             feature_lists=tf.train.FeatureLists(feature_list=feature_list))
         # print('Successfully encoded %i out of %i videos' % (
         #   total_written, total_written + total_error))
-        return [example.SerializeToString()]
+        return example.SerializeToString()
 
 
 

@@ -15,7 +15,7 @@
 """Provides readers configured for different datasets."""
 
 import tensorflow as tf
-from predict import utils
+from video_classification.predict import utils
 
 from tensorflow import logging
 def resize_axis(tensor, axis, new_size, fill_value=0):
@@ -222,7 +222,7 @@ class YT8MFrameFeatureReader(BaseReader):
       max_quantized_value=2, min_quantized_value=-2):
 
     if self.distill:
-        context_features = {"video_id": tf.FixedLenFeature(
+        context_features = {"id": tf.FixedLenFeature(
             [], tf.string),
             "labels": tf.VarLenFeature(tf.int64),
             "predictions": tf.FixedLenFeature([self.num_classes], tf.float32)}
@@ -294,7 +294,7 @@ class YT8MFrameFeatureReader(BaseReader):
     batch_frames = tf.expand_dims(num_frames, 0)
 
     if self.distill:
-        batch_video_ids = tf.expand_dims(contexts["video_id"], 0)
+        batch_video_ids = tf.expand_dims(contexts["id"], 0)
         batch_preds = tf.expand_dims(contexts["predictions"], 0)
         return batch_video_ids, batch_video_matrix, batch_labels, batch_frames, batch_preds
     elif self.prepare_distill:

@@ -2,7 +2,15 @@
 import os
 import sys
 
+
+def set_environ(server_name):
+    os.environ.setdefault("NLP_SERVER_NAME", server_name)
+    os.environ.setdefault("DJANGO_SETTINGS_MODULE", "config.{}_conf".format(server_name))
+
+
+
 if __name__ == '__main__':
+    set_environ("video_classification")
     os.environ.get('DJANGO_SETTINGS_MODULE', 'config.base_conf')
     try:
         from django.core.management import execute_from_command_line

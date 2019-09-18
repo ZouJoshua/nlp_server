@@ -2,25 +2,36 @@ from django.http import JsonResponse
 from django.http import HttpResponse, Http404
 from django.core.cache import cache
 from django.views import View
+import json
 
-from .predict.predict_main import Predict
+
+
+from .predict.predict_main import Predict, load_flags_config, load_idxmap
+from .predict.extract_feature_main import ExtractFeature
 from utils.logger import Logger
 from config.video_classification_conf import PROJECT_LOG_FILE
 
 
+def init():
+    logger = Logger('video_classification_predict', log2console=False, log2file=True, logfile=PROJECT_LOG_FILE).get_logger()
+    logger.info("Initialization start...")
+    logger.info("Loading tensorflow models and idx2map...")
+    flags = load_flags_config()
+    logger.info("Successfully load tensorflow flags")
+    idxmap = load_idxmap(flags.vocabulary_file)
+    logger.info("Successfully cache idx2map")
+    ef = ExtractFeature(flags, logger=logger)
+    p = Predict(flags, logger=logger)
 
-logger = Logger('nlp_v_category_predict', log2console=False, log2file=True, logfile=PROJECT_LOG_FILE).get_logger()
-logger.info("Initialization start...")
-logger.info("Loading tensorflow models and idx2map...")
-logger.info("Successfully cache idx2map")
-pred = Predict(logger=logger)
+    return logger, ef, p, idxmap
 
+log, ef, p, idxmap = init()
 
 def index_view(request):
     return HttpResponse("Hello World!")
 
 class Category(View):
-    global idx2label_map
+    global ef, p, idxmap
 
     def get(self, request):
         pass
@@ -29,25 +40,22 @@ class Category(View):
         """
         返回视频分类
         :param request:
-        :return: {"top_category": [{"id":"","category":"","proba":""}],
-                "sub_category": [{"id":"","category":"","proba":""}]}
+        :return: {"video_cats": [{"id":"","category":"","proba":""}]}
         """
-        result = dict()
         request_meta = request.META
         client_host = request_meta['HTTP_HOST']
         request_data = request.POST  # 查看客户端发来的请求内容
-        task_id = request_data.get("newsid", default='')
-        logger.info('Successfully received task_id {} sent by the client {}'.format(task_id, client_host))
-        video_url = request_data.get("url", default='')
-        res = pred.get_category(top_c=top, sub_c=sub, idx2label=idx2label_map)
-        if res == {"top_category": [{"id": top, "category": "", "proba": 0.0}],
-                                "sub_category": [{"id": sub, "category": "", "proba": 0.0}]}:
-            result["status"] = 'Error'
-            result["result"] = res
-            logger.error("No classification found in the mapping table")
+        task_id = request_data.get("video_id", default='')
+        log.info('Successfully received task_id {} sent by the client {}'.format(task_id, client_host))
+        video_url = request_data.get("video_url", default='')
+        feature = ef.extract(video_url)
+        log.info("Successfully encoded video")
+        p.predict(feature, idxmap)
+        if p.out:
+            result = p.out[0]
         else:
-            result["status"] = 'Successful'
-            result["result"] = res
-            logger.info("Successfully resolved classification")
+            result = dict()
+            log.info("Error with predict of video {}".format(video_url))
 
-        return JsonResponse(result)  # 通过 django内置的Json格式 丢给客户端数据
+        return JsonResponse(result, safe=False)
+        # return HttpResponse(json.dumps(result),content_type="application/json",charset="utf-8")
