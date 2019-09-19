@@ -23,8 +23,13 @@ echo "支持如下服务：
 
 echo "请启动指定服务，传入对应 ServerName..."
 echo "正在启动服务 " $1
+if [ $1 = "video_category" ];then
+  python run.py $1 manage.py start
+  python manage.py crontab add
+else
+  python run.py $1 manage.py start
+fi
 
-python run.py $1 manage.py start
 }
 
 

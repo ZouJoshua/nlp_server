@@ -24,7 +24,12 @@ echo "支持如下服务：
 echo "请关闭指定服务，传入对应 ServerName..."
 echo "正在关闭服务 " $1
 
-python run.py $1 manage.py stop
+if [ $1 = "video_category" ];then
+  python run.py $1 manage.py stop
+  python manage.py crontab remove
+else
+  python run.py $1 manage.py stop
+fi
 }
 
 
