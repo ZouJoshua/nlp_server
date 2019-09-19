@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 
 start(){
+echo "第一个参数为 $1 !"
 #python run.py news_category manage.py start
 #python run.py news_regional manage.py start
 #python run.py news_parser manage.py start
