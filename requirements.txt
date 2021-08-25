@@ -6,4 +6,4 @@ emoji==0.5.2
 langdetect==1.0.7
 requests==2.18.4
 nltk==3.3
-tensorflow==1.14.0
+tensorflow==2.5.1
